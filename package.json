@@ -6,6 +6,12 @@
     "build": "vite build",
     "serve": "vite preview"
   },
+  "keywords": [
+    "react",
+    "material-ui",
+    "ui",
+    "itk-viewer"
+  ],
   "dependencies": {
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
