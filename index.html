@@ -4,10 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Custom itk-viewer Material UI Demo</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div class="content" style="position: absolute; width: 100vw; height: 100vh; top: 0; left: 0; overflow: hidden; background: black; margin: 0; padding: 0;"></div>
+    <script type="text/javascript" src="https://kitware.github.io/itk-vtk-viewer/app/itkVtkViewerCDN.js"></script>
+    <script>
+      const container = document.querySelector('.content')
+      const ipfsImage = new URL("ipfs://bafybeihqb2vwmbroc4fevwzvwd5najchpugjfxlrzebfkt6kdb2uwweiuy/engine.nrrd")
+      const uiMachineOptions = { href: new URL("/main.jsx", document.location.origin).href }
+      itkVtkViewer.createViewer(container,
+        {
+        image: ipfsImage,
+        rotate: false,
+        })
+    </script>
   </body>
 </html>
