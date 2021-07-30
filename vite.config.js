@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [reactRefresh()],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src', 'main.jsx'),
+      entry: path.resolve(__dirname, 'src', 'materialUIMachineOptions.js'),
       name: 'materialUIMachineOptions',
       formats: ['es'],
       fileName: 'materialUIMachineOptions.js',

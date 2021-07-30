@@ -12,11 +12,12 @@
     <script>
       const container = document.querySelector('.content')
       const ipfsImage = new URL("ipfs://bafybeihqb2vwmbroc4fevwzvwd5najchpugjfxlrzebfkt6kdb2uwweiuy/engine.nrrd")
-      const uiMachineOptions = { href: new URL("/main.jsx", document.location.origin).href }
+      const uiMachineOptions = { href: new URL("/src/materialUIMachineOptions.js", document.location.origin).href }
       itkVtkViewer.createViewer(container,
         {
         image: ipfsImage,
         rotate: false,
+        config: { uiMachineOptions },
         })
     </script>
   </body>
