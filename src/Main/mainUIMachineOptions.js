@@ -1,5 +1,8 @@
+import MainInterface from './MainInterface'
+
 const mainUIMachineOptions = {
   actions: {
+    MainInterface,
   },
 }
 
