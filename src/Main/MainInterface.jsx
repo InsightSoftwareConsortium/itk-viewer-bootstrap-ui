@@ -5,6 +5,7 @@ import AxesButton from './AxesButton'
 import FullscreenButton from './FullscreenButton'
 import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
+import ViewPlanesToggle from './ViewPlanesToggle'
 import './style.css'
 
 function MainInterface(props) {
@@ -24,6 +25,7 @@ function MainInterface(props) {
         {!state.context.use2D && <RotateButton {...props}/>}
         <AnnotationsButton {...props}/>
         <AxesButton {...props}/>
+        <ViewPlanesToggle {...props} />
       </div>
       <div className='mainUIRow'></div>
     </div>
