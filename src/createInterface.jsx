@@ -19,9 +19,9 @@ function createInterface(context) {
 
   context.rootContainer.appendChild(context.uiContainer)
 
-  context.uiPanel = ReactDOM.render(
+  ReactDOM.render(
     <React.StrictMode>
-      <Panel />
+      <Panel service={ context.service } />
     </React.StrictMode>,
     context.uiContainer
   )
