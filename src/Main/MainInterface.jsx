@@ -1,5 +1,6 @@
 import { useActor } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
+import ScreenshotButton from './ScreenshotButton'
 import './style.css'
 
 function MainInterface(props) {
@@ -13,7 +14,9 @@ function MainInterface(props) {
 
   return (
     <div ref={ mainUIGroup } className='uiGroup'>
-      <div className='mainUIRow'></div>
+      <div className='mainUIRow'>
+        <ScreenshotButton {...props} />
+      </div>
       <div className='mainUIRow'></div>
     </div>
   )
