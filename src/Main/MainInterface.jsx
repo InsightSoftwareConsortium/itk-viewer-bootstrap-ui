@@ -1,6 +1,7 @@
 import { useActor } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
 import FullscreenButton from './FullscreenButton'
+import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
 import './style.css'
 
@@ -18,6 +19,7 @@ function MainInterface(props) {
       <div className='mainUIRow'>
         <ScreenshotButton {...props} />
         <FullscreenButton {...props} />
+        {!state.context.use2D && <RotateButton {...props}/>}
       </div>
       <div className='mainUIRow'></div>
     </div>
