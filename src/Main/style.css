@@ -1,3 +1,9 @@
+.toggleButton {
+  line-height: inherit !important;
+  border: none !important;
+  margin: 1px !important;
+}
+
 .uiGroup {
   background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;

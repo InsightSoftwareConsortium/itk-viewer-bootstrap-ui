@@ -1,5 +1,6 @@
 import { useActor } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
+import FullscreenButton from './FullscreenButton'
 import ScreenshotButton from './ScreenshotButton'
 import './style.css'
 
@@ -16,6 +17,7 @@ function MainInterface(props) {
     <div ref={ mainUIGroup } className='uiGroup'>
       <div className='mainUIRow'>
         <ScreenshotButton {...props} />
+        <FullscreenButton {...props} />
       </div>
       <div className='mainUIRow'></div>
     </div>
