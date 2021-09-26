@@ -1,6 +1,7 @@
 import { useActor } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
 import AnnotationsButton from './AnnotationsButton'
+import AxesButton from './AxesButton'
 import FullscreenButton from './FullscreenButton'
 import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
@@ -22,6 +23,7 @@ function MainInterface(props) {
         <FullscreenButton {...props}/>
         {!state.context.use2D && <RotateButton {...props}/>}
         <AnnotationsButton {...props}/>
+        <AxesButton {...props}/>
       </div>
       <div className='mainUIRow'></div>
     </div>
