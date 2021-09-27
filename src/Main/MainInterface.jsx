@@ -5,6 +5,7 @@ import AxesButton from './AxesButton'
 import BackgroundColorButton from './BackgroundColorButton'
 import FullscreenButton from './FullscreenButton'
 import PlaneSliders from './PlaneSliders'
+import ResetCameraButton from './ResetCameraButton'
 import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
 import ViewModeButtons from './ViewModeButtons'
@@ -31,9 +32,11 @@ function MainInterface(props) {
           <AxesButton {...props}/>
           <ViewPlanesToggle {...props} />
           <BackgroundColorButton {...props}/>
+          {state.context.use2D && <ResetCameraButton {...props}/>}
         </div>
         <div className='mainUIRow'>
           <ViewModeButtons {...props}/>
+          {!state.context.use2D && <ResetCameraButton {...props}/>}
         </div>
       </div>
       <PlaneSliders {...props} />

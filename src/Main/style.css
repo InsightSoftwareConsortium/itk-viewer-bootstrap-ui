@@ -40,22 +40,16 @@
   opacity: 1.0;
   border-radius: 4px;
   margin: 2px;
-  display: block;
 }
 
-.uiRow {
+.mainUIRow {
+  justify-content: center;
+  max-width: 420px;
   display: flex;
   flex-direction: row;
   flex: 1;
   align-items: center;
-  justify-content: space-between;
   padding: 5px;
-}
-
-.mainUIRow {
-  composes: uiRow;
-  justify-content: space-around;
-  max-width: 420px;
 }
 
 .viewModeButton {
