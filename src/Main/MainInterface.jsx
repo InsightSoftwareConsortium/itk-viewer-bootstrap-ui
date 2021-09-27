@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import AnnotationsButton from './AnnotationsButton'
 import AxesButton from './AxesButton'
 import FullscreenButton from './FullscreenButton'
+import PlaneSliders from './PlaneSliders'
 import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
 import ViewPlanesToggle from './ViewPlanesToggle'
@@ -18,16 +19,19 @@ function MainInterface(props) {
   }, [])
 
   return (
-    <div ref={ mainUIGroup } className='uiGroup'>
-      <div className='mainUIRow'>
-        <ScreenshotButton {...props}/>
-        <FullscreenButton {...props}/>
-        {!state.context.use2D && <RotateButton {...props}/>}
-        <AnnotationsButton {...props}/>
-        <AxesButton {...props}/>
-        <ViewPlanesToggle {...props} />
+    <div>
+      <div ref={ mainUIGroup } className='uiGroup'>
+        <div className='mainUIRow'>
+          <ScreenshotButton {...props}/>
+          <FullscreenButton {...props}/>
+          {!state.context.use2D && <RotateButton {...props}/>}
+          <AnnotationsButton {...props}/>
+          <AxesButton {...props}/>
+          <ViewPlanesToggle {...props} />
+        </div>
+        <div className='mainUIRow'></div>
       </div>
-      <div className='mainUIRow'></div>
+      <PlaneSliders {...props} />
     </div>
   )
 }
