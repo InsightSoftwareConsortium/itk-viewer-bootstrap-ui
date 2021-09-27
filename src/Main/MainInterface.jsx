@@ -7,6 +7,7 @@ import FullscreenButton from './FullscreenButton'
 import PlaneSliders from './PlaneSliders'
 import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
+import ViewModeButtons from './ViewModeButtons'
 import ViewPlanesToggle from './ViewPlanesToggle'
 import './style.css'
 
@@ -31,7 +32,9 @@ function MainInterface(props) {
           <ViewPlanesToggle {...props} />
           <BackgroundColorButton {...props}/>
         </div>
-        <div className='mainUIRow'></div>
+        <div className='mainUIRow'>
+          <ViewModeButtons {...props}/>
+        </div>
       </div>
       <PlaneSliders {...props} />
     </div>

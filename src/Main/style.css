@@ -57,3 +57,19 @@
   justify-content: space-around;
   max-width: 420px;
 }
+
+.viewModeButton {
+  flex: 1;
+  width: 8mm;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.viewModeButton img {
+  width: 1.3em;
+  height: 1.3em;
+}
