@@ -2,6 +2,7 @@ import { useActor } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
 import AnnotationsButton from './AnnotationsButton'
 import AxesButton from './AxesButton'
+import BackgroundColorButton from './BackgroundColorButton'
 import FullscreenButton from './FullscreenButton'
 import PlaneSliders from './PlaneSliders'
 import RotateButton from './RotateButton'
@@ -28,6 +29,7 @@ function MainInterface(props) {
           <AnnotationsButton {...props}/>
           <AxesButton {...props}/>
           <ViewPlanesToggle {...props} />
+          <BackgroundColorButton {...props}/>
         </div>
         <div className='mainUIRow'></div>
       </div>

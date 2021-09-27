@@ -1,4 +1,5 @@
 import MainInterface from './MainInterface'
+import toggleBackgroundColor from './toggleBackgroundColor'
 import toggleFullscreen from './toggleFullscreen'
 
 const mainUIMachineOptions = {
@@ -6,6 +7,8 @@ const mainUIMachineOptions = {
     MainInterface,
 
     toggleFullscreen,
+
+    toggleBackgroundColor,
   },
 }
 
