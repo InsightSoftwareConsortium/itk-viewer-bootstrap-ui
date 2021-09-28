@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Icon, Tooltip } from '@material-ui/core'
 import { ToggleButton } from '@material-ui/lab'
@@ -7,10 +7,15 @@ import './style.css'
 
 function FullscreenButton(props) {
   const { service } = props
+  const fullscreenButton = useRef(null)
   const [ state, send ] = useActor(service)
 
+  useEffect(() => {
+    state.context.fullscreenButton = fullscreenButton.current
+  }, [])
+
   return(
-    <Tooltip title='Fullscreen [f]'>
+    <Tooltip ref={ fullscreenButton } title='Fullscreen [f]'>
       <ToggleButton
         className='toggleButton'
         value='fullscreenEnabled'

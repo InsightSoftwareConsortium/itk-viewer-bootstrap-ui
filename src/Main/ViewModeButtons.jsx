@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Icon, Tooltip } from '@material-ui/core'
 import { ToggleButton } from '@material-ui/lab'
@@ -11,7 +11,18 @@ import {
 
 function ViewModeButtons(props) {
   const { service } = props
+  const xPlaneButton = useRef(null)
+  const yPlaneButton = useRef(null)
+  const zPlaneButton = useRef(null)
+  const volumeButton = useRef(null)
   const [ state, send ] = useActor(service)
+
+  useEffect(() => {
+    state.context.xPlaneButtonLabel = xPlaneButton.current
+    state.context.yPlaneButtonLabel = yPlaneButton.current
+    state.context.zPlaneButtonLabel = zPlaneButton.current
+    state.context.volumeButtonLabel = volumeButton.current
+  }, [])
 
   return(
     <div className='viewModeButtons'>

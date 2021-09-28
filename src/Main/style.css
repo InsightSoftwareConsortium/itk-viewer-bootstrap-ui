@@ -28,7 +28,7 @@
 }
 
 .uiSlidersGroup {
-  opacity: 1.0;
+  background: rgba(128, 128, 128, 0.5);
   position: fixed;
   bottom: 0;
   left: 90px;
@@ -37,7 +37,7 @@
 }
 
 .uiGroup {
-  opacity: 1.0;
+  background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;
   margin: 2px;
 }
@@ -48,6 +48,7 @@
   display: flex;
   flex-direction: row;
   flex: 1;
+  flex-wrap: wrap;
   align-items: center;
   padding: 5px;
 }
@@ -66,4 +67,20 @@
 .viewModeButton img {
   width: 1.3em;
   height: 1.3em;
+}
+
+.invertibleButtonBrightBG {
+}
+
+.invertibleButtonDarkBG {
+  filter: invert(100%) !important;
+  -webkit-filter: invert(100%) !important;
+}
+
+.tooltipButtonBrightBG::before {
+}
+
+.tooltipButtonDarkBG::before {
+  filter: invert(100%) !important;
+  -webkit-filter: invert(100%) !important;
 }

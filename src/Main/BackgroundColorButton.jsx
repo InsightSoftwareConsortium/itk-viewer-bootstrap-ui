@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Icon, IconButton, Tooltip } from '@material-ui/core'
 import { selectColorIconDataUri } from 'itk-viewer-icons'
@@ -6,10 +6,15 @@ import './style.css'
 
 function BackgroundColorButton(props) {
   const { service } = props
-  const [, send ] = useActor(service)
+  const bgColorButton = useRef(null)
+  const [ state, send ] = useActor(service)
+
+  useEffect(() => {
+    state.context.bgColorButtonLabel = bgColorButton.current
+  }, [])
 
   return(
-    <Tooltip title='Toggle Background Color'>
+    <Tooltip ref={ bgColorButton } title='Toggle Background Color'>
       <IconButton onClick={() => { send('TOGGLE_BACKGROUND_COLOR') }}>
         <Icon>
           <img src={ selectColorIconDataUri } />

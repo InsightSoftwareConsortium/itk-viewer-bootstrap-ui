@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Icon, Tooltip } from '@material-ui/core'
 import { ToggleButton } from '@material-ui/lab'
@@ -7,10 +7,15 @@ import './style.css'
 
 function RotateButton(props) {
   const { service } = props
+  const rotateButton = useRef(null)
   const [ state, send ] = useActor(service)
 
+  useEffect(() => {
+    state.context.rotateButtonLabel = rotateButton.current
+  }, [])
+
   return(
-    <Tooltip title='Spin in 3D [p]'>
+    <Tooltip ref={ rotateButton } title='Spin in 3D [p]'>
       <ToggleButton
         className='toggleButton'
         value='rotating'

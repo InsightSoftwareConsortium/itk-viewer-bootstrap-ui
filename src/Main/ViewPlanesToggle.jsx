@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Icon, Tooltip } from '@material-ui/core'
 import { ToggleButton } from '@material-ui/lab'
@@ -6,8 +6,13 @@ import { viewPlanesIconDataUri } from 'itk-viewer-icons'
 
 function ViewPlanesToggle(props) {
   const { service } = props
+  const viewPlanesButton = useRef(null)
   const [ state, send ] = useActor(service)
   const { slicingPlanes } = state.context.main
+
+  useEffect(() => {
+    state.context.viewPlanesButtonLabel = viewPlanesButton.current
+  }, [])
 
   const planesVisible = () => {
     return (
@@ -43,7 +48,7 @@ function ViewPlanesToggle(props) {
   }
 
   return(
-    <Tooltip title='View planes [s]'>
+    <Tooltip ref={ viewPlanesButton } title='View planes [s]'>
       <ToggleButton
         className='toggleButton'
         value='visiblePlanes'

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Icon, Tooltip } from '@material-ui/core'
 import { ToggleButton } from '@material-ui/lab'
@@ -7,10 +7,15 @@ import './style.css'
 
 function AxesButton(props) {
   const { service } = props
+  const axesButton = useRef(null)
   const [ state, send ] = useActor(service)
 
+  useEffect(() => {
+    state.context.axesButtonLabel = axesButton.current
+  }, [])
+
   return(
-    <Tooltip title='Axes'>
+    <Tooltip ref={ axesButton } title='Axes'>
       <ToggleButton
         className='toggleButton'
         value='axesVisible'

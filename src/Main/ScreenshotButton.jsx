@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useActor } from '@xstate/react';
 import { Icon, IconButton, Tooltip } from "@material-ui/core";
 import { screenshotIconDataUri } from 'itk-viewer-icons'
 
 function ScreenshotButton(props) {
   const { service } = props
-  const [, send ] = useActor(service)
+  const screenshotButton = useRef(null)
+  const [ state, send ] = useActor(service)
+
+  useEffect(() => {
+    state.context.main.screenshotButton = screenshotButton.current
+  }, [])
 
   return(
-    <Tooltip title='Screenshot'>
+    <Tooltip ref={ screenshotButton } title='Screenshot'>
       <IconButton onClick={() => { send('TAKE_SCREENSHOT') }}>
         <Icon><img src={ screenshotIconDataUri }/></Icon>
       </IconButton>
