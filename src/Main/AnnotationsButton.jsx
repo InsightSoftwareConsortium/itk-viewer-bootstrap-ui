@@ -3,7 +3,7 @@ import { useActor } from '@xstate/react'
 import { Icon, Tooltip } from '@material-ui/core'
 import { ToggleButton } from '@material-ui/lab'
 import { annotationsIconDataUri } from 'itk-viewer-icons'
-import './style.css'
+import '../style.css'
 
 function AnnotationsButton(props) {
   const { service } = props

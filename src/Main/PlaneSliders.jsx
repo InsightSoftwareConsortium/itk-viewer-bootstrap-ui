@@ -2,7 +2,7 @@ import React from 'react'
 import { useActor } from '@xstate/react'
 import { Chip, Icon, IconButton, Slider, Tooltip } from '@material-ui/core'
 import { visibleIconDataUri, invisibleIconDataUri, pauseIconDataUri, playIconDataUri } from 'itk-viewer-icons'
-import './style.css'
+import '../style.css'
 
 function PlaneSliders(props) {
   const { service } = props

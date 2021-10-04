@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Icon, IconButton, Tooltip } from '@material-ui/core'
 import { selectColorIconDataUri } from 'itk-viewer-icons'
-import './style.css'
+import '../style.css'
 
 function BackgroundColorButton(props) {
   const { service } = props
