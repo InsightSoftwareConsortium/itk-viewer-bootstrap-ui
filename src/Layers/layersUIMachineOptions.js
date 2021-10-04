@@ -1,4 +1,9 @@
+import LayerInterface from './LayerInterface'
+
 const layersUIMachineOptions = {
+  layerUIActor: {
+    LayerInterface,
+  },
   actions: {
   },
 }
