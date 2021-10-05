@@ -11,7 +11,7 @@ function FullscreenButton(props) {
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
-    state.context.fullscreenButton = fullscreenButton.current
+    state.context.main.fullscreenButton = fullscreenButton.current
   }, [])
 
   return(

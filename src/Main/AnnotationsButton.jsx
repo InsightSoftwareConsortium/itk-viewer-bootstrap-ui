@@ -11,7 +11,7 @@ function AnnotationsButton(props) {
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
-    state.context.annotationsButtonLabel = annotationsButton.current
+    state.context.main.annotationsButtonLabel = annotationsButton.current
   }, [])
 
   return(

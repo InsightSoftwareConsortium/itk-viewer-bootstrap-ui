@@ -18,10 +18,10 @@ function ViewModeButtons(props) {
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
-    state.context.xPlaneButtonLabel = xPlaneButton.current
-    state.context.yPlaneButtonLabel = yPlaneButton.current
-    state.context.zPlaneButtonLabel = zPlaneButton.current
-    state.context.volumeButtonLabel = volumeButton.current
+    state.context.main.xPlaneButtonLabel = xPlaneButton.current
+    state.context.main.yPlaneButtonLabel = yPlaneButton.current
+    state.context.main.zPlaneButtonLabel = zPlaneButton.current
+    state.context.main.volumeButtonLabel = volumeButton.current
   }, [])
 
   return(

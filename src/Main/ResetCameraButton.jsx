@@ -10,7 +10,7 @@ function ResetCamerButton(props) {
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
-    state.context.resetCameraButtonLabel = resetCameraButton.current
+    state.context.main.resetCameraButtonLabel = resetCameraButton.current
   }, [])
 
   return(

@@ -11,7 +11,7 @@ function ViewPlanesToggle(props) {
   const { slicingPlanes } = state.context.main
 
   useEffect(() => {
-    state.context.viewPlanesButtonLabel = viewPlanesButton.current
+    state.context.main.viewPlanesButtonLabel = viewPlanesButton.current
   }, [])
 
   const planesVisible = () => {

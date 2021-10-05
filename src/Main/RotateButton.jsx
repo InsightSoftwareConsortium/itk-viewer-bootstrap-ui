@@ -11,7 +11,7 @@ function RotateButton(props) {
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
-    state.context.rotateButtonLabel = rotateButton.current
+    state.context.main.rotateButtonLabel = rotateButton.current
   }, [])
 
   return(

@@ -10,7 +10,7 @@ function BackgroundColorButton(props) {
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
-    state.context.bgColorButtonLabel = bgColorButton.current
+    state.context.main.bgColorButtonLabel = bgColorButton.current
   }, [])
 
   return(

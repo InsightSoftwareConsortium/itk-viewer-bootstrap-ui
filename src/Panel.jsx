@@ -10,10 +10,12 @@ import './Panel.css'
 function Panel(props) {
   const { children, service } = props
   const uiPanel = useRef(null)
+  const collapseUIButton = useRef(null)
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
     state.context.uiPanel = uiPanel.current
+    state.context.main.collapseUIButton = collapseUIButton.current
   }, [])
 
   const handleToggle = () => {
@@ -26,6 +28,7 @@ function Panel(props) {
       <AppBar className='appBar'>
         <Toolbar>
           <IconButton
+            ref={ collapseUIButton }
             color='inherit'
             onClick={ handleToggle }
             edge='start'

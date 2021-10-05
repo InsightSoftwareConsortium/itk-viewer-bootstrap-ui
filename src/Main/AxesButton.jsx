@@ -11,7 +11,7 @@ function AxesButton(props) {
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
-    state.context.axesButtonLabel = axesButton.current
+    state.context.main.axesButtonLabel = axesButton.current
   }, [])
 
   return(
