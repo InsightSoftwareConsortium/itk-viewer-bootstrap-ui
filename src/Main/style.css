@@ -40,6 +40,7 @@
   background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;
   margin: 2px;
+  justify-content: center;
 }
 
 .mainUIRow {
@@ -48,7 +49,6 @@
   display: flex;
   flex-direction: row;
   flex: 1;
-  flex-wrap: wrap;
   align-items: center;
   padding: 5px;
 }
@@ -67,6 +67,12 @@
 .viewModeButton img {
   width: 1.3em;
   height: 1.3em;
+}
+
+.viewModeButtons {
+  display: flex;
+  width: 80%;
+  justify-content: space-evenly;
 }
 
 .invertibleButtonBrightBG {

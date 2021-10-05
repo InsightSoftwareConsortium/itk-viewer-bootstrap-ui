@@ -1,5 +1,3 @@
-import style from './Main/style.css'
-
 function applyContrastSensitiveStyleToElement(context, cssClass, element) {
   if (element) {
     const uiDarkMode = context.uiDarkMode

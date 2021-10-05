@@ -16,7 +16,7 @@
 }
 
 .MuiDrawer-paper {
-  width: 20%;
+  width: fit-content;
   position: fixed;
   top: 65px !important;
   background: none !important;

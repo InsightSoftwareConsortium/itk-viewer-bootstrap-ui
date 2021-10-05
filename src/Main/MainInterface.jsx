@@ -36,7 +36,7 @@ function MainInterface(props) {
         </div>
         <div className='mainUIRow'>
           <ViewModeButtons {...props}/>
-          {!state.context.use2D && <ResetCameraButton {...props}/>}
+          {!state.context.use2D && <ResetCameraButton style={{ width: '20%' }} {...props}/>}
         </div>
       </div>
       <PlaneSliders {...props} />
