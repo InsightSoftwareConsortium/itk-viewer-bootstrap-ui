@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import ColorRangeInput from './ColorRangeInput'
 import TransferFunctionWidget from './TransferFunctionWidget'
+import VolumeRenderingInputs from './VolumeRenderingInputs'
 import '../style.css'
 
 function ImagesInterface(props) {
@@ -34,6 +35,7 @@ function ImagesInterface(props) {
         >
           <ColorRangeInput {...props}/>
           <TransferFunctionWidget {...props}/>
+          <VolumeRenderingInputs {...props} />
         </div>
       }
     </div>

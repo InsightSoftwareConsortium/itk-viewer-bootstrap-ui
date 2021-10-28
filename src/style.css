@@ -1,3 +1,9 @@
+.blendSelector {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
 code.uiContainer {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -9,8 +15,28 @@ code.uiContainer {
   margin: 0 3px;
 }
 
+.gradientOpacityScale {
+  z-index: 1100;
+  position: relative;
+}
+
+.gradientOpacityInput {
+  position: absolute !important;
+  bottom: 40px;
+  left: -35px;
+  height: 150px !important;
+  -webkit-appearance: slider-vertical;
+}
+
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.iconWithSlider {
+  width: -webkit-fill-available;
+  display: flex;
+  align-self: normal;
+  align-items: center;
 }
 
 .interpolationButton {
@@ -78,7 +104,7 @@ code.uiContainer {
 }
 
 .mainUIRow {
-  justify-content: center;
+  justify-content: space-evenly;
   max-width: 420px;
   display: flex;
   flex-direction: row;
@@ -125,6 +151,35 @@ code.uiContainer {
   border: solid;
   border-color: rgba(255, 255, 255, 0.3);
   border-width: 3px !important;
+}
+
+.selector {
+  display: flex;
+  direction: row;
+  font-size: 1.2em;
+  z-index: 1000;
+}
+
+.shadowButton {
+  width: 8mm;
+  padding: 4px;
+  padding-left: 0px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.slider {
+  flex: 1;
+  min-height: 1rem;
+  width: 5px;
+  align-self: flex-end;
+}
+
+.sliderEntry {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .sliderIcons {
