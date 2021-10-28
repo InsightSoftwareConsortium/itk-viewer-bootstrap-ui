@@ -103,6 +103,26 @@ code.uiContainer {
   background-color: rgba(128, 128, 128, 0.5);
 }
 
+.ItkVtkViewer-module-fpsMonitor_25TvW {
+  position: absolute;
+  top: 25px;
+  right: 15px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  z-index: 2001;
+}
+
+.ItkVtkViewer-module-logo_3Lu7I {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  height: 2.0em;
+  width: 2.0em;
+  cursor: pointer;
+  z-index: 2000;
+}
+
 .mainUIRow {
   justify-content: space-evenly;
   max-width: 420px;
