@@ -114,6 +114,19 @@ code.uiContainer {
   padding: 5px;
 }
 
+.MuiIconButton-root {
+  padding: 6px 12px !important;
+}
+
+.MuiIcon-root {
+  font-size: 1.3rem !important;
+}
+
+.MuiIcon-root img{
+  width: inherit;
+  height: inherit;
+}
+
 .MuiListItem-button {
   width: 100px !important;
   padding: 6px 0 !important;

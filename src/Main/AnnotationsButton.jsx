@@ -17,6 +17,7 @@ function AnnotationsButton(props) {
   return(
     <Tooltip ref={ annotationsButton } title='Annotations'>
       <ToggleButton
+        size='small'
         className='toggleButton'
         value='annotations'
         selected={ state.context.main.annotationsEnabled }

@@ -17,6 +17,7 @@ function AxesButton(props) {
   return(
     <Tooltip ref={ axesButton } title='Axes'>
       <ToggleButton
+        size='small'
         className='toggleButton'
         value='axesVisible'
         selected={ state.context.main.axesEnabled }
