@@ -4,6 +4,7 @@ import './style.css'
 import Panel from './Panel'
 import MainInterface from './Main/MainInterface'
 import LayersInterface from './Layers/LayersInterface'
+import ImagesInterface from './Images/ImagesInterface'
 
 function createInterface(context) {
   context.viewContainers = new Map()
@@ -30,6 +31,7 @@ function createInterface(context) {
       <Panel service={ context.service }>
         <MainInterface />
         <LayersInterface />
+        <ImagesInterface />
       </Panel>
     </React.StrictMode>,
     context.uiContainer
