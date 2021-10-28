@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import ColorRangeInput from './ColorRangeInput'
+import TransferFunctionWidget from './TransferFunctionWidget'
 import '../style.css'
 
 function ImagesInterface(props) {
@@ -32,6 +33,7 @@ function ImagesInterface(props) {
           style={{ maxWidth: '400px' }}
         >
           <ColorRangeInput {...props}/>
+          <TransferFunctionWidget {...props}/>
         </div>
       }
     </div>

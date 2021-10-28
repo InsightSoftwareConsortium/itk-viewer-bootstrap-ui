@@ -108,6 +108,13 @@ code.uiContainer {
   min-width: 98px;
 }
 
+.piecewiseWidget {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  z-index: 1000;
+}
+
 .planeSliders {
   display: flex;
   align-items: center;
