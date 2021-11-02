@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './style.css'
 import Panel from './Panel'
+import MainInterface from './Main/MainInterface'
 
 function createInterface(context) {
   context.viewContainers = new Map()
@@ -18,10 +19,16 @@ function createInterface(context) {
   }
 
   context.rootContainer.appendChild(context.uiContainer)
+  if (!context.uiGroups) {
+    // String to UI group element map
+    context.uiGroups = new Map()
+  }
 
-  context.uiPanel = ReactDOM.render(
+  ReactDOM.render(
     <React.StrictMode>
-      <Panel />
+      <Panel service={ context.service }>
+        <MainInterface />
+      </Panel>
     </React.StrictMode>,
     context.uiContainer
   )
