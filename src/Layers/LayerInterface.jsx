@@ -10,7 +10,7 @@ function LayerInterface(props) {
   let layerEntry = false
 
   return(
-    <Paper>
+    <div>
       { layersUIGroup &&
         children.map((uiRow) => {
           if (uiRow.children.length < 2) {
@@ -22,7 +22,7 @@ function LayerInterface(props) {
       {!!!layerEntry && (
         <div className='layersUIRow'><LayerEntry { ...props }/></div>)
       }
-    </Paper>
+    </div>
   )
 }
 

@@ -18,10 +18,11 @@ code.uiContainer {
 .layerEntryCommon {
   display: flex;
   justify-content: space-between;
-  border-radius: 10%;
   align-items: center;
   width: -webkit-fill-available;
   border-width: 2px !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  border: solid;
 }
 
 .layerEntryBrightBG {
@@ -85,7 +86,8 @@ code.uiContainer {
 
 .selectedLayer {
   border: solid;
-  border-color: black;
+  border-color: rgba(255, 255, 255, 0.3);
+  border-width: 3px !important;
 }
 
 .sliderIcons {
