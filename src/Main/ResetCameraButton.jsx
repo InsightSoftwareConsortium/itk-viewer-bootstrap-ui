@@ -15,7 +15,7 @@ function ResetCamerButton(props) {
 
   return(
     <Tooltip ref={ resetCameraButton } title='Reset camera [r]'>
-      <IconButton onClick={() => { send('RESET_CAMERA') }}>
+      <IconButton size='small' onClick={() => { send('RESET_CAMERA') }}>
         <Icon>
           <img src={ resetCameraIconDataUri } />
         </Icon>

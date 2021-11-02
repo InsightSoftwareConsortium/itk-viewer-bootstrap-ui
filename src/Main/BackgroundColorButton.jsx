@@ -15,7 +15,7 @@ function BackgroundColorButton(props) {
 
   return(
     <Tooltip ref={ bgColorButton } title='Toggle Background Color'>
-      <IconButton onClick={() => { send('TOGGLE_BACKGROUND_COLOR') }}>
+      <IconButton size='small' onClick={() => { send('TOGGLE_BACKGROUND_COLOR') }}>
         <Icon>
           <img src={ selectColorIconDataUri } />
         </Icon>

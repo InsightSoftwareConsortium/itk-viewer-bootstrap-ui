@@ -1,10 +1,46 @@
+.blendSelector {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
 code.uiContainer {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
+.colorMapIcon {
+  height: inherit;
+  width: -webkit-fill-available;
+  margin: 0 3px;
+}
+
+.gradientOpacityScale {
+  z-index: 1100;
+  position: relative;
+}
+
+.gradientOpacityInput {
+  position: absolute !important;
+  bottom: 40px;
+  left: -35px;
+  height: 150px !important;
+  -webkit-appearance: slider-vertical;
+}
+
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.iconWithSlider {
+  width: -webkit-fill-available;
+  display: flex;
+  align-self: normal;
+  align-items: center;
+}
+
+.interpolationButton {
+  width: 10mm;
 }
 
 .invertibleButtonBrightBG {
@@ -67,8 +103,28 @@ code.uiContainer {
   background-color: rgba(128, 128, 128, 0.5);
 }
 
+.ItkVtkViewer-module-fpsMonitor_25TvW {
+  position: absolute;
+  top: 25px;
+  right: 15px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  z-index: 2001;
+}
+
+.ItkVtkViewer-module-logo_3Lu7I {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  height: 2.0em;
+  width: 2.0em;
+  cursor: pointer;
+  z-index: 2000;
+}
+
 .mainUIRow {
-  justify-content: center;
+  justify-content: space-evenly;
   max-width: 420px;
   display: flex;
   flex-direction: row;
@@ -76,6 +132,46 @@ code.uiContainer {
   flex-wrap: wrap;
   align-items: center;
   padding: 5px;
+}
+
+.MuiIconButton-root {
+  padding: 6px 12px !important;
+}
+
+.MuiIcon-root {
+  font-size: 1.3rem !important;
+}
+
+.MuiIcon-root img{
+  width: inherit;
+  height: inherit;
+}
+
+.MuiListItem-button {
+  width: 100px !important;
+  padding: 6px 0 !important;
+}
+
+.cmapMenu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 312px !important;
+}
+
+.MuiSelect-selectMenu {
+  text-overflow: inherit !important;
+}
+
+.numberInput {
+  min-width: 98px;
+}
+
+.piecewiseWidget {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  z-index: 1000;
 }
 
 .planeSliders {
@@ -88,6 +184,35 @@ code.uiContainer {
   border: solid;
   border-color: rgba(255, 255, 255, 0.3);
   border-width: 3px !important;
+}
+
+.selector {
+  display: flex;
+  direction: row;
+  font-size: 1.2em;
+  z-index: 1000;
+}
+
+.shadowButton {
+  width: 8mm;
+  padding: 4px;
+  padding-left: 0px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.slider {
+  flex: 1;
+  min-height: 1rem;
+  width: 5px;
+  align-self: flex-end;
+}
+
+.sliderEntry {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .sliderIcons {
@@ -137,6 +262,13 @@ code.uiContainer {
   background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;
   margin: 2px;
+}
+
+.uiRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
 }
 
 .uiSlidersGroup {

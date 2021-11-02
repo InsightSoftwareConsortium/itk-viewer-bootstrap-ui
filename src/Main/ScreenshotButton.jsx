@@ -14,7 +14,7 @@ function ScreenshotButton(props) {
 
   return(
     <Tooltip ref={ screenshotButton } title='Screenshot'>
-      <IconButton onClick={() => { send('TAKE_SCREENSHOT') }}>
+      <IconButton size='small' onClick={() => { send('TAKE_SCREENSHOT') }}>
         <Icon><img src={ screenshotIconDataUri }/></Icon>
       </IconButton>
     </Tooltip>

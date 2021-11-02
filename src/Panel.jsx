@@ -28,6 +28,7 @@ function Panel(props) {
       <AppBar className='appBar'>
         <Toolbar>
           <IconButton
+            size='small'
             ref={ collapseUIButton }
             color='inherit'
             onClick={ handleToggle }

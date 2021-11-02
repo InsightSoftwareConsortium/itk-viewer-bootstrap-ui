@@ -48,6 +48,7 @@ function PlaneSliders(props) {
             (<div key={ plane.toUpperCase() } className={`planeSliders ${ sliderVisible(plane) }`}>
               <Tooltip title={`${plane.toUpperCase()} Plane Visibility`}>
                 <IconButton
+                  size='small'
                   className={`sliderIcons ${viewMode !== 'Volume' ? 'hidden' : ''}`}
                   onClick={(_e) => { toggleVisibility(plane) }}
                 >
@@ -60,7 +61,11 @@ function PlaneSliders(props) {
                 </IconButton>
               </Tooltip>
               <Tooltip title={`${plane} Plane Toggle Scroll`}>
-                <IconButton className='sliderIcons' onClick={(_e) => { togglePlay(plane) }}>
+                <IconButton
+                  size='small'
+                  className='sliderIcons'
+                  onClick={(_e) => { togglePlay(plane) }}
+                >
                   <Icon>
                     {slicingPlanes[`${plane}`].scroll
                       ? <img src={ pauseIconDataUri }/>

@@ -17,6 +17,7 @@ function RotateButton(props) {
   return(
     <Tooltip ref={ rotateButton } title='Spin in 3D [p]'>
       <ToggleButton
+        size='small'
         className='toggleButton'
         value='rotating'
         selected={ state.context.main.rotateEnabled }

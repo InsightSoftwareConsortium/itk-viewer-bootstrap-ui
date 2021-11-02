@@ -17,6 +17,7 @@ function FullscreenButton(props) {
   return(
     <Tooltip ref={ fullscreenButton } title='Fullscreen [f]'>
       <ToggleButton
+        size='small'
         className='toggleButton'
         value='fullscreenEnabled'
         selected={ state.context.main.fullscreenEnabled }

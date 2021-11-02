@@ -50,16 +50,14 @@ function ViewPlanesToggle(props) {
   return(
     <Tooltip ref={ viewPlanesButton } title='View planes [s]'>
       <ToggleButton
+        size='small'
         className='toggleButton'
         value='visiblePlanes'
         selected={ planesVisible() }
         onChange={ handleToggle }
       >
         <Icon>
-          <img
-            style={{ height: '24px', width: '24px' }}
-            src={ viewPlanesIconDataUri }
-          />
+          <img src={ viewPlanesIconDataUri } />
         </Icon>
       </ToggleButton>
     </Tooltip>
