@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Icon, IconButton, Tooltip } from '@material-ui/core'
 import { resetCameraIconDataUri } from 'itk-viewer-icons'
-import './style.css'
+import '../style.css'
 
 function ResetCamerButton(props) {
   const { service } = props

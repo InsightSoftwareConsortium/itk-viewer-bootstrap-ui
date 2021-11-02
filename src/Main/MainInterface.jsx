@@ -10,7 +10,7 @@ import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
 import ViewModeButtons from './ViewModeButtons'
 import ViewPlanesToggle from './ViewPlanesToggle'
-import './style.css'
+import '../style.css'
 
 function MainInterface(props) {
   const { service } = props

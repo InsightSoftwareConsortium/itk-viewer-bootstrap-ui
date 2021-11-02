@@ -3,15 +3,114 @@ code.uiContainer {
     monospace;
 }
 
-.viewContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+.hidden {
+  display: none;
+}
+
+.invertibleButtonBrightBG {
+}
+
+.invertibleButtonDarkBG {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
+.layerEntryCommon {
   display: flex;
-  flex-direction: column;
-  background: rgba(128, 128, 128, 0.8);
+  justify-content: space-between;
+  align-items: center;
+  width: -webkit-fill-available;
+  border-width: 2px !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  border: solid;
+}
+
+.layerEntryBrightBG {
+  border-color: #666;
+}
+
+.layerEntryDarkBG {
+  border-color: #AAA;
+}
+
+.layerIcon {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 8px;
+  padding-right: 6px;
+  height: fit-content !important;
+}
+
+.layerLabelCommon {
+  border: none;
+  background: transparent;
+  font-size: 1.2em;
+  margin-right: 10px;
+  z-index: 1000;
+}
+
+.layerLabelBrightBG {
+  color: black;
+}
+
+.layerLabelDarkBG {
+  color: white;
+}
+
+.layersUIGroup {
+  background-color: rgba(128, 128, 128, 0.5);
+  margin-left: 10px;
+}
+
+.layersUIRow {
+  max-width: 420px;
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
+.mainUIRow {
+  justify-content: center;
+  max-width: 420px;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 5px;
+}
+
+.planeSliders {
+  display: flex;
+  align-items: center;
+  padding-right: 2px;
+}
+
+.selectedLayer {
+  border: solid;
+  border-color: rgba(255, 255, 255, 0.3);
+  border-width: 3px !important;
+}
+
+.sliderIcons {
+  margin: 5px !important;
+  padding: 0 !important;
+}
+
+.toggleButton {
+  line-height: inherit !important;
+  border: none !important;
+  margin: 1px !important;
+}
+
+.toggledOffIcon {
+  opacity: 0.45;
+}
+
+.tooltipButtonBrightBG::before {
+}
+
+.tooltipButtonDarkBG::before {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
 }
 
 .uiContainer {
@@ -32,4 +131,56 @@ code.uiContainer {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.uiGroup {
+  background: rgba(128, 128, 128, 0.5);
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.uiSlidersGroup {
+  background: rgba(128, 128, 128, 0.5);
+  position: fixed;
+  bottom: 0;
+  left: 90px;
+  width: calc(100% - 100px);
+  margin: 10px 0;
+}
+
+.viewContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgba(128, 128, 128, 0.8);
+}
+
+.viewModeButton {
+  flex: 1;
+  width: 8mm;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.viewModeButton img {
+  width: 1.3em;
+  height: 1.3em;
+}
+
+.viewModeButtons {
+  display: flex;
+  width: 80%;
+  justify-content: space-evenly;
+}
+
+.visibleIcon {
+  display: inline-block;
 }
