@@ -1,5 +1,8 @@
+import WidgetsInterface from './WidgetsInterface'
+
 const widgetsUIMachineOptions = {
   actions: {
+    WidgetsInterface,
   },
 }
 
