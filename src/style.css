@@ -15,6 +15,30 @@ code.uiContainer {
   margin: 0 3px;
 }
 
+.distanceEntry {
+  align-items: center;
+}
+
+.distanceLabelCommon {
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.distanceLabelBrightBG {
+  color: black;
+}
+
+.distanceLabelDarkBG {
+  color: white;
+}
+
+.distanceInput {
+  background: transparent;
+  color: white;
+  font-size: 1.0em;
+  width: 80px;
+}
+
 .gradientOpacityScale {
   z-index: 1100;
   position: relative;
