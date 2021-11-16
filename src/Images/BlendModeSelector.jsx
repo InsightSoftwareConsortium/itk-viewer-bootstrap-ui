@@ -47,11 +47,11 @@ function BlendModeSelector(props) {
 
   return(
     <div className='blendSelector'>
-      <Tooltip ref={ blendModeDiv } title='Blend mode'>
+      <label ref={ blendModeDiv } data-tooltip-left data-tooltip='Blend mode'>
         <Icon className='blendModeButton'>
           <img src={ blendModeIconDataUri }/>
         </Icon>
-      </Tooltip>
+      </label>
       <Select
         ref={ blendModeSelector }
         className='selector'

@@ -46,7 +46,7 @@ function PlaneSliders(props) {
         return(
           state.context.main[`${plane}Slice`] &&
             (<div key={ plane.toUpperCase() } className={`planeSliders ${ sliderVisible(plane) }`}>
-              <Tooltip title={`${plane.toUpperCase()} Plane Visibility`}>
+              <label data-tooltip-left data-tooltip={`${plane.toUpperCase()} Plane Visibility`}>
                 <IconButton
                   size='small'
                   className={`sliderIcons ${viewMode !== 'Volume' ? 'hidden' : ''}`}
@@ -59,8 +59,8 @@ function PlaneSliders(props) {
                     }
                   </Icon>
                 </IconButton>
-              </Tooltip>
-              <Tooltip title={`${plane} Plane Toggle Scroll`}>
+              </label>
+              <label data-tooltip-left data-tooltip={`${plane} Plane Toggle Scroll`}>
                 <IconButton
                   size='small'
                   className='sliderIcons'
@@ -73,7 +73,7 @@ function PlaneSliders(props) {
                     }
                   </Icon>
                 </IconButton>
-              </Tooltip>
+              </label>
               <Chip
                 className='sliderIcons'
                 size='small'

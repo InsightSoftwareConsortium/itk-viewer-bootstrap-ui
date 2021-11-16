@@ -14,13 +14,13 @@ function ResetCamerButton(props) {
   }, [])
 
   return(
-    <Tooltip ref={ resetCameraButton } title='Reset camera [r]'>
+    <label ref={ resetCameraButton } data-tooltip-right data-tooltip='Reset camera [r]'>
       <IconButton size='small' onClick={() => { send('RESET_CAMERA') }}>
         <Icon>
           <img src={ resetCameraIconDataUri } />
         </Icon>
       </IconButton>
-    </Tooltip>
+    </label>
   )
 }
 

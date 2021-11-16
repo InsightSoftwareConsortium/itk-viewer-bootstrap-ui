@@ -15,7 +15,7 @@ function AxesButton(props) {
   }, [])
 
   return(
-    <Tooltip ref={ axesButton } title='Axes'>
+    <label ref={ axesButton } data-tooltip-right data-tooltip='Axes'>
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -27,7 +27,7 @@ function AxesButton(props) {
           <img src={ axesIconDataUri }/>
         </Icon>
       </ToggleButton>
-    </Tooltip>
+    </label>
   )
 }
 

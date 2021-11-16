@@ -20,7 +20,7 @@ function ShadowToggle(props) {
   }, [])
 
   return(
-    <Tooltip ref={ shadowButton } title='Use Shadow'>
+    <label ref={ shadowButton } data-tooltip-left data-tooltip='Use Shadow'>
       <ToggleButton
 				size='small'
         className='toggleButton'
@@ -36,7 +36,7 @@ function ShadowToggle(props) {
           <img src={ shadowIconDataUri }/>
         </Icon>
       </ToggleButton>
-    </Tooltip>
+    </label>
   )
 }
 

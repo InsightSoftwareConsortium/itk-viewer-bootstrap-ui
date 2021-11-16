@@ -14,13 +14,13 @@ function BackgroundColorButton(props) {
   }, [])
 
   return(
-    <Tooltip ref={ bgColorButton } title='Toggle Background Color'>
+    <label ref={ bgColorButton } data-tooltip-right data-tooltip='Toggle Background Color'>
       <IconButton size='small' onClick={() => { send('TOGGLE_BACKGROUND_COLOR') }}>
         <Icon>
           <img src={ selectColorIconDataUri } />
         </Icon>
       </IconButton>
-    </Tooltip>
+    </label>
   )
 }
 
