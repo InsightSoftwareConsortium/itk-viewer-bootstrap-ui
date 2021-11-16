@@ -3,7 +3,7 @@ import { useActor } from '@xstate/react'
 
 import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
 import vtkItkPiecewiseGaussianWidget from '../vtk/ItkPiecewiseGaussianWidget'
-import macro from '@kitware/vtk.js/macro'
+import macro from '@kitware/vtk.js/macros'
 
 import '../style.css'
 
