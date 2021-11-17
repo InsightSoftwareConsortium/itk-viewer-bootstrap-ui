@@ -15,7 +15,7 @@ function RotateButton(props) {
   }, [])
 
   return(
-    <Tooltip ref={ rotateButton } title='Spin in 3D [p]'>
+    <label ref={ rotateButton } data-tooltip-left data-tooltip='Spin in 3D [p]'>
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -27,7 +27,7 @@ function RotateButton(props) {
           <img src={ rotateIconDataUri } />
         </Icon>
       </ToggleButton>
-    </Tooltip>
+    </label>
   )
 }
 

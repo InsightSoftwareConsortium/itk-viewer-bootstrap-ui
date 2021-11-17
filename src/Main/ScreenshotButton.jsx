@@ -13,11 +13,11 @@ function ScreenshotButton(props) {
   }, [])
 
   return(
-    <Tooltip ref={ screenshotButton } title='Screenshot'>
+    <label ref={ screenshotButton } data-tooltip-left data-tooltip="Screenshot">
       <IconButton size='small' onClick={() => { send('TAKE_SCREENSHOT') }}>
         <Icon><img src={ screenshotIconDataUri }/></Icon>
       </IconButton>
-    </Tooltip>
+    </label>
   );
 }
 

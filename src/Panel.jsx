@@ -1,48 +1,19 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import {
-  AppBar, Drawer, Icon, IconButton, Toolbar, Typography
-} from '@material-ui/core'
-import { toggleIconDataUri } from 'itk-viewer-icons'
-import toggleUICollapsed from './toggleUICollapsed'
+import { Drawer } from '@material-ui/core'
 import './Panel.css'
 
 function Panel(props) {
   const { children, service } = props
   const uiPanel = useRef(null)
-  const collapseUIButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [ state ] = useActor(service)
 
   useEffect(() => {
     state.context.uiPanel = uiPanel.current
-    state.context.main.collapseUIButton = collapseUIButton.current
   }, [])
-
-  const handleToggle = () => {
-    send('TOGGLE_UI_COLLAPSED')
-    toggleUICollapsed(state.context)
-  }
 
   return (
     <div ref={ uiPanel } className='root'>
-      <AppBar className='appBar'>
-        <Toolbar>
-          <IconButton
-            size='small'
-            ref={ collapseUIButton }
-            color='inherit'
-            onClick={ handleToggle }
-            edge='start'
-          >
-            <Icon>
-              <img src={ toggleIconDataUri } alt='toggle'/>
-            </Icon>
-          </IconButton>
-          <Typography variant='h5' noWrap>
-            ITK Viewer
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <Drawer
         className='drawer'
         variant='persistent'

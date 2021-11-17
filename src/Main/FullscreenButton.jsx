@@ -15,7 +15,7 @@ function FullscreenButton(props) {
   }, [])
 
   return(
-    <Tooltip ref={ fullscreenButton } title='Fullscreen [f]'>
+    <label ref={ fullscreenButton } data-tooltip-left data-tooltip='Fullscreen [f]'>
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -27,7 +27,7 @@ function FullscreenButton(props) {
           <img src={ fullscreenIconDataUri } />
         </Icon>
       </ToggleButton>
-    </Tooltip>
+    </label>
   )
 }
 

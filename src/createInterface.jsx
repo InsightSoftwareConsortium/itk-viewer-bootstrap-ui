@@ -6,6 +6,7 @@ import MainInterface from './Main/MainInterface'
 import LayersInterface from './Layers/LayersInterface'
 import ImagesInterface from './Images/ImagesInterface'
 import WidgetsInterface from './Widgets/WidgetsInterface'
+import AppToolbar from './AppToolbar'
 
 function createInterface(context) {
   context.viewContainers = new Map()
@@ -29,6 +30,7 @@ function createInterface(context) {
 
   ReactDOM.render(
     <React.StrictMode>
+      <AppToolbar service={ context.service }/>
       <Panel service={ context.service }>
         <MainInterface />
         <LayersInterface />

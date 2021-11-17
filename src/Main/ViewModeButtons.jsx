@@ -26,7 +26,7 @@ function ViewModeButtons(props) {
 
   return(
     <div className='viewModeButtons'>
-      <Tooltip ref={ xPlaneButton } title='X plane [1]'>
+      <label ref={ xPlaneButton } data-tooltip-left data-tooltip='X plane [1]'>
         <ToggleButton
           className='toggleButton'
           value='xplane'
@@ -41,8 +41,8 @@ function ViewModeButtons(props) {
             />
           </Icon>
         </ToggleButton>
-      </Tooltip>
-      <Tooltip ref={ yPlaneButton } title='Y plane [2]'>
+      </label>
+      <label ref={ yPlaneButton } data-tooltip-left data-tooltip='Y plane [2]'>
         <ToggleButton
           className='toggleButton'
           value='yplane'
@@ -57,8 +57,8 @@ function ViewModeButtons(props) {
             />
           </Icon>
         </ToggleButton>
-      </Tooltip>
-      <Tooltip ref={ zPlaneButton } title='z plane [3]'>
+      </label>
+      <label ref={ zPlaneButton } data-tooltip-left data-tooltip='z plane [3]'>
         <ToggleButton
           className='toggleButton'
           value='zplane'
@@ -73,8 +73,8 @@ function ViewModeButtons(props) {
             />
           </Icon>
         </ToggleButton>
-      </Tooltip>
-      <Tooltip ref={ volumeButton } title='Volume [4]'>
+      </label>
+      <label ref={ volumeButton } data-tooltip-left data-tooltip='Volume [4]'>
         <ToggleButton
           className='toggleButton'
           value='volume'
@@ -89,7 +89,7 @@ function ViewModeButtons(props) {
             />
           </Icon>
         </ToggleButton>
-      </Tooltip>
+      </label>
     </div>
   )
 }

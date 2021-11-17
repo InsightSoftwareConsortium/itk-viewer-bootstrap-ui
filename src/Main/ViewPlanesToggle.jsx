@@ -48,7 +48,7 @@ function ViewPlanesToggle(props) {
   }
 
   return(
-    <Tooltip ref={ viewPlanesButton } title='View planes [s]'>
+    <label ref={ viewPlanesButton } data-tooltip-right data-tooltip='View planes [s]'>
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -60,7 +60,7 @@ function ViewPlanesToggle(props) {
           <img src={ viewPlanesIconDataUri } />
         </Icon>
       </ToggleButton>
-    </Tooltip>
+    </label>
   )
 }
 

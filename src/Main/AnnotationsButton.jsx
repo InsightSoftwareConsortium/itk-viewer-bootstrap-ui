@@ -15,7 +15,7 @@ function AnnotationsButton(props) {
   }, [])
 
   return(
-    <Tooltip ref={ annotationsButton } title='Annotations'>
+    <label ref={ annotationsButton } data-tooltip-left data-tooltip='Annotations'>
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -27,7 +27,7 @@ function AnnotationsButton(props) {
           <img src={ annotationsIconDataUri } />
         </Icon>
       </ToggleButton>
-    </Tooltip>
+    </label>
   )
 }
 

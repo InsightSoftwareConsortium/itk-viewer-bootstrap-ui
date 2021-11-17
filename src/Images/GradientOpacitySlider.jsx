@@ -45,11 +45,11 @@ function GradientOpacitySlider(props) {
 
   return(
     <div className='iconWithSlider'>
-      <Tooltip ref={ sliderEntry } title='Gradient opacity scale'>
+      <label ref={ sliderEntry } data-tooltip-left data-tooltip='Gradient opacity scale'>
         <IconButton size='small' onClick={() => { setVertSlider(!vertSlider) }}>
           <Icon className='sliderEntry'><img src={ gradientIconDataUri }/></Icon>
         </IconButton>
-      </Tooltip>
+      </label>
       <div className='gradientOpacityScale'>
         <Slider
           ref={ gradientOpacitySlider }

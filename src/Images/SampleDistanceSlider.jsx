@@ -32,14 +32,14 @@ function SampleDistanceSlider(props) {
 
   return(
     <div className='iconWithSlider'>
-      <Tooltip ref={ spacingDiv } title='Volume sample distance'>
+      <label ref={ spacingDiv } data-tooltip-top-screenshot='Volume sample distance'>
         <Icon
           className='sampleDistanceButton'
           style={{ margin: '0 10px 15px 0' }}
         >
           <img src={ sampleDistanceIconDataUri } />
         </Icon>
-      </Tooltip>
+      </label>
       <Slider
         ref={ spacingElement }
         className='slider'

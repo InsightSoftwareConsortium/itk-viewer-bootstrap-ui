@@ -1,4 +1,4 @@
-import macro from '@kitware/vtk.js/macro'
+import macro from '@kitware/vtk.js/macros'
 import vtkPiecewiseGaussianWidget from '@kitware/vtk.js/Interaction/Widgets/PiecewiseGaussianWidget'
 
 /* eslint-disable no-continue */

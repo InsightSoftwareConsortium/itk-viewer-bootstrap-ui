@@ -81,7 +81,7 @@ function ColorRangeInput(props) {
         className='uiRow'
         style={{background: 'rgba(127, 127, 127, 0.5)'}}
       >
-        <Tooltip title='Interpolation'>
+        <label data-tooltip-left data-tooltip='Interpolation'>
           <ToggleButton
 						size='small'
             className='interpolationButton toggleButton'
@@ -93,7 +93,7 @@ function ColorRangeInput(props) {
               <img src={ interpolationIconDataUri }/>
             </Icon>
           </ToggleButton>
-        </Tooltip>
+        </label>
         <TextField
           className='numberInput'
           type='number'
