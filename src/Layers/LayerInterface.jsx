@@ -1,7 +1,7 @@
 import React from 'react'
 import { useActor } from '@xstate/react'
 import LayerEntry from './LayerEntry'
-import { Paper } from '@material-ui/core'
+import { Paper } from '@mui/material'
 
 function LayerInterface(props) {
   const { children, service } = props

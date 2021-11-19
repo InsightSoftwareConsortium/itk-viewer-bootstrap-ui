@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, IconButton, Slider, Tooltip } from '@material-ui/core'
+import { Icon, IconButton, Slider, Tooltip } from '@mui/material'
 import { gradientIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'

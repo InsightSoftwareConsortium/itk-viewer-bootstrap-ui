@@ -1,6 +1,6 @@
 import React from 'react'
 import { useActor } from '@xstate/react'
-import { Chip, Icon, IconButton, Slider, Tooltip } from '@material-ui/core'
+import { Chip, Icon, IconButton, Slider, Tooltip } from '@mui/material'
 import { visibleIconDataUri, invisibleIconDataUri, pauseIconDataUri, playIconDataUri } from 'itk-viewer-icons'
 import '../style.css'
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { FormControl, Icon, MenuItem, Select } from '@material-ui/core'
+import { FormControl, Icon, MenuItem, Select } from '@mui/material'
 import ColorMapPresetIcons from '../ColorMapPresetIcons'
 import '../style.css'
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, TextField, Tooltip } from '@material-ui/core'
-import { ToggleButton } from '@material-ui/lab'
+import { Icon, TextField, ToggleButton, Tooltip } from '@mui/material'
 import { interpolationIconDataUri } from 'itk-viewer-icons'
 import ColorMapIconSelector from './ColorMapIconSelector'
 import '../style.css'

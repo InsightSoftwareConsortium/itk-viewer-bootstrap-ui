@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, Tooltip } from '@material-ui/core'
-import { ToggleButton } from '@material-ui/lab'
+import { Icon, ToggleButton, Tooltip } from '@mui/material'
 import { fullscreenIconDataUri } from 'itk-viewer-icons'
 import '../style.css'
 

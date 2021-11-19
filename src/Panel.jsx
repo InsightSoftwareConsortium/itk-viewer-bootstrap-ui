@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Drawer } from '@material-ui/core'
+import { Drawer } from '@mui/material'
 import './Panel.css'
 
 function Panel(props) {

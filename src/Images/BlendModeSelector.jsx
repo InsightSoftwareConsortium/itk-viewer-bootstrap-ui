@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, MenuItem, Select, Tooltip } from '@material-ui/core'
+import { Icon, MenuItem, Select, Tooltip } from '@mui/material'
 import { blendModeIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
