@@ -14,13 +14,21 @@ function BackgroundColorButton(props) {
   }, [])
 
   return(
-    <label ref={ bgColorButton } data-tooltip-right data-tooltip='Toggle Background Color'>
+    <Tooltip
+      ref={ bgColorButton }
+      title='Toggle Background Color'
+      PopperProps={{
+        anchorEl: bgColorButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <IconButton size='small' onClick={() => { send('TOGGLE_BACKGROUND_COLOR') }}>
         <Icon>
           <img src={ selectColorIconDataUri } />
         </Icon>
       </IconButton>
-    </label>
+    </Tooltip>
   )
 }
 

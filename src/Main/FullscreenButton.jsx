@@ -14,7 +14,15 @@ function FullscreenButton(props) {
   }, [])
 
   return(
-    <label ref={ fullscreenButton } data-tooltip-left data-tooltip='Fullscreen [f]'>
+    <Tooltip
+      ref={ fullscreenButton }
+      title='Fullscreen [f]'
+      PopperProps={{
+        anchorEl: fullscreenButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -26,7 +34,7 @@ function FullscreenButton(props) {
           <img src={ fullscreenIconDataUri } />
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

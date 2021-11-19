@@ -47,7 +47,15 @@ function ViewPlanesToggle(props) {
   }
 
   return(
-    <label ref={ viewPlanesButton } data-tooltip-right data-tooltip='View planes [s]'>
+    <Tooltip
+      ref={ viewPlanesButton }
+      title='View planes [s]'
+      PopperProps={{
+        anchorEl: viewPlanesButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -59,7 +67,7 @@ function ViewPlanesToggle(props) {
           <img src={ viewPlanesIconDataUri } />
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

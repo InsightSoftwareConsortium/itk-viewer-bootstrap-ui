@@ -54,7 +54,12 @@ function ColorMapIconSelector(props) {
         value={ currentColorMap() }
         style={{ height: '40px' }}
         onChange={(e) => { handleChange(e.target.value) }}
-        MenuProps={{ classes: { list: 'cmapMenu' } }}
+        MenuProps={{
+          anchorEl: iconSelector.current,
+          disablePortal: true,
+          keepMounted: true,
+          classes: { list: 'cmapMenu' }
+        }}
       >
         {colorMapIcons.map((preset, idx) => (
           <MenuItem key={idx} value={preset.name}>

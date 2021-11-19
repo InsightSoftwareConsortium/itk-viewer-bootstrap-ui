@@ -14,7 +14,15 @@ function AnnotationsButton(props) {
   }, [])
 
   return(
-    <label ref={ annotationsButton } data-tooltip-left data-tooltip='Annotations'>
+    <Tooltip
+      ref={ annotationsButton }
+      title='Annotations'
+      PopperProps={{
+        anchorEl: annotationsButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -26,7 +34,7 @@ function AnnotationsButton(props) {
           <img src={ annotationsIconDataUri } />
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

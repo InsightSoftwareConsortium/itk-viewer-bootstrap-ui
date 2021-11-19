@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useActor } from '@xstate/react'
 import { Chip, Icon, IconButton, Slider, Tooltip } from '@mui/material'
 import { visibleIconDataUri, invisibleIconDataUri, pauseIconDataUri, playIconDataUri } from 'itk-viewer-icons'
@@ -7,7 +7,15 @@ import '../style.css'
 function PlaneSliders(props) {
   const { service } = props
   const [ state, send ] = useActor(service)
+  const xVisibility = useRef(null)
+  const yVisibility = useRef(null)
+  const zVisibility = useRef(null)
+  const xScroll = useRef(null)
+  const yScroll = useRef(null)
+  const zScroll = useRef(null)
   const planes = ['x', 'y', 'z']
+  const visRefs = [xVisibility, yVisibility, zVisibility]
+  const scrollRefs = [xScroll, yScroll, zScroll]
   const { slicingPlanes, viewMode } = state.context.main
 
   const toggleVisibility = (plane) => {
@@ -42,11 +50,19 @@ function PlaneSliders(props) {
 
   return(
     <div className={`${state.context.uiCollapsed ? 'hidden' : 'uiSlidersGroup'}`}>
-      {planes.map((plane) => {
+      {planes.map((plane, idx) => {
         return(
           state.context.main[`${plane}Slice`] &&
             (<div key={ plane.toUpperCase() } className={`planeSliders ${ sliderVisible(plane) }`}>
-              <label data-tooltip-left data-tooltip={`${plane.toUpperCase()} Plane Visibility`}>
+              <Tooltip
+                ref={visRefs[idx]}
+                title={`${plane.toUpperCase()} Plane Visibility`}
+                PopperProps={{
+                  anchorEl: visRefs[idx].current,
+                  disablePortal: true,
+                  keepMounted: true,
+                }}
+              >
                 <IconButton
                   size='small'
                   className={`sliderIcons ${viewMode !== 'Volume' ? 'hidden' : ''}`}
@@ -59,8 +75,16 @@ function PlaneSliders(props) {
                     }
                   </Icon>
                 </IconButton>
-              </label>
-              <label data-tooltip-left data-tooltip={`${plane} Plane Toggle Scroll`}>
+              </Tooltip>
+              <Tooltip
+                ref={scrollRefs[idx]}
+                title={`${plane.toUpperCase()} Plane Toggle Scroll`}
+                PopperProps={{
+                  anchorEl: scrollRefs[idx].current,
+                  disablePortal: true,
+                  keepMounted: true,
+                }}
+              >
                 <IconButton
                   size='small'
                   className='sliderIcons'
@@ -73,7 +97,7 @@ function PlaneSliders(props) {
                     }
                   </Icon>
                 </IconButton>
-              </label>
+              </Tooltip>
               <Chip
                 className='sliderIcons'
                 size='small'

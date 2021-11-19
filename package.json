@@ -16,6 +16,7 @@
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "@kitware/vtk.js": "^19.0.2",
+    "@mui/icons-material": "^5.1.1",
     "@mui/material": "^5.1.1",
     "@xstate/react": "^1.6.1",
     "itk-viewer-icons": "^11.11.2",

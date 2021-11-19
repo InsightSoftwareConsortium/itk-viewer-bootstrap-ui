@@ -30,7 +30,15 @@ function DistanceWidget(props) {
       ref={ distanceRulerRow }
       className={`uiRow distanceEntry ${viewMode === 'Volume' ? 'hidden' : ''}`}
     >
-      <label ref={ distanceButtonLabel } data-tooltip-left data-tooltip='Length'>
+      <Tooltip
+        ref={ distanceButtonLabel }
+        title='Length'
+        PopperProps={{
+          anchorEl: distanceButtonLabel.current,
+          disablePortal: true,
+          keepMounted: true,
+        }}
+      >
         <ToggleButton
           ref={ distanceButtonInput }
           size='small'
@@ -43,7 +51,7 @@ function DistanceWidget(props) {
             <img src={ lengthToolIconDataUri }/>
           </Icon>
         </ToggleButton>
-      </label>
+      </Tooltip>
       <span ref={ distanceLabel } className='distanceLabelCommon'>
         Length:
       </span>

@@ -9,12 +9,13 @@ function BlendModeSelector(props) {
   const { service } = props
   const blendModeDiv = useRef(null)
   const blendModeSelector = useRef(null)
+  const blendModeIcon = useRef(null)
   const [ state, send ] = useActor(service)
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-        state.context, 'invertibleButton', blendModeDiv.current)
-    state.context.images.blendModeDiv = blendModeDiv.current
+        state.context, 'invertibleButton', blendModeIcon.current)
+    state.context.images.blendModeDiv = blendModeIcon.current
     state.context.images.blendModeSelector = blendModeSelector.current
   }, [])
 
@@ -46,17 +47,31 @@ function BlendModeSelector(props) {
   }
 
   return(
-    <div className='blendSelector'>
-      <label ref={ blendModeDiv } data-tooltip-left data-tooltip='Blend mode'>
+    <div ref={ blendModeDiv } className='blendSelector'>
+      <Tooltip
+        ref={ blendModeIcon }
+        title='Blend mode'
+        PopperProps={{
+          anchorEl: blendModeIcon.current,
+          disablePortal: true,
+          keepMounted: true,
+        }}
+      >
         <Icon className='blendModeButton'>
           <img src={ blendModeIconDataUri }/>
         </Icon>
-      </label>
+      </Tooltip>
       <Select
         ref={ blendModeSelector }
         className='selector'
         defaultValue={ 0 }
         onChange={(event) => { selectionChanged(event) }}
+        MenuProps={{
+          anchorEl: blendModeSelector.current,
+          disablePortal: true,
+          keepMounted: true,
+          classes: { paper: 'blendMenu' }
+        }}
       >
         <MenuItem value={ 0 }>Composite</MenuItem>
         <MenuItem value={ 1 }>Maximum</MenuItem>

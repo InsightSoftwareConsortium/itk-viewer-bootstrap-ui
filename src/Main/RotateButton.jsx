@@ -14,7 +14,15 @@ function RotateButton(props) {
   }, [])
 
   return(
-    <label ref={ rotateButton } data-tooltip-left data-tooltip='Spin in 3D [p]'>
+    <Tooltip
+      ref={ rotateButton }
+      title='Spin in 3D [p]'
+      PopperProps={{
+        anchorEl: rotateButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -26,7 +34,7 @@ function RotateButton(props) {
           <img src={ rotateIconDataUri } />
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

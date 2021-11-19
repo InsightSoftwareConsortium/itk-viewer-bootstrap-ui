@@ -14,7 +14,15 @@ function AxesButton(props) {
   }, [])
 
   return(
-    <label ref={ axesButton } data-tooltip-right data-tooltip='Axes'>
+    <Tooltip
+      ref={ axesButton }
+      title='Axes'
+      PopperProps={{
+        anchorEl: axesButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -26,7 +34,7 @@ function AxesButton(props) {
           <img src={ axesIconDataUri }/>
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

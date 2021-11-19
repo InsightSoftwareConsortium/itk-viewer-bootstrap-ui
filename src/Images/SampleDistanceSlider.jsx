@@ -32,14 +32,22 @@ function SampleDistanceSlider(props) {
 
   return(
     <div className='iconWithSlider'>
-      <label ref={ spacingDiv } data-tooltip-top-screenshot='Volume sample distance'>
+      <Tooltip
+        ref={ spacingDiv }
+        title='Volume sample distance'
+        PopperProps={{
+          anchorEl: spacingDiv.current,
+          disablePortal: true,
+          keepMounted: true,
+        }}
+      >
         <Icon
           className='sampleDistanceButton'
-          style={{ margin: '0 10px 15px 0' }}
+          style={{ margin: '0 10px 0 0' }}
         >
           <img src={ sampleDistanceIconDataUri } />
         </Icon>
-      </label>
+      </Tooltip>
       <Slider
         ref={ spacingElement }
         className='slider'

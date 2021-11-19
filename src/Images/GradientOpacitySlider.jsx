@@ -45,11 +45,19 @@ function GradientOpacitySlider(props) {
 
   return(
     <div className='iconWithSlider'>
-      <label ref={ sliderEntry } data-tooltip-left data-tooltip='Gradient opacity scale'>
+      <Tooltip
+        ref={ sliderEntry }
+        title='Gradient opacity scale'
+        PopperProps={{
+          anchorEl: sliderEntry.current,
+          disablePortal: true,
+          keepMounted: true,
+        }}
+      >
         <IconButton size='small' onClick={() => { setVertSlider(!vertSlider) }}>
           <Icon className='sliderEntry'><img src={ gradientIconDataUri }/></Icon>
         </IconButton>
-      </label>
+      </Tooltip>
       <div className='gradientOpacityScale'>
         <Slider
           ref={ gradientOpacitySlider }

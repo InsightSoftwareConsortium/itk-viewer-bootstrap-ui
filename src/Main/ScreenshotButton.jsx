@@ -13,11 +13,19 @@ function ScreenshotButton(props) {
   }, [])
 
   return(
-    <label ref={ screenshotButton } data-tooltip-left data-tooltip="Screenshot">
+    <Tooltip
+      ref={ screenshotButton }
+      title="Screenshot"
+      PopperProps={{
+        anchorEl: screenshotButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <IconButton size='small' onClick={() => { send('TAKE_SCREENSHOT') }}>
         <Icon><img src={ screenshotIconDataUri }/></Icon>
       </IconButton>
-    </label>
+    </Tooltip>
   );
 }
 

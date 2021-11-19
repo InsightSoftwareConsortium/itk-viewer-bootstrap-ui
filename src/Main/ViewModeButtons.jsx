@@ -25,8 +25,17 @@ function ViewModeButtons(props) {
 
   return(
     <div className='viewModeButtons'>
-      <label ref={ xPlaneButton } data-tooltip-left data-tooltip='X plane [1]'>
+      <Tooltip
+        ref={ xPlaneButton }
+        title='X plane [1]'
+        PopperProps={{
+          anchorEl: xPlaneButton.current,
+          disablePortal: true,
+          keepMounted: true,
+        }}
+      >
         <ToggleButton
+          size='small'
           className='toggleButton'
           value='xplane'
           selected={ state.context.main.xPlaneButton }
@@ -40,9 +49,18 @@ function ViewModeButtons(props) {
             />
           </Icon>
         </ToggleButton>
-      </label>
-      <label ref={ yPlaneButton } data-tooltip-left data-tooltip='Y plane [2]'>
+      </Tooltip>
+      <Tooltip
+        ref={ yPlaneButton }
+        title='Y plane [2]'
+        PopperProps={{
+          anchorEl: yPlaneButton.current,
+          disablePortal: true,
+          keepMounted: true,
+        }}
+      >
         <ToggleButton
+          size='small'
           className='toggleButton'
           value='yplane'
           selected={ state.context.main.yPlaneButton }
@@ -56,9 +74,18 @@ function ViewModeButtons(props) {
             />
           </Icon>
         </ToggleButton>
-      </label>
-      <label ref={ zPlaneButton } data-tooltip-left data-tooltip='z plane [3]'>
+      </Tooltip>
+      <Tooltip
+        ref={ zPlaneButton }
+        title='z plane [3]'
+        PopperProps={{
+          anchorEl: zPlaneButton.current,
+          disablePortal: true,
+          keepMounted: true,
+        }}
+      >
         <ToggleButton
+          size='small'
           className='toggleButton'
           value='zplane'
           selected={ state.context.main.zPlaneButton }
@@ -72,9 +99,18 @@ function ViewModeButtons(props) {
             />
           </Icon>
         </ToggleButton>
-      </label>
-      <label ref={ volumeButton } data-tooltip-left data-tooltip='Volume [4]'>
+      </Tooltip>
+      <Tooltip
+        ref={ volumeButton }
+        title='Volume [4]'
+        PopperProps={{
+          anchorEl: volumeButton.current,
+          disablePortal: true,
+          keepMounted: true,
+        }}
+      >
         <ToggleButton
+          size='small'
           className='toggleButton'
           value='volume'
           selected={ state.context.main.volumeButton }
@@ -88,7 +124,7 @@ function ViewModeButtons(props) {
             />
           </Icon>
         </ToggleButton>
-      </label>
+      </Tooltip>
     </div>
   )
 }

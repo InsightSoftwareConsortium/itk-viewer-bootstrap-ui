@@ -19,7 +19,15 @@ function ShadowToggle(props) {
   }, [])
 
   return(
-    <label ref={ shadowButton } data-tooltip-left data-tooltip='Use Shadow'>
+    <Tooltip
+      ref={ shadowButton }
+      title='Use Shadow'
+      PopperProps={{
+        anchorEl: shadowButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
 				size='small'
         className='toggleButton'
@@ -35,7 +43,7 @@ function ShadowToggle(props) {
           <img src={ shadowIconDataUri }/>
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

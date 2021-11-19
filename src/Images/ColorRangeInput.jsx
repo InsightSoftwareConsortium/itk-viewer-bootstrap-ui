@@ -8,6 +8,7 @@ import '../style.css'
 function ColorRangeInput(props) {
   const { service } = props
   const colorRangeInput = useRef(null)
+  const interpolationButton = useRef(null)
   const [ state, send ] = useActor(service)
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
@@ -80,7 +81,15 @@ function ColorRangeInput(props) {
         className='uiRow'
         style={{background: 'rgba(127, 127, 127, 0.5)'}}
       >
-        <label data-tooltip-left data-tooltip='Interpolation'>
+        <Tooltip
+          ref={ interpolationButton }
+          title='Interpolation'
+          PopperProps={{
+            anchorEl: interpolationButton.current,
+            disablePortal: true,
+            keepMounted: true,
+          }}
+        >
           <ToggleButton
 						size='small'
             className='interpolationButton toggleButton'
@@ -92,7 +101,7 @@ function ColorRangeInput(props) {
               <img src={ interpolationIconDataUri }/>
             </Icon>
           </ToggleButton>
-        </label>
+        </Tooltip>
         <TextField
           className='numberInput'
           type='number'
