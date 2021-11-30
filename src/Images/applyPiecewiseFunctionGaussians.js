@@ -8,4 +8,3 @@ function applyPiecewiseFunctionGaussians(context, event) {
 }
 
 export default applyPiecewiseFunctionGaussians
-  

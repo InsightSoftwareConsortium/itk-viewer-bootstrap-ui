@@ -7,25 +7,30 @@ import '../style.css'
 function ResetCamerButton(props) {
   const { service } = props
   const resetCameraButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     state.context.main.resetCameraButtonLabel = resetCameraButton.current
   }, [])
 
-  return(
+  return (
     <Tooltip
-      ref={ resetCameraButton }
-      title='Reset camera [r]'
+      ref={resetCameraButton}
+      title="Reset camera [r]"
       PopperProps={{
         anchorEl: resetCameraButton.current,
         disablePortal: true,
-        keepMounted: true,
+        keepMounted: true
       }}
     >
-      <IconButton size='small' onClick={() => { send('RESET_CAMERA') }}>
+      <IconButton
+        size="small"
+        onClick={() => {
+          send('RESET_CAMERA')
+        }}
+      >
         <Icon>
-          <img src={ resetCameraIconDataUri } />
+          <img src={resetCameraIconDataUri} />
         </Icon>
       </IconButton>
     </Tooltip>

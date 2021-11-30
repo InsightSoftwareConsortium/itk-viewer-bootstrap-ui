@@ -7,12 +7,12 @@ import '../style.css'
 function ColorMapIconSelector(props) {
   const { service } = props
   const iconSelector = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
   let colorMapIcons = []
   ColorMapPresetIcons.forEach((value, key) => {
     colorMapIcons.push({
-      'name': key,
-      'icon': value
+      name: key,
+      icon: value
     })
   })
 
@@ -43,17 +43,19 @@ function ColorMapIconSelector(props) {
     })
   }
 
-  return(
+  return (
     <FormControl
-      variant='outlined'
-      size='small'
-      ref={ iconSelector }
+      variant="outlined"
+      size="small"
+      ref={iconSelector}
       style={{ width: 'auto', margin: '0 5px' }}
     >
       <Select
-        value={ currentColorMap() }
+        value={currentColorMap()}
         style={{ height: '40px' }}
-        onChange={(e) => { handleChange(e.target.value) }}
+        onChange={(e) => {
+          handleChange(e.target.value)
+        }}
         MenuProps={{
           anchorEl: iconSelector.current,
           disablePortal: true,
@@ -64,13 +66,13 @@ function ColorMapIconSelector(props) {
         {colorMapIcons.map((preset, idx) => (
           <MenuItem key={idx} value={preset.name}>
             <Icon style={{ width: 'inherit' }}>
-              <img className='colorMapIcon' src={ preset.icon }/>
+              <img className="colorMapIcon" src={preset.icon} />
             </Icon>
           </MenuItem>
         ))}
       </Select>
     </FormControl>
-   )
+  )
 }
 
 export default ColorMapIconSelector

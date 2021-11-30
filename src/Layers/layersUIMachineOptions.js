@@ -6,12 +6,11 @@ const layersUIMachineOptions = {
   layerUIActor: {
     LayerInterface,
 
-    selectLayer,
-
+    selectLayer
   },
   actions: {
-    LayersInterface,
-  },
+    LayersInterface
+  }
 }
 
 export default layersUIMachineOptions

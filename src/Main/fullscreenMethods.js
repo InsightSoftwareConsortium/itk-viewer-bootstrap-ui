@@ -7,21 +7,21 @@ const body = document.querySelector('body')
     'mozRequestFullScreen',
     'mozCancelFullScreen',
     'mozfullscreenchange',
-    'mozFullScreen',
+    'mozFullScreen'
   ],
   [
     'msRequestFullscreen',
     'msExitFullscreen',
     'MSFullscreenChange',
-    'msFullscreenEnabled',
+    'msFullscreenEnabled'
   ],
   [
     'webkitRequestFullscreen',
     'webkitExitFullscreen',
     'webkitfullscreenchange',
-    'webkitIsFullScreen',
-  ],
-].forEach(methods => {
+    'webkitIsFullScreen'
+  ]
+].forEach((methods) => {
   if (body[methods[0]] && fullscreenMethods.length === 0) {
     fullscreenMethods.splice(methods, methods.length, ...methods)
   }

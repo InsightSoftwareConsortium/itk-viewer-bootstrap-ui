@@ -7,25 +7,30 @@ import '../style.css'
 function BackgroundColorButton(props) {
   const { service } = props
   const bgColorButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     state.context.main.bgColorButtonLabel = bgColorButton.current
   }, [])
 
-  return(
+  return (
     <Tooltip
-      ref={ bgColorButton }
-      title='Toggle Background Color'
+      ref={bgColorButton}
+      title="Toggle Background Color"
       PopperProps={{
         anchorEl: bgColorButton.current,
         disablePortal: true,
-        keepMounted: true,
+        keepMounted: true
       }}
     >
-      <IconButton size='small' onClick={() => { send('TOGGLE_BACKGROUND_COLOR') }}>
+      <IconButton
+        size="small"
+        onClick={() => {
+          send('TOGGLE_BACKGROUND_COLOR')
+        }}
+      >
         <Icon>
-          <img src={ selectColorIconDataUri } />
+          <img src={selectColorIconDataUri} />
         </Icon>
       </IconButton>
     </Tooltip>

@@ -7,7 +7,7 @@ import '../style.css'
 
 function ImagesInterface(props) {
   const { service } = props
-  const [ state ] = useActor(service)
+  const [state] = useActor(service)
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
   const layersContext = state.context.layers.actorContext.get(name)
@@ -25,19 +25,19 @@ function ImagesInterface(props) {
     return true
   }
 
-  return(
-    <div className={ visible() ? '' : 'hidden' } style={{ margin: '15px 5px' }}>
-      {actorContext &&
+  return (
+    <div className={visible() ? '' : 'hidden'} style={{ margin: '15px 5px' }}>
+      {actorContext && (
         <div
-          ref={ imagesUIGroup }
-          className='uiGroup'
+          ref={imagesUIGroup}
+          className="uiGroup"
           style={{ maxWidth: '400px' }}
         >
-          <ColorRangeInput {...props}/>
-          <TransferFunctionWidget {...props}/>
+          <ColorRangeInput {...props} />
+          <TransferFunctionWidget {...props} />
           <VolumeRenderingInputs {...props} />
         </div>
-      }
+      )}
     </div>
   )
 }

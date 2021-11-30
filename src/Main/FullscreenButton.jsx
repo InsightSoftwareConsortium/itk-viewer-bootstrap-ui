@@ -7,31 +7,33 @@ import '../style.css'
 function FullscreenButton(props) {
   const { service } = props
   const fullscreenButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     state.context.main.fullscreenButton = fullscreenButton.current
   }, [])
 
-  return(
+  return (
     <Tooltip
-      ref={ fullscreenButton }
-      title='Fullscreen [f]'
+      ref={fullscreenButton}
+      title="Fullscreen [f]"
       PopperProps={{
         anchorEl: fullscreenButton.current,
         disablePortal: true,
-        keepMounted: true,
+        keepMounted: true
       }}
     >
       <ToggleButton
-        size='small'
-        className='toggleButton'
-        value='fullscreenEnabled'
-        selected={ state.context.main.fullscreenEnabled }
-        onChange={() => { send('TOGGLE_FULLSCREEN') }}
+        size="small"
+        className="toggleButton"
+        value="fullscreenEnabled"
+        selected={state.context.main.fullscreenEnabled}
+        onChange={() => {
+          send('TOGGLE_FULLSCREEN')
+        }}
       >
         <Icon>
-          <img src={ fullscreenIconDataUri } />
+          <img src={fullscreenIconDataUri} />
         </Icon>
       </ToggleButton>
     </Tooltip>

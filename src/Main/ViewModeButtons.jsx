@@ -5,7 +5,7 @@ import {
   volumeIconDataUri,
   redPlaneIconDataUri,
   yellowPlaneIconDataUri,
-  greenPlaneIconDataUri,
+  greenPlaneIconDataUri
 } from 'itk-viewer-icons'
 
 function ViewModeButtons(props) {
@@ -14,7 +14,7 @@ function ViewModeButtons(props) {
   const yPlaneButton = useRef(null)
   const zPlaneButton = useRef(null)
   const volumeButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     state.context.main.xPlaneButtonLabel = xPlaneButton.current
@@ -23,104 +23,108 @@ function ViewModeButtons(props) {
     state.context.main.volumeButtonLabel = volumeButton.current
   }, [])
 
-  return(
-    <div className='viewModeButtons'>
+  return (
+    <div className="viewModeButtons">
       <Tooltip
-        ref={ xPlaneButton }
-        title='X plane [1]'
+        ref={xPlaneButton}
+        title="X plane [1]"
         PopperProps={{
           anchorEl: xPlaneButton.current,
           disablePortal: true,
-          keepMounted: true,
+          keepMounted: true
         }}
       >
         <ToggleButton
-          size='small'
-          className='toggleButton'
-          value='xplane'
-          selected={ state.context.main.xPlaneButton }
+          size="small"
+          className="toggleButton"
+          value="xplane"
+          selected={state.context.main.xPlaneButton}
           onChange={() => {
-              send({ type: 'VIEW_MODE_CHANGED', data: 'XPlane' })
-          }}>
-          <Icon className='viewModeButton'>
+            send({ type: 'VIEW_MODE_CHANGED', data: 'XPlane' })
+          }}
+        >
+          <Icon className="viewModeButton">
             <img
               style={{ height: '24px', width: '24px' }}
-              src={ redPlaneIconDataUri }
+              src={redPlaneIconDataUri}
             />
           </Icon>
         </ToggleButton>
       </Tooltip>
       <Tooltip
-        ref={ yPlaneButton }
-        title='Y plane [2]'
+        ref={yPlaneButton}
+        title="Y plane [2]"
         PopperProps={{
           anchorEl: yPlaneButton.current,
           disablePortal: true,
-          keepMounted: true,
+          keepMounted: true
         }}
       >
         <ToggleButton
-          size='small'
-          className='toggleButton'
-          value='yplane'
-          selected={ state.context.main.yPlaneButton }
+          size="small"
+          className="toggleButton"
+          value="yplane"
+          selected={state.context.main.yPlaneButton}
           onClick={() => {
-              send({ type: 'VIEW_MODE_CHANGED', data: 'YPlane' })
-          }}>
-          <Icon className='viewModeButton'>
+            send({ type: 'VIEW_MODE_CHANGED', data: 'YPlane' })
+          }}
+        >
+          <Icon className="viewModeButton">
             <img
               style={{ height: '24px', width: '24px' }}
-              src={ yellowPlaneIconDataUri }
+              src={yellowPlaneIconDataUri}
             />
           </Icon>
         </ToggleButton>
       </Tooltip>
       <Tooltip
-        ref={ zPlaneButton }
-        title='z plane [3]'
+        ref={zPlaneButton}
+        title="z plane [3]"
         PopperProps={{
           anchorEl: zPlaneButton.current,
           disablePortal: true,
-          keepMounted: true,
+          keepMounted: true
         }}
       >
         <ToggleButton
-          size='small'
-          className='toggleButton'
-          value='zplane'
-          selected={ state.context.main.zPlaneButton }
+          size="small"
+          className="toggleButton"
+          value="zplane"
+          selected={state.context.main.zPlaneButton}
           onClick={() => {
-              send({ type: 'VIEW_MODE_CHANGED', data: 'ZPlane' })
-          }}>
-          <Icon className='viewModeButton'>
+            send({ type: 'VIEW_MODE_CHANGED', data: 'ZPlane' })
+          }}
+        >
+          <Icon className="viewModeButton">
             <img
               style={{ height: '24px', width: '24px' }}
-              src={ greenPlaneIconDataUri }
+              src={greenPlaneIconDataUri}
             />
           </Icon>
         </ToggleButton>
       </Tooltip>
       <Tooltip
-        ref={ volumeButton }
-        title='Volume [4]'
+        ref={volumeButton}
+        title="Volume [4]"
         PopperProps={{
           anchorEl: volumeButton.current,
           disablePortal: true,
-          keepMounted: true,
+          keepMounted: true
         }}
       >
         <ToggleButton
-          size='small'
-          className='toggleButton'
-          value='volume'
-          selected={ state.context.main.volumeButton }
+          size="small"
+          className="toggleButton"
+          value="volume"
+          selected={state.context.main.volumeButton}
           onClick={() => {
-              send({ type: 'VIEW_MODE_CHANGED', data: 'Volume' })
-          }}>
-          <Icon className='viewModeButton'>
+            send({ type: 'VIEW_MODE_CHANGED', data: 'Volume' })
+          }}
+        >
+          <Icon className="viewModeButton">
             <img
               style={{ height: '24px', width: '24px' }}
-              src={ volumeIconDataUri }
+              src={volumeIconDataUri}
             />
           </Icon>
         </ToggleButton>

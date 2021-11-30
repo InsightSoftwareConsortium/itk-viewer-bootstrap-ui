@@ -5,23 +5,24 @@ import { Paper } from '@mui/material'
 
 function LayerInterface(props) {
   const { children, service } = props
-  const [ state ] = useActor(service)
+  const [state] = useActor(service)
   const layersUIGroup = state.context.layers.layersUIGroup
   let layerEntry = false
 
-  return(
+  return (
     <div>
-      { layersUIGroup &&
+      {layersUIGroup &&
         children.map((uiRow) => {
           if (uiRow.children.length < 2) {
             layerEntry = true;
-            <LayerEntry { ...props } />
+            <LayerEntry {...props} />
           }
-        })
-      }
+        })}
       {!!!layerEntry && (
-        <div className='layersUIRow'><LayerEntry { ...props }/></div>)
-      }
+        <div className="layersUIRow">
+          <LayerEntry {...props} />
+        </div>
+      )}
     </div>
   )
 }

@@ -31,8 +31,8 @@ function applyColorMap(context, event) {
   }
   const transferFunctionWidget = context.images.transferFunctionWidget
   if (transferFunctionWidget) {
-      transferFunctionWidget.setColorTransferFunction(
-        lookupTableProxy.getLookupTable()
+    transferFunctionWidget.setColorTransferFunction(
+      lookupTableProxy.getLookupTable()
     )
     transferFunctionWidget.render()
   }

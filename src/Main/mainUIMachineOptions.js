@@ -8,8 +8,8 @@ const mainUIMachineOptions = {
 
     toggleFullscreen,
 
-    toggleBackgroundColor,
-  },
+    toggleBackgroundColor
+  }
 }
 
 export default mainUIMachineOptions

@@ -9,7 +9,7 @@ function ColorRangeInput(props) {
   const { service } = props
   const colorRangeInput = useRef(null)
   const interpolationButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
 
@@ -35,9 +35,7 @@ function ColorRangeInput(props) {
     let range = [0, 0]
     if (actorContext) {
       if (actorContext.colorRanges.size) {
-        range = actorContext.colorRanges.get(
-          actorContext.selectedComponent
-        )
+        range = actorContext.colorRanges.get(actorContext.selectedComponent)
       }
     }
     return range
@@ -59,8 +57,8 @@ function ColorRangeInput(props) {
       data: {
         name,
         component: actorContext.selectedComponent,
-        range: [minVal, maxVal],
-      },
+        range: [minVal, maxVal]
+      }
     })
   }
 
@@ -74,55 +72,61 @@ function ColorRangeInput(props) {
     rangeChanged(minVal, parseFloat(val))
   }
 
-  return(
-    actorContext && actorContext.colorRanges.size
-    ? (<div
-        ref={ colorRangeInput }
-        className='uiRow'
-        style={{background: 'rgba(127, 127, 127, 0.5)'}}
+  return actorContext && actorContext.colorRanges.size ? (
+    <div
+      ref={colorRangeInput}
+      className="uiRow"
+      style={{ background: 'rgba(127, 127, 127, 0.5)' }}
+    >
+      <Tooltip
+        ref={interpolationButton}
+        title="Interpolation"
+        PopperProps={{
+          anchorEl: interpolationButton.current,
+          disablePortal: true,
+          keepMounted: true
+        }}
       >
-        <Tooltip
-          ref={ interpolationButton }
-          title='Interpolation'
-          PopperProps={{
-            anchorEl: interpolationButton.current,
-            disablePortal: true,
-            keepMounted: true,
+        <ToggleButton
+          size="small"
+          className="interpolationButton toggleButton"
+          value="interpolation"
+          selected={interpolate()}
+          onChange={() => {
+            toggleInterpolate()
           }}
         >
-          <ToggleButton
-						size='small'
-            className='interpolationButton toggleButton'
-            value='interpolation'
-            selected={ interpolate() }
-            onChange={() => { toggleInterpolate() }}
-          >
-            <Icon>
-              <img src={ interpolationIconDataUri }/>
-            </Icon>
-          </ToggleButton>
-        </Tooltip>
-        <TextField
-          className='numberInput'
-          type='number'
-          label='Min'
-          variant='outlined'
-          size='small'
-          defaultValue={ currentRangeMin() }
-          onChange={(e) => { rangeMinChanged(e.target.value) }}
-        />
-        <ColorMapIconSelector { ...props }/>
-        <TextField
-          className='numberInput'
-          type='number'
-          label='Max'
-          variant='outlined'
-          size='small'
-          defaultValue={ currentRangeMax() }
-          onChange={(e) => { rangeMaxChanged(e.target.value) }}
-        />
-      </div>)
-    : <div />
+          <Icon>
+            <img src={interpolationIconDataUri} />
+          </Icon>
+        </ToggleButton>
+      </Tooltip>
+      <TextField
+        className="numberInput"
+        type="number"
+        label="Min"
+        variant="outlined"
+        size="small"
+        defaultValue={currentRangeMin()}
+        onChange={(e) => {
+          rangeMinChanged(e.target.value)
+        }}
+      />
+      <ColorMapIconSelector {...props} />
+      <TextField
+        className="numberInput"
+        type="number"
+        label="Max"
+        variant="outlined"
+        size="small"
+        defaultValue={currentRangeMax()}
+        onChange={(e) => {
+          rangeMaxChanged(e.target.value)
+        }}
+      />
+    </div>
+  ) : (
+    <div />
   )
 }
 

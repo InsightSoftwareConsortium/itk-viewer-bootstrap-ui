@@ -14,29 +14,31 @@ import '../style.css'
 
 function MainInterface(props) {
   const { service } = props
-  const [ state ] = useActor(service)
-
+  const [state] = useActor(service)
   const mainUIGroup = useRef(null)
+
   useEffect(() => {
     state.context.uiGroups.set('main', mainUIGroup.current)
   }, [])
 
   return (
     <div>
-      <div ref={ mainUIGroup } className='uiGroup'>
-        <div className='mainUIRow'>
-          <ScreenshotButton {...props}/>
-          <FullscreenButton {...props}/>
-          {!state.context.use2D && <RotateButton {...props}/>}
-          <AnnotationsButton {...props}/>
-          <AxesButton {...props}/>
+      <div ref={mainUIGroup} className="uiGroup">
+        <div className="mainUIRow">
+          <ScreenshotButton {...props} />
+          <FullscreenButton {...props} />
+          {!state.context.use2D && <RotateButton {...props} />}
+          <AnnotationsButton {...props} />
+          <AxesButton {...props} />
           <ViewPlanesToggle {...props} />
-          <BackgroundColorButton {...props}/>
-          {state.context.use2D && <ResetCameraButton {...props}/>}
+          <BackgroundColorButton {...props} />
+          {state.context.use2D && <ResetCameraButton {...props} />}
         </div>
-        <div className='mainUIRow'>
-          <ViewModeButtons {...props}/>
-          {!state.context.use2D && <ResetCameraButton style={{ width: '20%' }} {...props}/>}
+        <div className="mainUIRow">
+          <ViewModeButtons {...props} />
+          {!state.context.use2D && (
+            <ResetCameraButton style={{ width: '20%' }} {...props} />
+          )}
         </div>
       </div>
       <PlaneSliders {...props} />

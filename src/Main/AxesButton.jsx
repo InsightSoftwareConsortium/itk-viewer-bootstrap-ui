@@ -7,31 +7,33 @@ import '../style.css'
 function AxesButton(props) {
   const { service } = props
   const axesButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     state.context.main.axesButtonLabel = axesButton.current
   }, [])
 
-  return(
+  return (
     <Tooltip
-      ref={ axesButton }
-      title='Axes'
+      ref={axesButton}
+      title="Axes"
       PopperProps={{
         anchorEl: axesButton.current,
         disablePortal: true,
-        keepMounted: true,
+        keepMounted: true
       }}
     >
       <ToggleButton
-        size='small'
-        className='toggleButton'
-        value='axesVisible'
-        selected={ state.context.main.axesEnabled }
-        onChange={() => { send('TOGGLE_AXES') }}
+        size="small"
+        className="toggleButton"
+        value="axesVisible"
+        selected={state.context.main.axesEnabled}
+        onChange={() => {
+          send('TOGGLE_AXES')
+        }}
       >
         <Icon>
-          <img src={ axesIconDataUri }/>
+          <img src={axesIconDataUri} />
         </Icon>
       </ToggleButton>
     </Tooltip>

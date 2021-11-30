@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import {
-  AppBar, Icon, IconButton, Toolbar, Typography
-} from '@mui/material'
+import { AppBar, Icon, IconButton, Toolbar, Typography } from '@mui/material'
 import { toggleIconDataUri } from 'itk-viewer-icons'
 import toggleUICollapsed from './toggleUICollapsed'
 import './Panel.css'
@@ -10,7 +8,7 @@ import './Panel.css'
 function AppToolbar(props) {
   const { service } = props
   const collapseUIButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     state.context.main.collapseUIButton = collapseUIButton.current
@@ -20,22 +18,22 @@ function AppToolbar(props) {
     send('TOGGLE_UI_COLLAPSED')
     toggleUICollapsed(state.context)
   }
-  
+
   return (
-    <AppBar className='appBar'>
+    <AppBar className="appBar">
       <Toolbar>
         <IconButton
-          size='small'
-          ref={ collapseUIButton }
-          color='inherit'
-          onClick={ handleToggle }
-          edge='start'
+          size="small"
+          ref={collapseUIButton}
+          color="inherit"
+          onClick={handleToggle}
+          edge="start"
         >
           <Icon>
-            <img src={ toggleIconDataUri } alt='toggle'/>
+            <img src={toggleIconDataUri} alt="toggle" />
           </Icon>
         </IconButton>
-        <Typography variant='h5' noWrap>
+        <Typography variant="h5" noWrap>
           ITK Viewer
         </Typography>
       </Toolbar>

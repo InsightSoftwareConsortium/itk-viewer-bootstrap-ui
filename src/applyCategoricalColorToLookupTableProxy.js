@@ -21,7 +21,7 @@ function applyCategoricalColorToLookupTableProxy(lutProxy, labels, presetName) {
       color[1],
       color[2],
       0.5,
-      1.0,
+      1.0
     ]
   }
   lutProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)

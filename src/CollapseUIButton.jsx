@@ -8,7 +8,7 @@ import './Panel.css'
 function CollapseUIButton(props) {
   const { service } = props
   const collapseUIButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     state.context.main.collapseUIButton = collapseUIButton.current
@@ -20,16 +20,16 @@ function CollapseUIButton(props) {
   }
 
   return (
-    <div className='appBar'>
+    <div className="appBar">
       <IconButton
-        size='small'
-        ref={ collapseUIButton }
-        color='inherit'
-        onClick={ handleToggle }
-        edge='start'
+        size="small"
+        ref={collapseUIButton}
+        color="inherit"
+        onClick={handleToggle}
+        edge="start"
       >
         <Icon>
-          <img src={ toggleIconDataUri } alt='toggle'/>
+          <img src={toggleIconDataUri} alt="toggle" />
         </Icon>
       </IconButton>
     </div>

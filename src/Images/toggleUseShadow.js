@@ -6,6 +6,5 @@ function toggleUseShadow(context, event) {
   context.imageUI.representationProxy.setUseShadow(useShadow)
   context.renderWindow.render()
 }
-  
+
 export default toggleUseShadow
-  

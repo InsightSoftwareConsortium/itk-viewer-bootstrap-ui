@@ -6,7 +6,7 @@ import { viewPlanesIconDataUri } from 'itk-viewer-icons'
 function ViewPlanesToggle(props) {
   const { service } = props
   const viewPlanesButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
   const { slicingPlanes } = state.context.main
 
   useEffect(() => {
@@ -42,29 +42,29 @@ function ViewPlanesToggle(props) {
     const planes = toggleSlicingPlanes()
     send({
       type: 'SLICING_PLANES_CHANGED',
-      data: planes,
+      data: planes
     })
   }
 
-  return(
+  return (
     <Tooltip
-      ref={ viewPlanesButton }
-      title='View planes [s]'
+      ref={viewPlanesButton}
+      title="View planes [s]"
       PopperProps={{
         anchorEl: viewPlanesButton.current,
         disablePortal: true,
-        keepMounted: true,
+        keepMounted: true
       }}
     >
       <ToggleButton
-        size='small'
-        className='toggleButton'
-        value='visiblePlanes'
-        selected={ planesVisible() }
-        onChange={ handleToggle }
+        size="small"
+        className="toggleButton"
+        value="visiblePlanes"
+        selected={planesVisible()}
+        onChange={handleToggle}
       >
         <Icon>
-          <img src={ viewPlanesIconDataUri } />
+          <img src={viewPlanesIconDataUri} />
         </Icon>
       </ToggleButton>
     </Tooltip>
