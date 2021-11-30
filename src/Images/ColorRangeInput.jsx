@@ -109,7 +109,7 @@ function ColorRangeInput(props) {
           variant='outlined'
           size='small'
           defaultValue={ currentRangeMin() }
-          onBlur={(e) => { rangeMinChanged(e.target.value) }}
+          onChange={(e) => { rangeMinChanged(e.target.value) }}
         />
         <ColorMapIconSelector { ...props }/>
         <TextField
@@ -119,7 +119,7 @@ function ColorRangeInput(props) {
           variant='outlined'
           size='small'
           defaultValue={ currentRangeMax() }
-          onBlur={(e) => { rangeMaxChanged(e.target.value) }}
+          onChange={(e) => { rangeMaxChanged(e.target.value) }}
         />
       </div>)
     : <div />
