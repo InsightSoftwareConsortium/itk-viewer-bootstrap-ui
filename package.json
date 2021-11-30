@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "prettier": "prettier --config ./prettier.json --write ./src/**/*.{js,jsx}"
   },
   "keywords": [
     "react",
@@ -20,6 +21,7 @@
     "@mui/material": "^5.1.1",
     "@xstate/react": "^1.6.1",
     "itk-viewer-icons": "^11.11.2",
+    "prettier": "^2.5.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "xstate": "^4.23.4"
