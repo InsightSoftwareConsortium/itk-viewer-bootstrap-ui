@@ -26,7 +26,7 @@ code.uiContainer {
 
 .colorMapIcon {
   height: inherit;
-  width: -webkit-fill-available;
+  width: 100%;
   margin: 0 3px;
 }
 
@@ -72,7 +72,7 @@ code.uiContainer {
 }
 
 .iconWithSlider {
-  width: -webkit-fill-available;
+  width: 100%;
   display: flex;
   align-self: normal;
   align-items: center;
@@ -94,7 +94,6 @@ code.uiContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: -webkit-fill-available;
   border-width: 2px !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
   border: solid;
