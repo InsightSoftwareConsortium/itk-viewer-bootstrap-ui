@@ -7,31 +7,33 @@ import '../style.css'
 function AnnotationsButton(props) {
   const { service } = props
   const annotationsButton = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     state.context.main.annotationsButtonLabel = annotationsButton.current
   }, [])
 
-  return(
+  return (
     <Tooltip
-      ref={ annotationsButton }
-      title='Annotations'
+      ref={annotationsButton}
+      title="Annotations"
       PopperProps={{
         anchorEl: annotationsButton.current,
         disablePortal: true,
-        keepMounted: true,
+        keepMounted: true
       }}
     >
       <ToggleButton
-        size='small'
-        className='toggleButton'
-        value='annotations'
-        selected={ state.context.main.annotationsEnabled }
-        onChange={() => { send('TOGGLE_ANNOTATIONS') }}
+        size="small"
+        className="toggleButton"
+        value="annotations"
+        selected={state.context.main.annotationsEnabled}
+        onChange={() => {
+          send('TOGGLE_ANNOTATIONS')
+        }}
       >
         <Icon>
-          <img src={ annotationsIconDataUri } />
+          <img src={annotationsIconDataUri} />
         </Icon>
       </ToggleButton>
     </Tooltip>

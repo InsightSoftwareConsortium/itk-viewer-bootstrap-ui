@@ -1,7 +1,6 @@
 import applyColorMap from './applyColorMap'
 import applyPiecewiseFunctionGaussians from './applyPiecewiseFunctionGaussians'
 
-
 function updateImageInterface(context) {
   const name = context.images.selectedName
   const actorContext = context.images.actorContext.get(name)
@@ -15,8 +14,8 @@ function updateImageInterface(context) {
         data: {
           name,
           component,
-          colorMap,
-        },
+          colorMap
+        }
       })
     }
 
@@ -26,8 +25,8 @@ function updateImageInterface(context) {
         data: {
           name,
           component,
-          gaussians,
-        },
+          gaussians
+        }
       })
     }
   }

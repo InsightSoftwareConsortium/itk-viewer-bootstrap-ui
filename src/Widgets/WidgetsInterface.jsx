@@ -5,16 +5,16 @@ import '../style.css'
 
 function WidgetsInterface(props) {
   const { service } = props
-  const [ state ] = useActor(service)
+  const [state] = useActor(service)
   const widgetsUIGroup = useRef(null)
 
   useEffect(() => {
     state.context.widgets.widgetsUIGroup = widgetsUIGroup.current
   }, [])
 
-  return(
-    <div ref={ widgetsUIGroup } className='uiGroup'>
-      <DistanceWidget className='uiRow' {...props} />
+  return (
+    <div ref={widgetsUIGroup} className="uiGroup">
+      <DistanceWidget className="uiRow" {...props} />
     </div>
   )
 }

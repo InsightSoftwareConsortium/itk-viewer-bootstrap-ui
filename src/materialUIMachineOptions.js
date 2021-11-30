@@ -21,8 +21,8 @@ const materialUIMachineOptions = {
 
     createInterface,
 
-    toggleUICollapsed,
-  },
+    toggleUICollapsed
+  }
 }
 
 export default materialUIMachineOptions

@@ -16,8 +16,8 @@ const imagesUIMachineOptions = {
     applyColorMap,
     applyPiecewiseFunctionGaussians,
 
-    applyHistogram,
-  },
+    applyHistogram
+  }
 }
 
 export default imagesUIMachineOptions

@@ -10,7 +10,7 @@ function toggleUICollapsed(context, _event, actionMeta) {
   if (!context.uiCollapsed && context.images.selectedName) {
     context.service.send({
       type: 'SELECT_LAYER',
-      data: context.images.selectedName,
+      data: context.images.selectedName
     })
   }
 

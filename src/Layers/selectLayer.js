@@ -5,7 +5,7 @@ function selectLayer(context, event) {
   if (!actorContext.visible) {
     context.service.send({
       type: 'TOGGLE_LAYER_VISIBILITY',
-      data: name,
+      data: name
     })
   }
 }

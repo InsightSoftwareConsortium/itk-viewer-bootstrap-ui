@@ -11,7 +11,7 @@ function TransferFunctionWidget(props) {
   const { service } = props
   const piecewiseWidgetContainer = useRef(null)
   const context = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
 
@@ -19,7 +19,7 @@ function TransferFunctionWidget(props) {
     // Create range manipulator
     const rangeManipulator = vtkMouseRangeManipulator.newInstance({
       button: 1,
-      alt: true,
+      alt: true
     })
     state.context.images.transferFunctionManipulator = {
       rangeManipulator: null,
@@ -28,20 +28,25 @@ function TransferFunctionWidget(props) {
       windowGet: null,
       windowSet: null,
       levelGet: null,
-      levelSet: null,
+      levelSet: null
     }
-    state.context.images.transferFunctionManipulator.rangeManipulator = rangeManipulator
+    state.context.images.transferFunctionManipulator.rangeManipulator =
+      rangeManipulator
 
     // Add range manipulator
-    state.context.itkVtkView.getInteractorStyle2D().addMouseManipulator(rangeManipulator)
-    state.context.itkVtkView.getInteractorStyle3D().addMouseManipulator(rangeManipulator)
+    state.context.itkVtkView
+      .getInteractorStyle2D()
+      .addMouseManipulator(rangeManipulator)
+    state.context.itkVtkView
+      .getInteractorStyle3D()
+      .addMouseManipulator(rangeManipulator)
   }, [])
 
   useEffect(() => {
     if (!context.current) {
       const transferFunctionWidget = vtkItkPiecewiseGaussianWidget.newInstance({
         numberOfBins: 256,
-        size: [400, 150],
+        size: [400, 150]
       })
       transferFunctionWidget.setEnableRangeZoom(true)
       let iconSize = 20
@@ -65,7 +70,7 @@ function TransferFunctionWidget(props) {
         zoomControlHeight: 20,
         zoomControlColor: 'rgba(50, 50, 100, 1)',
         iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
-        padding: 10,
+        padding: 10
       })
       transferFunctionWidget.setContainer(piecewiseWidgetContainer.current)
       transferFunctionWidget.bindMouseListeners()
@@ -83,8 +88,8 @@ function TransferFunctionWidget(props) {
             name,
             component,
             range,
-            nodes,
-          },
+            nodes
+          }
         })
       })
       transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150))
@@ -114,27 +119,27 @@ function TransferFunctionWidget(props) {
         )
       }
       state.context.images.transferFunctionManipulator.windowGet = windowGet
-      const windowSet = value => {
+      const windowSet = (value) => {
         const gaussians = transferFunctionWidget.getGaussians()
         const newGaussians = gaussians.slice()
         newGaussians[0].width =
-          value / state.context.images.transferFunctionManipulator.windowMotionScale
+          value /
+          state.context.images.transferFunctionManipulator.windowMotionScale
         const name = state.context.images.selectedName
         const component = state.context.images.selectedComponent
         send({
           type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-          data: { name, component, gaussians: newGaussians },
+          data: { name, component, gaussians: newGaussians }
         })
       }
       state.context.images.transferFunctionManipulator.windowSet = windowSet
-
 
       // Level
       const levelGet = () => {
         const gaussian = transferFunctionWidget.getGaussians()[0]
         return (
           gaussian.position *
-            state.context.images.transferFunctionManipulator.levelMotionScale
+          state.context.images.transferFunctionManipulator.levelMotionScale
         )
       }
       state.context.images.transferFunctionManipulator.levelGet = levelGet
@@ -145,26 +150,26 @@ function TransferFunctionWidget(props) {
         const component = state.context.images.selectedComponent
         send({
           type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-          data: { name, component, gaussians: newGaussians },
+          data: { name, component, gaussians: newGaussians }
         })
       }
       state.context.images.transferFunctionManipulator.levelSet = levelSet
 
       const pwfRangeManipulator = vtkMouseRangeManipulator.newInstance({
         button: 3, // Right mouse
-        alt: true,
+        alt: true
       })
       const pwfRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
         button: 1, // Left mouse
         shift: true, // For the macOS folks
-        alt: true,
+        alt: true
       })
       const pwfMotionScale = 200.0
       const pwfGet = () => {
         const gaussian = transferFunctionWidget.getGaussians()[0]
         return gaussian.height * pwfMotionScale
       }
-      const pwfSet = value => {
+      const pwfSet = (value) => {
         const gaussians = transferFunctionWidget.getGaussians()
         const newGaussians = gaussians.slice()
         newGaussians[0].height = value / pwfMotionScale
@@ -172,10 +177,16 @@ function TransferFunctionWidget(props) {
         const component = state.context.images.selectedComponent
         send({
           type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-          data: { name, component, gaussians: newGaussians },
+          data: { name, component, gaussians: newGaussians }
         })
       }
-      pwfRangeManipulator.setVerticalListener(0, pwfMotionScale, 1, pwfGet, pwfSet)
+      pwfRangeManipulator.setVerticalListener(
+        0,
+        pwfMotionScale,
+        1,
+        pwfGet,
+        pwfSet
+      )
       pwfRangeManipulatorShift.setVerticalListener(
         0,
         pwfMotionScale,
@@ -183,8 +194,12 @@ function TransferFunctionWidget(props) {
         pwfGet,
         pwfSet
       )
-      state.context.itkVtkView.getInteractorStyle3D().addMouseManipulator(pwfRangeManipulator)
-      state.context.itkVtkView.getInteractorStyle3D().addMouseManipulator(pwfRangeManipulatorShift)
+      state.context.itkVtkView
+        .getInteractorStyle3D()
+        .addMouseManipulator(pwfRangeManipulator)
+      state.context.itkVtkView
+        .getInteractorStyle3D()
+        .addMouseManipulator(pwfRangeManipulatorShift)
     }
   }, [context])
 
@@ -204,17 +219,17 @@ function TransferFunctionWidget(props) {
     if (start) {
       send({
         type: 'REQUEST_ANIMATION',
-        data: 'transferFunctionWidget',
+        data: 'transferFunctionWidget'
       })
     } else {
       send({
         type: 'CANCEL_ANIMATION',
-        data: 'transferFunctionWidget',
+        data: 'transferFunctionWidget'
       })
     }
   }
 
-  const onZoomChange = zoom => {
+  const onZoomChange = (zoom) => {
     const name = state.context.images.selectedName
     const actorContext = state.context.images.actorContext.get(name)
     const component = actorContext.selectedComponent
@@ -225,13 +240,13 @@ function TransferFunctionWidget(props) {
     colorRange[1] = fullRange[0] + zoom[1] * diff
     send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
-      data: { name, component, range: colorRange },
+      data: { name, component, range: colorRange }
     })
   }
 
-  return(
-    <div className='uiRow' style={{background: 'rgba(127, 127, 127, 0.5)'}}>
-      <div className='piecewiseWidget' ref={ piecewiseWidgetContainer } />
+  return (
+    <div className="uiRow" style={{ background: 'rgba(127, 127, 127, 0.5)' }}>
+      <div className="piecewiseWidget" ref={piecewiseWidgetContainer} />
     </div>
   )
 }

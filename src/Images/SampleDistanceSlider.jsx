@@ -9,13 +9,16 @@ function SampleDistanceSlider(props) {
   const { service } = props
   const spacingDiv = useRef(null)
   const spacingElement = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-        state.context, 'invertibleButton', spacingDiv.current)
+      state.context,
+      'invertibleButton',
+      spacingDiv.current
+    )
     state.context.images.volumeSampleDistanceDiv = spacingDiv.current
     state.context.images.volumeSampleDistanceSlider = spacingElement.current
   }, [])
@@ -25,37 +28,36 @@ function SampleDistanceSlider(props) {
       type: 'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED',
       data: {
         name: state.context.images.selectedName,
-        volumeSampleDistance: val,
-      },
+        volumeSampleDistance: val
+      }
     })
   }
 
-  return(
-    <div className='iconWithSlider'>
+  return (
+    <div className="iconWithSlider">
       <Tooltip
-        ref={ spacingDiv }
-        title='Volume sample distance'
+        ref={spacingDiv}
+        title="Volume sample distance"
         PopperProps={{
           anchorEl: spacingDiv.current,
           disablePortal: true,
-          keepMounted: true,
+          keepMounted: true
         }}
       >
-        <Icon
-          className='sampleDistanceButton'
-          style={{ margin: '0 10px 0 0' }}
-        >
-          <img src={ sampleDistanceIconDataUri } />
+        <Icon className="sampleDistanceButton" style={{ margin: '0 10px 0 0' }}>
+          <img src={sampleDistanceIconDataUri} />
         </Icon>
       </Tooltip>
       <Slider
-        ref={ spacingElement }
-        className='slider'
-        min={ 0 }
-        max={ 1 }
-        value={ actorContext.volumeSampleDistance }
-        step={ 0.01 }
-        onChange={(_e, val) => { spacingChanged(val) }}
+        ref={spacingElement}
+        className="slider"
+        min={0}
+        max={1}
+        value={actorContext.volumeSampleDistance}
+        step={0.01}
+        onChange={(_e, val) => {
+          spacingChanged(val)
+        }}
       />
     </div>
   )

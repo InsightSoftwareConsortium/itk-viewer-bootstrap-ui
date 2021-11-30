@@ -5,7 +5,7 @@ import LayerInterface from './LayerInterface'
 function LayersInterface(props) {
   const { service } = props
   const layersUIGroup = useRef(null)
-  const [ state ] = useActor(service)
+  const [state] = useActor(service)
 
   useEffect(() => {
     state.context.layers.uiLayers = new Map()
@@ -13,9 +13,13 @@ function LayersInterface(props) {
     state.context.uiGroups.set('layers', layersUIGroup.current)
   }, [])
 
-  return(
-    <div className='layersUIGroup' ref={ layersUIGroup }>
-      <LayerInterface className='layersUIRow' { ...props } children={ React.Children }/>
+  return (
+    <div className="layersUIGroup" ref={layersUIGroup}>
+      <LayerInterface
+        className="layersUIRow"
+        {...props}
+        children={React.Children}
+      />
     </div>
   )
 }

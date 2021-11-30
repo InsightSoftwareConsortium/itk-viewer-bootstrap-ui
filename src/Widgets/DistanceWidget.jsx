@@ -7,7 +7,7 @@ import '../style.css'
 
 function DistanceWidget(props) {
   const { service } = props
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
   const distanceRulerRow = useRef(null)
   const distanceButtonInput = useRef(null)
   const distanceButtonLabel = useRef(null)
@@ -20,46 +20,54 @@ function DistanceWidget(props) {
     state.context.widgets.distanceButtonLabel = distanceButtonLabel.current
     state.context.widgets.distanceLabel = distanceLabel.current
     applyContrastSensitiveStyleToElement(
-        state.context, 'invertibleButton', distanceButtonLabel.current)
+      state.context,
+      'invertibleButton',
+      distanceButtonLabel.current
+    )
     applyContrastSensitiveStyleToElement(
-        state.context, 'distanceLabel', distanceLabel.current)
+      state.context,
+      'distanceLabel',
+      distanceLabel.current
+    )
   }, [])
 
-  return(
+  return (
     <div
-      ref={ distanceRulerRow }
+      ref={distanceRulerRow}
       className={`uiRow distanceEntry ${viewMode === 'Volume' ? 'hidden' : ''}`}
     >
       <Tooltip
-        ref={ distanceButtonLabel }
-        title='Length'
+        ref={distanceButtonLabel}
+        title="Length"
         PopperProps={{
           anchorEl: distanceButtonLabel.current,
           disablePortal: true,
-          keepMounted: true,
+          keepMounted: true
         }}
       >
         <ToggleButton
-          ref={ distanceButtonInput }
-          size='small'
-          className='toggleButton'
-          value='lengthShown'
-          selected={ state.context.widgets.distanceEnabled }
-          onChange={() => { send('TOGGLE_DISTANCE_WIDGET') }}
+          ref={distanceButtonInput}
+          size="small"
+          className="toggleButton"
+          value="lengthShown"
+          selected={state.context.widgets.distanceEnabled}
+          onChange={() => {
+            send('TOGGLE_DISTANCE_WIDGET')
+          }}
         >
           <Icon>
-            <img src={ lengthToolIconDataUri }/>
+            <img src={lengthToolIconDataUri} />
           </Icon>
         </ToggleButton>
       </Tooltip>
-      <span ref={ distanceLabel } className='distanceLabelCommon'>
+      <span ref={distanceLabel} className="distanceLabelCommon">
         Length:
       </span>
       <TextField
-        variant='outlined'
-        className='distanceInput'
-        size='small'
-        value={ state.context.widgets.distanceValue }
+        variant="outlined"
+        className="distanceInput"
+        size="small"
+        value={state.context.widgets.distanceValue}
         disabled
       />
     </div>

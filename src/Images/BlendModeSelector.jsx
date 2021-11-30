@@ -10,11 +10,14 @@ function BlendModeSelector(props) {
   const blendModeDiv = useRef(null)
   const blendModeSelector = useRef(null)
   const blendModeIcon = useRef(null)
-  const [ state, send ] = useActor(service)
+  const [state, send] = useActor(service)
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-        state.context, 'invertibleButton', blendModeIcon.current)
+      state.context,
+      'invertibleButton',
+      blendModeIcon.current
+    )
     state.context.images.blendModeDiv = blendModeIcon.current
     state.context.images.blendModeSelector = blendModeSelector.current
   }, [])
@@ -41,31 +44,33 @@ function BlendModeSelector(props) {
       type: 'IMAGE_BLEND_MODE_CHANGED',
       data: {
         name: state.context.images.selectedName,
-        blendMode: mode,
-      },
+        blendMode: mode
+      }
     })
   }
 
-  return(
-    <div ref={ blendModeDiv } className='blendSelector'>
+  return (
+    <div ref={blendModeDiv} className="blendSelector">
       <Tooltip
-        ref={ blendModeIcon }
-        title='Blend mode'
+        ref={blendModeIcon}
+        title="Blend mode"
         PopperProps={{
           anchorEl: blendModeIcon.current,
           disablePortal: true,
-          keepMounted: true,
+          keepMounted: true
         }}
       >
-        <Icon className='blendModeButton'>
-          <img src={ blendModeIconDataUri }/>
+        <Icon className="blendModeButton">
+          <img src={blendModeIconDataUri} />
         </Icon>
       </Tooltip>
       <Select
-        ref={ blendModeSelector }
-        className='selector'
-        defaultValue={ 0 }
-        onChange={(event) => { selectionChanged(event) }}
+        ref={blendModeSelector}
+        className="selector"
+        defaultValue={0}
+        onChange={(event) => {
+          selectionChanged(event)
+        }}
         MenuProps={{
           anchorEl: blendModeSelector.current,
           disablePortal: true,
@@ -73,10 +78,10 @@ function BlendModeSelector(props) {
           classes: { paper: 'blendMenu' }
         }}
       >
-        <MenuItem value={ 0 }>Composite</MenuItem>
-        <MenuItem value={ 1 }>Maximum</MenuItem>
-        <MenuItem value={ 2 }>Minimum</MenuItem>
-        <MenuItem value={ 3 }>Average</MenuItem>
+        <MenuItem value={0}>Composite</MenuItem>
+        <MenuItem value={1}>Maximum</MenuItem>
+        <MenuItem value={2}>Minimum</MenuItem>
+        <MenuItem value={3}>Average</MenuItem>
       </Select>
     </div>
   )

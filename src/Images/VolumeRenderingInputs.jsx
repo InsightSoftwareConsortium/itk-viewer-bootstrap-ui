@@ -8,7 +8,7 @@ import '../style.css'
 
 function VolumeRenderingInputs(props) {
   const { service } = props
-  const [ state ] = useActor(service)
+  const [state] = useActor(service)
   const volumeRow1 = useRef(null)
   const volumeRow2 = useRef(null)
   const name = state.context.images.selectedName
@@ -19,19 +19,21 @@ function VolumeRenderingInputs(props) {
     state.context.images.volumeRow2 = volumeRow2.current
   }, [])
 
-  return(
+  return (
     <div>
       <div
-        ref={ volumeRow1 }
-        className={`uiRow ${actorContext.blendMode !== 'Composite' && 'hidden'}`}
+        ref={volumeRow1}
+        className={`uiRow ${
+          actorContext.blendMode !== 'Composite' && 'hidden'
+        }`}
         style={{ whiteSpace: 'nowrap' }}
       >
-        <ShadowToggle {...props}/>
-        <GradientOpacitySlider {...props}/>
+        <ShadowToggle {...props} />
+        <GradientOpacitySlider {...props} />
       </div>
-      <div ref={ volumeRow2 } className='uiRow'>
-        <SampleDistanceSlider {...props}/>
-        <BlendModeSelector {...props}/>
+      <div ref={volumeRow2} className="uiRow">
+        <SampleDistanceSlider {...props} />
+        <BlendModeSelector {...props} />
       </div>
     </div>
   )

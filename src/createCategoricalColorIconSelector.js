@@ -12,7 +12,7 @@ function createCategoricalColorIconSelector(categoricalColorSelectorDiv) {
     iconsHeight: 22,
     boxIconSpace: 1,
     vectoralIconNumber: cols,
-    horizontalIconNumber: rows,
+    horizontalIconNumber: rows
   }
   const iconSelect = new IconSelect(
     `${categoricalColorSelectorDiv.id}`,
