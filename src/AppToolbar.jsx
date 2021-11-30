@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import {
   AppBar, Icon, IconButton, Toolbar, Typography
-} from '@material-ui/core'
+} from '@mui/material'
 import { toggleIconDataUri } from 'itk-viewer-icons'
 import toggleUICollapsed from './toggleUICollapsed'
 import './Panel.css'

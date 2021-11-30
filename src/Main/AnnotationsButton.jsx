@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, Tooltip } from '@material-ui/core'
-import { ToggleButton } from '@material-ui/lab'
+import { Icon, ToggleButton, Tooltip } from '@mui/material'
 import { annotationsIconDataUri } from 'itk-viewer-icons'
 import '../style.css'
 
@@ -15,7 +14,15 @@ function AnnotationsButton(props) {
   }, [])
 
   return(
-    <label ref={ annotationsButton } data-tooltip-left data-tooltip='Annotations'>
+    <Tooltip
+      ref={ annotationsButton }
+      title='Annotations'
+      PopperProps={{
+        anchorEl: annotationsButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -27,7 +34,7 @@ function AnnotationsButton(props) {
           <img src={ annotationsIconDataUri } />
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

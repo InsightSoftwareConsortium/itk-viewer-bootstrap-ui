@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useActor } from '@xstate/react';
-import { Icon, IconButton, Tooltip } from "@material-ui/core";
+import { Icon, IconButton, Tooltip } from "@mui/material";
 import { screenshotIconDataUri } from 'itk-viewer-icons'
 
 function ScreenshotButton(props) {
@@ -13,11 +13,19 @@ function ScreenshotButton(props) {
   }, [])
 
   return(
-    <label ref={ screenshotButton } data-tooltip-left data-tooltip="Screenshot">
+    <Tooltip
+      ref={ screenshotButton }
+      title="Screenshot"
+      PopperProps={{
+        anchorEl: screenshotButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <IconButton size='small' onClick={() => { send('TAKE_SCREENSHOT') }}>
         <Icon><img src={ screenshotIconDataUri }/></Icon>
       </IconButton>
-    </label>
+    </Tooltip>
   );
 }
 

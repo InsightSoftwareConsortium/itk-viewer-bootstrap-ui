@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, Tooltip } from '@material-ui/core'
-import { ToggleButton } from '@material-ui/lab'
+import { Icon, ToggleButton, Tooltip } from '@mui/material'
 import { viewPlanesIconDataUri } from 'itk-viewer-icons'
 
 function ViewPlanesToggle(props) {
@@ -48,7 +47,15 @@ function ViewPlanesToggle(props) {
   }
 
   return(
-    <label ref={ viewPlanesButton } data-tooltip-right data-tooltip='View planes [s]'>
+    <Tooltip
+      ref={ viewPlanesButton }
+      title='View planes [s]'
+      PopperProps={{
+        anchorEl: viewPlanesButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -60,7 +67,7 @@ function ViewPlanesToggle(props) {
           <img src={ viewPlanesIconDataUri } />
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

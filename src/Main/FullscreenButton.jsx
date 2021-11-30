@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, Tooltip } from '@material-ui/core'
-import { ToggleButton } from '@material-ui/lab'
+import { Icon, ToggleButton, Tooltip } from '@mui/material'
 import { fullscreenIconDataUri } from 'itk-viewer-icons'
 import '../style.css'
 
@@ -15,7 +14,15 @@ function FullscreenButton(props) {
   }, [])
 
   return(
-    <label ref={ fullscreenButton } data-tooltip-left data-tooltip='Fullscreen [f]'>
+    <Tooltip
+      ref={ fullscreenButton }
+      title='Fullscreen [f]'
+      PopperProps={{
+        anchorEl: fullscreenButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
         size='small'
         className='toggleButton'
@@ -27,7 +34,7 @@ function FullscreenButton(props) {
           <img src={ fullscreenIconDataUri } />
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 

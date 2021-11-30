@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, IconButton } from '@material-ui/core'
+import { Icon, IconButton } from '@mui/material'
 import {
   visibleIconDataUri,
   invisibleIconDataUri,

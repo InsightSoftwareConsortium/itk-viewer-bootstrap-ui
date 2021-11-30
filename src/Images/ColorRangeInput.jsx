@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, TextField, Tooltip } from '@material-ui/core'
-import { ToggleButton } from '@material-ui/lab'
+import { Icon, TextField, ToggleButton, Tooltip } from '@mui/material'
 import { interpolationIconDataUri } from 'itk-viewer-icons'
 import ColorMapIconSelector from './ColorMapIconSelector'
 import '../style.css'
@@ -9,6 +8,7 @@ import '../style.css'
 function ColorRangeInput(props) {
   const { service } = props
   const colorRangeInput = useRef(null)
+  const interpolationButton = useRef(null)
   const [ state, send ] = useActor(service)
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
@@ -81,7 +81,15 @@ function ColorRangeInput(props) {
         className='uiRow'
         style={{background: 'rgba(127, 127, 127, 0.5)'}}
       >
-        <label data-tooltip-left data-tooltip='Interpolation'>
+        <Tooltip
+          ref={ interpolationButton }
+          title='Interpolation'
+          PopperProps={{
+            anchorEl: interpolationButton.current,
+            disablePortal: true,
+            keepMounted: true,
+          }}
+        >
           <ToggleButton
 						size='small'
             className='interpolationButton toggleButton'
@@ -93,7 +101,7 @@ function ColorRangeInput(props) {
               <img src={ interpolationIconDataUri }/>
             </Icon>
           </ToggleButton>
-        </label>
+        </Tooltip>
         <TextField
           className='numberInput'
           type='number'
@@ -101,7 +109,7 @@ function ColorRangeInput(props) {
           variant='outlined'
           size='small'
           defaultValue={ currentRangeMin() }
-          onBlur={(e) => { rangeMinChanged(e.target.value) }}
+          onChange={(e) => { rangeMinChanged(e.target.value) }}
         />
         <ColorMapIconSelector { ...props }/>
         <TextField
@@ -111,7 +119,7 @@ function ColorRangeInput(props) {
           variant='outlined'
           size='small'
           defaultValue={ currentRangeMax() }
-          onBlur={(e) => { rangeMaxChanged(e.target.value) }}
+          onChange={(e) => { rangeMaxChanged(e.target.value) }}
         />
       </div>)
     : <div />

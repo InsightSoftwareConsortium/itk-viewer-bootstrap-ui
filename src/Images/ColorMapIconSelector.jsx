@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { FormControl, Icon, MenuItem, Select } from '@material-ui/core'
+import { FormControl, Icon, MenuItem, Select } from '@mui/material'
 import ColorMapPresetIcons from '../ColorMapPresetIcons'
 import '../style.css'
 
@@ -54,7 +54,12 @@ function ColorMapIconSelector(props) {
         value={ currentColorMap() }
         style={{ height: '40px' }}
         onChange={(e) => { handleChange(e.target.value) }}
-        MenuProps={{ classes: { list: 'cmapMenu' } }}
+        MenuProps={{
+          anchorEl: iconSelector.current,
+          disablePortal: true,
+          keepMounted: true,
+          classes: { list: 'cmapMenu' }
+        }}
       >
         {colorMapIcons.map((preset, idx) => (
           <MenuItem key={idx} value={preset.name}>

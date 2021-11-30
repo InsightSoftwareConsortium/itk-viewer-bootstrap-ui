@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, Tooltip } from '@material-ui/core'
-import { ToggleButton } from '@material-ui/lab'
+import { Icon, ToggleButton, Tooltip } from '@mui/material'
 import { shadowIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
@@ -20,7 +19,15 @@ function ShadowToggle(props) {
   }, [])
 
   return(
-    <label ref={ shadowButton } data-tooltip-left data-tooltip='Use Shadow'>
+    <Tooltip
+      ref={ shadowButton }
+      title='Use Shadow'
+      PopperProps={{
+        anchorEl: shadowButton.current,
+        disablePortal: true,
+        keepMounted: true,
+      }}
+    >
       <ToggleButton
 				size='small'
         className='toggleButton'
@@ -36,7 +43,7 @@ function ShadowToggle(props) {
           <img src={ shadowIconDataUri }/>
         </Icon>
       </ToggleButton>
-    </label>
+    </Tooltip>
   )
 }
 
