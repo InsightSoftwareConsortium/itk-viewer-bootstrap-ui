@@ -15,11 +15,7 @@ function LayersInterface(props) {
 
   return (
     <div className="layersUIGroup" ref={layersUIGroup}>
-      <LayerInterface
-        className="layersUIRow"
-        {...props}
-        children={React.Children}
-      />
+      <LayerInterface className="layersUIRow" {...props} />
     </div>
   )
 }

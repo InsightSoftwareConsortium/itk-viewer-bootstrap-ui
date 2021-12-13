@@ -134,6 +134,7 @@ code.uiContainer {
 .layersUIGroup {
   background-color: rgba(128, 128, 128, 0.5);
   margin-left: 10px;
+  max-width: 400px;
 }
 
 .layersUIRow {

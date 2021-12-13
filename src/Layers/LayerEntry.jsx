@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, IconButton } from '@mui/material'
+import { Grid, Icon, IconButton } from '@mui/material'
 import {
   visibleIconDataUri,
   invisibleIconDataUri,
@@ -16,6 +16,7 @@ function LayerEntry(props) {
   const [state, send] = useActor(service)
   const lastAdded = state.context.layers.lastAddedData
   const actorContext = state.context.layers.actorContext
+  const [allLayers, updateLayers] = useState([])
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
@@ -31,57 +32,79 @@ function LayerEntry(props) {
     }
   })
 
-  const layerVisible = () => {
-    if (actorContext && lastAdded) {
-      return actorContext.get(lastAdded.name).visible
+  useEffect(() => {
+    if (state.context.layers.lastAddedData) {
+      updateLayers([...allLayers, state.context.layers.lastAddedData])
     }
-    return false
-  }
+  }, [state.context.layers.lastAddedData])
 
-  const layerType = () => {
+  const layerVisible = (name) => {
     if (actorContext && lastAdded) {
-      return actorContext.get(lastAdded.name).type
+      if (actorContext.get(name).visible) {
+        return 'selectedLayer'
+      }
     }
     return ''
   }
 
-  const layerSelected = () => {
-    const selection = state.context.images.selectedName
-    const selected = selection === lastAdded.name
-    const visible = layerVisible()
+  const layerType = (name) => {
+    if (actorContext && lastAdded) {
+      return actorContext.get(name).type
+    }
+    return ''
+  }
+
+  const layerSelected = (selection) => {
+    const visible = layerVisible(selection)
     return visible && selection
   }
 
-  return actorContext && lastAdded ? (
-    <div
-      ref={layerEntry}
-      className={`layerEntryCommon ${layerVisible() && 'selectedLayer'}`}
-      onClick={() => {
-        layerSelected(lastAdded.name)
-      }}
-    >
-      <IconButton
-        onClick={() => {
-          send({ type: 'TOGGLE_LAYER_VISIBILITY', data: lastAdded.name })
-        }}
-      >
-        <Icon>
-          {layerVisible() ? (
-            <img src={visibleIconDataUri} />
-          ) : (
-            <img src={invisibleIconDataUri} />
-          )}
-        </Icon>
-      </IconButton>
-      <span className="layerLabelCommon"> {lastAdded.name} </span>
-      <Icon className="layerIcon">
-        {layerType() === 'image' ? (
-          <img src={imageIconDataUri} />
-        ) : (
-          layerType() === 'labelImage' && <img src={labelsIconDataUri} />
-        )}
-      </Icon>
-    </div>
+  const useColumnSize = (idx) => {
+    if (idx % 2 === 0 && idx + 1 === allLayers.length) {
+      return 12
+    }
+    return 6
+  }
+
+  return actorContext && allLayers.length ? (
+    allLayers.map((layer, idx) => {
+      return (
+        <Grid
+          item
+          key={idx}
+          xs={useColumnSize(idx)}
+          ref={layerEntry}
+          className={`layerEntryCommon ${layerVisible(layer.name)}`}
+          onClick={() => {
+            layerSelected(layer.name)
+          }}
+        >
+          <IconButton
+            onClick={() => {
+              send({ type: 'TOGGLE_LAYER_VISIBILITY', data: layer.name })
+            }}
+          >
+            <Icon>
+              {layerVisible(layer.name) ? (
+                <img src={visibleIconDataUri} />
+              ) : (
+                <img src={invisibleIconDataUri} />
+              )}
+            </Icon>
+          </IconButton>
+          <span className="layerLabelCommon"> {layer.name} </span>
+          <Icon className="layerIcon">
+            {layerType(layer.name) === 'image' ? (
+              <img src={imageIconDataUri} />
+            ) : (
+              layerType(layer.name) === 'labelImage' && (
+                <img src={labelsIconDataUri} />
+              )
+            )}
+          </Icon>
+        </Grid>
+      )
+    })
   ) : (
     <div />
   )

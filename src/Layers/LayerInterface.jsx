@@ -1,29 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useActor } from '@xstate/react'
 import LayerEntry from './LayerEntry'
-import { Paper } from '@mui/material'
+import { Grid } from '@mui/material'
 
 function LayerInterface(props) {
-  const { children, service } = props
+  const { service } = props
   const [state] = useActor(service)
-  const layersUIGroup = state.context.layers.layersUIGroup
-  let layerEntry = false
+  const [allLayers, updateLayers] = useState([])
+
+  useEffect(() => {
+    if (state.context.layers.lastAddedData) {
+      updateLayers([...allLayers, state.context.layers.lastAddedData])
+    }
+  }, [state.context.layers.lastAddedData])
 
   return (
-    <div>
-      {layersUIGroup &&
-        children.map((uiRow) => {
-          if (uiRow.children.length < 2) {
-            layerEntry = true;
-            <LayerEntry {...props} />
-          }
-        })}
-      {!!!layerEntry && (
-        <div className="layersUIRow">
-          <LayerEntry {...props} />
-        </div>
-      )}
-    </div>
+    <Grid container>
+      <LayerEntry {...props} />
+    </Grid>
   )
 }
 
