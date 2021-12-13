@@ -12,6 +12,14 @@
   margin-left: 10px;
 }
 
+.categoricalMenu {
+  margin: 0 5px !important;
+}
+
+.categoricalRoot {
+  height: 250px;
+}
+
 .cmapMenu {
   display: flex;
   flex-direction: row;
@@ -242,6 +250,7 @@ code.uiContainer {
   min-height: 1rem;
   width: 5px;
   align-self: center;
+  margin-right: 5px;
 }
 
 .sliderEntry {

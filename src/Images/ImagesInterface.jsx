@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import ColorRangeInput from './ColorRangeInput'
+import LabelImageColorWidget from './LabelImageColorWidget'
+import LabelMapWeightWidget from './LabelMapWeightWidget'
 import TransferFunctionWidget from './TransferFunctionWidget'
 import VolumeRenderingInputs from './VolumeRenderingInputs'
 import '../style.css'
@@ -25,17 +27,36 @@ function ImagesInterface(props) {
     return true
   }
 
+  const showLabelWidgets = () => {
+    const type = layersContext.type
+    if (
+      (type === 'image' && actorContext.labelImageName) ||
+      type === 'labelImage'
+    ) {
+      return true
+    }
+    return false
+  }
+
   return (
     <div className={visible() ? '' : 'hidden'} style={{ margin: '15px 5px' }}>
       {actorContext && (
-        <div
-          ref={imagesUIGroup}
-          className="uiGroup"
-          style={{ maxWidth: '400px' }}
-        >
-          <ColorRangeInput {...props} />
-          <TransferFunctionWidget {...props} />
-          <VolumeRenderingInputs {...props} />
+        <div>
+          <div
+            ref={imagesUIGroup}
+            className="uiGroup"
+            style={{ maxWidth: '400px' }}
+          >
+            <ColorRangeInput {...props} />
+            <TransferFunctionWidget {...props} />
+            <VolumeRenderingInputs {...props} />
+          </div>
+          {showLabelWidgets() && (
+            <div>
+              <LabelImageColorWidget {...props} />
+              <LabelMapWeightWidget {...props} />
+            </div>
+          )}
         </div>
       )}
     </div>
