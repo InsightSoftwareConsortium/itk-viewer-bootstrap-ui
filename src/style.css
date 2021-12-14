@@ -38,6 +38,10 @@ code.uiContainer {
   margin: 0 3px;
 }
 
+.componentCheckbox {
+  padding: 0px !important;
+}
+
 .distanceEntry {
   align-items: center;
 }
@@ -181,6 +185,10 @@ code.uiContainer {
   padding: 5px;
 }
 
+.Mui-selected {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
 .MuiIconButton-root {
   padding: 6px 12px !important;
 }
@@ -313,7 +321,7 @@ code.uiContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 5px 0;
+  margin-bottom: 10px;
 }
 
 .uiSlidersGroup {

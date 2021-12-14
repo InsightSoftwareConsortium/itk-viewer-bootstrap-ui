@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
 import ColorRangeInput from './ColorRangeInput'
+import ComponentSelector from './ComponentSelector'
 import LabelImageColorWidget from './LabelImageColorWidget'
 import LabelMapWeightWidget from './LabelMapWeightWidget'
 import TransferFunctionWidget from './TransferFunctionWidget'
@@ -48,6 +49,7 @@ function ImagesInterface(props) {
             style={{ maxWidth: '400px' }}
           >
             <ColorRangeInput {...props} />
+            <ComponentSelector {...props} />
             <TransferFunctionWidget {...props} />
             <VolumeRenderingInputs {...props} />
           </div>
