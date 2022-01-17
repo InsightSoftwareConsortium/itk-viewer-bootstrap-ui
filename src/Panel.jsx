@@ -6,10 +6,12 @@ import './Panel.css'
 function Panel(props) {
   const { children, service } = props
   const uiPanel = useRef(null)
+  const uiDrawer = useRef(null)
   const [state] = useActor(service)
 
   useEffect(() => {
     state.context.uiPanel = uiPanel.current
+    state.context.uiDrawer = uiDrawer.current
   }, [])
 
   return (
@@ -20,7 +22,7 @@ function Panel(props) {
         anchor="left"
         open={!state.context.uiCollapsed}
       >
-        <div>
+        <div ref={uiDrawer}>
           {React.Children.map(children, (child) => {
             return React.cloneElement(child, { service })
           })}
