@@ -47,7 +47,7 @@ function PlaneSliders(props) {
   }
 
   const sliderVisible = (plane) => {
-    const isVolume = viewMode === 'Volume'
+    const isVolume = viewMode === 'Volume' && !state.context.use2D
     const planeVisible = viewMode === `${plane.toUpperCase()}Plane`
     if (!isVolume && !planeVisible) {
       return 'hidden'
@@ -56,12 +56,10 @@ function PlaneSliders(props) {
   }
 
   return (
-    <div
-      className={`${state.context.uiCollapsed ? 'hidden' : 'uiSlidersGroup'}`}
-    >
+    <div ref={planeSliders} className={slidersClass}>
       {planes.map((plane, idx) => {
         return (
-          state.context.main[`${plane}Slice`] && (
+          state.context.main[`${plane}Slice`] ? (
             <div
               key={plane.toUpperCase()}
               className={`planeSliders ${sliderVisible(plane)}`}
@@ -139,7 +137,7 @@ function PlaneSliders(props) {
                 }}
               />
             </div>
-          )
+          ) : <div/>
         )
       })}
     </div>

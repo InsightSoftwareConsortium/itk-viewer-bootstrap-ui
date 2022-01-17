@@ -30,16 +30,16 @@ function MainInterface(props) {
           {!state.context.use2D && <RotateButton {...props} />}
           <AnnotationsButton {...props} />
           <AxesButton {...props} />
-          <ViewPlanesToggle {...props} />
+          {!state.context.use2D && <ViewPlanesToggle {...props} />}
           <BackgroundColorButton {...props} />
           {state.context.use2D && <ResetCameraButton {...props} />}
         </div>
-        <div className="mainUIRow">
-          <ViewModeButtons {...props} />
-          {!state.context.use2D && (
+        {!state.context.use2D && (
+          <div className="mainUIRow">
+            <ViewModeButtons {...props} />
             <ResetCameraButton style={{ width: '20%' }} {...props} />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       <PlaneSliders {...props} />
     </div>
