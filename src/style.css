@@ -317,6 +317,11 @@ code.uiContainer {
   margin: 2px;
 }
 
+.uiImages {
+  padding: 10px;
+  max-width: 420px;
+}
+
 .uiRow {
   display: flex;
   justify-content: space-between;
