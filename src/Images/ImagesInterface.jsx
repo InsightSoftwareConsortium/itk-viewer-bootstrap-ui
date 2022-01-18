@@ -40,13 +40,12 @@ function ImagesInterface(props) {
   }
 
   return (
-    <div className={visible() ? '' : 'hidden'} style={{ margin: '15px 5px' }}>
+    <div className={visible() ? '' : 'hidden'}>
       {actorContext && (
         <div>
           <div
             ref={imagesUIGroup}
-            className="uiGroup"
-            style={{ maxWidth: '400px' }}
+            className="uiGroup uiImages"
           >
             <ColorRangeInput {...props} />
             <ComponentSelector {...props} />

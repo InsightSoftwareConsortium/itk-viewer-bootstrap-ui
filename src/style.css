@@ -317,6 +317,11 @@ code.uiContainer {
   margin: 2px;
 }
 
+.uiImages {
+  padding: 10px;
+  max-width: 420px;
+}
+
 .uiRow {
   display: flex;
   justify-content: space-between;
@@ -328,8 +333,17 @@ code.uiContainer {
   background: rgba(128, 128, 128, 0.5);
   position: fixed;
   bottom: 0;
-  left: 90px;
-  width: calc(100% - 100px);
+  left: 85px;
+  width: calc(100% - 90px);
+  margin: 10px 0;
+}
+
+.uiSlidersGroupCondensed {
+  background: rgba(128, 128, 128, 0.5);
+  position: fixed;
+  bottom: 0;
+  left: 420px;
+  width: calc(100% - 425px);
   margin: 10px 0;
 }
 

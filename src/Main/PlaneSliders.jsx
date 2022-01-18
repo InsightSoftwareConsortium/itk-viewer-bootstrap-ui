@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useActor } from '@xstate/react'
 import { Chip, Icon, IconButton, Slider, Tooltip } from '@mui/material'
 import {
@@ -18,10 +18,33 @@ function PlaneSliders(props) {
   const xScroll = useRef(null)
   const yScroll = useRef(null)
   const zScroll = useRef(null)
+  const planeSliders = useRef(null)
   const planes = ['x', 'y', 'z']
   const visRefs = [xVisibility, yVisibility, zVisibility]
   const scrollRefs = [xScroll, yScroll, zScroll]
   const { slicingPlanes, viewMode } = state.context.main
+  const [slidersClass, setClass] = useState(0);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => getClass())
+  }, [])
+
+  useEffect(() => { getClass() }, [state.context.uiDrawer?.clientHeight])
+
+  const getClass = () => {
+    if (state.context.uiCollapsed) {
+      setClass('hidden')
+    }
+    const containerHeight = state.context.container.clientHeight
+    const panelHeight = state.context.uiDrawer?.clientHeight || 0
+    const slidersHeight = planeSliders.current?.clientHeight || 0
+    const panel_offset = state.context.main.collapseUIButton?.parentNode?.clientHeight || 0
+    if (containerHeight - (panelHeight + panel_offset) < slidersHeight) {
+      setClass('uiSlidersGroupCondensed')
+    } else {
+      setClass('uiSlidersGroup')
+    }
+  }
 
   const toggleVisibility = (plane) => {
     slicingPlanes[`${plane}`].visible = !slicingPlanes[`${plane}`].visible
@@ -47,7 +70,7 @@ function PlaneSliders(props) {
   }
 
   const sliderVisible = (plane) => {
-    const isVolume = viewMode === 'Volume'
+    const isVolume = viewMode === 'Volume' && !state.context.use2D
     const planeVisible = viewMode === `${plane.toUpperCase()}Plane`
     if (!isVolume && !planeVisible) {
       return 'hidden'
@@ -56,12 +79,10 @@ function PlaneSliders(props) {
   }
 
   return (
-    <div
-      className={`${state.context.uiCollapsed ? 'hidden' : 'uiSlidersGroup'}`}
-    >
+    <div ref={planeSliders} className={slidersClass}>
       {planes.map((plane, idx) => {
         return (
-          state.context.main[`${plane}Slice`] && (
+          state.context.main[`${plane}Slice`] ? (
             <div
               key={plane.toUpperCase()}
               className={`planeSliders ${sliderVisible(plane)}`}
@@ -139,7 +160,7 @@ function PlaneSliders(props) {
                 }}
               />
             </div>
-          )
+          ) : <div/>
         )
       })}
     </div>
