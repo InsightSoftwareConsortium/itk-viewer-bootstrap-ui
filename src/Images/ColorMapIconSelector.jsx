@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { FormControl, Icon, MenuItem, Select } from '@mui/material'
+import { FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
 import ColorMapPresetIcons from '../ColorMapPresetIcons'
 import '../style.css'
 
@@ -12,7 +12,8 @@ function ColorMapIconSelector(props) {
   ColorMapPresetIcons.forEach((value, key) => {
     colorMapIcons.push({
       name: key,
-      icon: value
+      icon: value,
+      ref: useRef(null)
     })
   })
 
@@ -65,9 +66,19 @@ function ColorMapIconSelector(props) {
       >
         {colorMapIcons.map((preset, idx) => (
           <MenuItem key={idx} value={preset.name}>
-            <Icon style={{ width: 'inherit' }}>
-              <img className="colorMapIcon" src={preset.icon} />
-            </Icon>
+            <Tooltip
+              ref={preset.ref}
+              title={preset.name}
+              PopperProps={{
+                anchorEl: preset.ref.current,
+                disablePortal: true,
+                keepMounted: true
+              }}
+            >
+              <Icon style={{ width: 'inherit' }}>
+                <img className="colorMapIcon" src={preset.icon} />
+              </Icon>
+            </Tooltip>
           </MenuItem>
         ))}
       </Select>
