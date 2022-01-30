@@ -69,6 +69,7 @@ function ColorMapIconSelector(props) {
             <Tooltip
               ref={preset.ref}
               title={preset.name}
+              placement="bottom"
               PopperProps={{
                 anchorEl: preset.ref.current,
                 disablePortal: true,
