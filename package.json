@@ -5,7 +5,8 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "prettier": "prettier --config ./prettier.json --write ./src/**/*.{js,jsx}"
+    "prettier": "prettier --config ./prettier.json --write ./src/**/*.{js,jsx}",
+    "postversion": "npm publish && git push --follow-tags"
   },
   "keywords": [
     "react",
