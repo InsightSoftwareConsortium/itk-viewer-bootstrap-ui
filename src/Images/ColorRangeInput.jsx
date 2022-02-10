@@ -52,12 +52,17 @@ function ColorRangeInput(props) {
   }
 
   const rangeChanged = (minVal, maxVal) => {
+    const bounds = actorContext.colorRangeBounds.get(
+      actorContext.selectedComponent
+    )
+    const rangeMin = minVal < bounds[0] ? bounds[0] : minVal
+    const rangeMax = maxVal > bounds[1] ? bounds[1] : maxVal
     send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
         name,
         component: actorContext.selectedComponent,
-        range: [minVal, maxVal]
+        range: [rangeMin, rangeMax]
       }
     })
   }
@@ -107,7 +112,7 @@ function ColorRangeInput(props) {
         label="Min"
         variant="outlined"
         size="small"
-        defaultValue={currentRangeMin()}
+        value={currentRangeMin()}
         onChange={(e) => {
           rangeMinChanged(e.target.value)
         }}
@@ -119,7 +124,7 @@ function ColorRangeInput(props) {
         label="Max"
         variant="outlined"
         size="small"
-        defaultValue={currentRangeMax()}
+        value={currentRangeMax()}
         onChange={(e) => {
           rangeMaxChanged(e.target.value)
         }}
