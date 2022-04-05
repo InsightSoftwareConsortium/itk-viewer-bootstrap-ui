@@ -160,7 +160,7 @@ function PlaneSliders(props) {
                 }}
               />
             </div>
-          ) : <div/>
+          ) : <div key={plane.toUpperCase()+'hidden'}/>
         )
       })}
     </div>
