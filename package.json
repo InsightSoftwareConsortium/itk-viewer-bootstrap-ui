@@ -1,5 +1,5 @@
 {
-  "name": "itk-viewer-material-ui",
+  "name": "itk-viewer-bootstrap-ui",
   "version": "0.2.0",
   "scripts": {
     "dev": "vite",
