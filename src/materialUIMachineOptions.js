@@ -7,6 +7,8 @@ import toggleDarkMode from './toggleDarkMode'
 import createInterface from './createInterface.jsx'
 import toggleUICollapsed from './toggleUICollapsed.jsx'
 
+import './App.scss'
+
 const materialUIMachineOptions = {
   main: mainUIMachineOptions,
 
