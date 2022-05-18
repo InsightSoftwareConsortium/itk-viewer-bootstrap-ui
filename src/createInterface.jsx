@@ -29,7 +29,7 @@ function createInterface(context) {
   }
 
   ReactDOM.render(
-    <React.StrictMode>
+    <>
       <AppToolbar service={context.service} />
       <Panel service={context.service}>
         <MainInterface />
@@ -37,7 +37,7 @@ function createInterface(context) {
         <WidgetsInterface />
         <ImagesInterface />
       </Panel>
-    </React.StrictMode>,
+    </>,
     context.uiContainer
   )
 }

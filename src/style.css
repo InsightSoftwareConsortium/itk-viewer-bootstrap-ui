@@ -96,8 +96,8 @@ code.uiContainer {
   width: 10mm;
 }
 
-.invertibleButtonBrightBG {
-}
+/* .invertibleButtonBrightBG {
+} */
 
 .invertibleButtonDarkBG {
   filter: invert(100%);
@@ -285,8 +285,8 @@ code.uiContainer {
   opacity: 0.45;
 }
 
-.tooltipButtonBrightBG::before {
-}
+/* .tooltipButtonBrightBG::before {
+} */
 
 .tooltipButtonDarkBG::before {
   filter: invert(100%);

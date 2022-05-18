@@ -1,16 +1,22 @@
-@import "custom";
+@import 'pydata_sphinx_theme/src/pydata_sphinx_theme/assets/styles/index.scss';
 
-.header {
-  text-align: center;
-}
+.icon-button {
+  background-color: transparent;
+  border-color: transparent;
 
-span {
-  &.dangerText {
-    color: #dc3545;
+  &:focus {
+    background-color: transparent;
   }
 
-  &.infoText {
-    color: #17a2b8;
-    font-weight: bold;
+  &.checked {
+    background-color: #39404318;
+  }
+
+  &:hover {
+    background-color: #5a6268;
+  }
+
+  & > img {
+    width: 1.2rem;
   }
 }
