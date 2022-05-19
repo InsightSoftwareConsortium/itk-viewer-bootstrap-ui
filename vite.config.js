@@ -10,7 +10,14 @@ export default defineConfig({
       entry: path.resolve(__dirname, 'src', 'materialUIMachineOptions.js'),
       name: 'materialUIMachineOptions',
       formats: ['es'],
-      fileName: 'materialUIMachineOptions.js',
-    },
+      fileName: 'materialUIMachineOptions.js'
+    }
   },
+  resolve: {
+    alias: {
+      // used in pydata_sphinx_theme
+      '../basic.css': './src/styles/sphinx-basic.css',
+      '~bootstrap/scss/bootstrap': 'bootstrap/scss/bootstrap'
+    }
+  }
 })

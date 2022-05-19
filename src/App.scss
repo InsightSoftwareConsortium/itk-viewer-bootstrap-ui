@@ -1,0 +1,22 @@
+@import 'pydata_sphinx_theme/src/pydata_sphinx_theme/assets/styles/index.scss';
+
+.icon-button {
+  background-color: transparent;
+  border-color: transparent;
+
+  &:focus {
+    background-color: transparent;
+  }
+
+  &.checked {
+    background-color: #39404318;
+  }
+
+  &:hover {
+    background-color: #5a6268;
+  }
+
+  & > img {
+    width: 1.2rem;
+  }
+}
