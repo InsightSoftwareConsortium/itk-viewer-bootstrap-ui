@@ -1,43 +1,35 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, ToggleButton, Tooltip } from '@mui/material'
 import { rotateIconDataUri } from 'itk-viewer-icons'
-import '../style.css'
+import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
 
 function RotateButton(props) {
-  const { service } = props
-  const rotateButton = useRef(null)
-  const [state, send] = useActor(service)
+const { service } = props	
+const [state, send] = useActor(service)
 
-  useEffect(() => {
-    state.context.main.rotateButtonLabel = rotateButton.current
-  }, [])
+console.log(state.context.main.rotateEnabled);
 
-  return (
-    <Tooltip
-      ref={rotateButton}
-      title="Spin in 3D [p]"
-      PopperProps={{
-        anchorEl: rotateButton.current,
-        disablePortal: true,
-        keepMounted: true
-      }}
+return ( 
+  <OverlayTrigger 
+    transition = {false}
+    overlay={<Tooltip> Spin in 3D </Tooltip>}
+  >
+    <Button
+      className={cn('icon-button', {
+        checked: state.context.main.rotateEnabled
+      })}
+      onClick= {() => send('TOGGLE_ROTATE')}
+      variant = "secondary"
     >
-      <ToggleButton
-        size="small"
-        className="toggleButton"
-        value="rotating"
-        selected={state.context.main.rotateEnabled}
-        onChange={() => {
-          send('TOGGLE_ROTATE')
-        }}
-      >
-        <Icon>
-          <img src={rotateIconDataUri} />
-        </Icon>
-      </ToggleButton>
-    </Tooltip>
+      <Image src={rotateIconDataUri}></Image>
+    </Button>
+  </OverlayTrigger>
   )
 }
 
 export default RotateButton
+
