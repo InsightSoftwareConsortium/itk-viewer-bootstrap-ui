@@ -1,38 +1,34 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, IconButton, Tooltip } from '@mui/material'
 import { screenshotIconDataUri } from 'itk-viewer-icons'
+import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
 
 function ScreenshotButton(props) {
   const { service } = props
-  const screenshotButton = useRef(null)
   const [state, send] = useActor(service)
 
-  useEffect(() => {
-    state.context.main.screenshotButton = screenshotButton.current
-  }, [])
-
   return (
-    <Tooltip
-      ref={screenshotButton}
-      title="Screenshot"
-      PopperProps={{
-        anchorEl: screenshotButton.current,
-        disablePortal: true,
-        keepMounted: true
-      }}
+    <OverlayTrigger
+      transition={false}
+      overlay={<Tooltip>Screenshot</Tooltip>}
     >
-      <IconButton
-        size="small"
+      <Button
+        className={cn('icon-button', {
+          checked:state.context.main.screenshotEnabled
+        })}
         onClick={() => {
           send('TAKE_SCREENSHOT')
         }}
+        variant='secondary'
       >
-        <Icon>
-          <img src={screenshotIconDataUri} />
-        </Icon>
-      </IconButton>
-    </Tooltip>
+          <Image src={screenshotIconDataUri}></Image>
+      </Button>
+    </OverlayTrigger>
+
   )
 }
 
