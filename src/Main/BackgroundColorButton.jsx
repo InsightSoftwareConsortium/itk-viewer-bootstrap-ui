@@ -1,39 +1,31 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, IconButton, Tooltip } from '@mui/material'
 import { selectColorIconDataUri } from 'itk-viewer-icons'
-import '../style.css'
+import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
 
 function BackgroundColorButton(props) {
   const { service } = props
-  const bgColorButton = useRef(null)
   const [state, send] = useActor(service)
 
-  useEffect(() => {
-    state.context.main.bgColorButtonLabel = bgColorButton.current
-  }, [])
-
   return (
-    <Tooltip
-      ref={bgColorButton}
-      title="Toggle Background Color"
-      PopperProps={{
-        anchorEl: bgColorButton.current,
-        disablePortal: true,
-        keepMounted: true
-      }}
-    >
-      <IconButton
-        size="small"
-        onClick={() => {
-          send('TOGGLE_BACKGROUND_COLOR')
-        }}
+      <OverlayTrigger
+        transition= {false}
+        overlay={<Tooltip> Toggle Background Color </Tooltip>}
       >
-        <Icon>
-          <img src={selectColorIconDataUri} />
-        </Icon>
-      </IconButton>
-    </Tooltip>
+          <Button className={cn('icon-button', {
+            checked : state.context.main.backgroundEnabled
+            })}
+            onClick={() => {
+            send('TOGGLE_BACKGROUND_COLOR'
+            )}}
+            variant="secondary"> 
+             <Image src={selectColorIconDataUri}/>
+          </Button>
+      </OverlayTrigger>
   )
 }
 
