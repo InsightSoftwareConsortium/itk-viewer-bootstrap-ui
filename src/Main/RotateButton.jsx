@@ -11,12 +11,11 @@ function RotateButton(props) {
 const { service } = props	
 const [state, send] = useActor(service)
 
-console.log(state.context.main.rotateEnabled);
 
 return ( 
   <OverlayTrigger 
     transition = {false}
-    overlay={<Tooltip> Spin in 3D </Tooltip>}
+    overlay={<Tooltip> Spin in 3D [p] </Tooltip>}
   >
     <Button
       className={cn('icon-button', {
