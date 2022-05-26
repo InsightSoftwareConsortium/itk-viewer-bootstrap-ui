@@ -1,17 +1,16 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, ToggleButton, Tooltip } from '@mui/material'
 import { viewPlanesIconDataUri } from 'itk-viewer-icons'
+import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
 
 function ViewPlanesToggle(props) {
   const { service } = props
-  const viewPlanesButton = useRef(null)
   const [state, send] = useActor(service)
   const { slicingPlanes } = state.context.main
-
-  useEffect(() => {
-    state.context.main.viewPlanesButtonLabel = viewPlanesButton.current
-  }, [])
 
   const planesVisible = () => {
     return (
@@ -47,27 +46,17 @@ function ViewPlanesToggle(props) {
   }
 
   return (
-    <Tooltip
-      ref={viewPlanesButton}
-      title="View planes [s]"
-      PopperProps={{
-        anchorEl: viewPlanesButton.current,
-        disablePortal: true,
-        keepMounted: true
-      }}
-    >
-      <ToggleButton
-        size="small"
-        className="toggleButton"
-        value="visiblePlanes"
-        selected={planesVisible()}
-        onChange={handleToggle}
+    <OverlayTrigger transition={false} overlay={<Tooltip>View planes</Tooltip>}>
+      <Button
+        className={cn('icon-button', {
+          checked: state.context.main.viewPlanesEnabled
+        })}
+        onClick={handleToggle}
+        variant="secondary"
       >
-        <Icon>
-          <img src={viewPlanesIconDataUri} />
-        </Icon>
-      </ToggleButton>
-    </Tooltip>
+        <Image src={viewPlanesIconDataUri}></Image>
+      </Button>
+    </OverlayTrigger>
   )
 }
 
