@@ -1,42 +1,28 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, ToggleButton, Tooltip } from '@mui/material'
 import { axesIconDataUri } from 'itk-viewer-icons'
-import '../style.css'
+import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
 
 function AxesButton(props) {
   const { service } = props
-  const axesButton = useRef(null)
   const [state, send] = useActor(service)
 
-  useEffect(() => {
-    state.context.main.axesButtonLabel = axesButton.current
-  }, [])
-
   return (
-    <Tooltip
-      ref={axesButton}
-      title="Axes"
-      PopperProps={{
-        anchorEl: axesButton.current,
-        disablePortal: true,
-        keepMounted: true
-      }}
-    >
-      <ToggleButton
-        size="small"
-        className="toggleButton"
-        value="axesVisible"
-        selected={state.context.main.axesEnabled}
-        onChange={() => {
-          send('TOGGLE_AXES')
-        }}
+    <OverlayTrigger transition={false} overlay={<Tooltip> Axes </Tooltip>}>
+      <Button
+        className={cn('icon-button', {
+          checked: state.context.main.axesEnabled
+        })}
+        onClick={() => send('TOGGLE_AXES')}
+        variant="secondary"
       >
-        <Icon>
-          <img src={axesIconDataUri} />
-        </Icon>
-      </ToggleButton>
-    </Tooltip>
+        <Image src={axesIconDataUri}></Image>
+      </Button>
+    </OverlayTrigger>
   )
 }
 
