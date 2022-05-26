@@ -12,20 +12,22 @@ function BackgroundColorButton(props) {
   const [state, send] = useActor(service)
 
   return (
-      <OverlayTrigger
-        transition= {false}
-        overlay={<Tooltip> Toggle Background Color </Tooltip>}
+    <OverlayTrigger
+      transition={false}
+      overlay={<Tooltip> Toggle Background Color </Tooltip>}
+    >
+      <Button
+        className={cn('icon-button', {
+          checked: state.context.main.backgroundColorsEnabled
+        })}
+        onClick={() => {
+          send('TOGGLE_BACKGROUND_COLOR')
+        }}
+        variant="secondary"
       >
-          <Button className={cn('icon-button', {
-            checked : state.context.main.backgroundEnabled
-            })}
-            onClick={() => {
-            send('TOGGLE_BACKGROUND_COLOR'
-            )}}
-            variant="secondary"> 
-             <Image src={selectColorIconDataUri}/>
-          </Button>
-      </OverlayTrigger>
+        <Image src={selectColorIconDataUri} />
+      </Button>
+    </OverlayTrigger>
   )
 }
 
