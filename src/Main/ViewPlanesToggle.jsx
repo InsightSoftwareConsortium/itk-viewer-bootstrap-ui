@@ -1,16 +1,16 @@
 import React from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { viewPlanesIconDataUri } from 'itk-viewer-icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-import cn from 'classnames'
 
-function ViewPlanesToggle(props) {
+const ViewPlanesToggle = React.memo(function ViewPlanesToggle(props) {
   const { service } = props
-  const [state, send] = useActor(service)
-  const { slicingPlanes } = state.context.main
+  const stateSlicingPlanes = useSelector(service, (state) => state.context.main)
+  const send = service.send
+  const { slicingPlanes } = stateSlicingPlanes
 
   const planesVisible = () => {
     return (
@@ -48,9 +48,7 @@ function ViewPlanesToggle(props) {
   return (
     <OverlayTrigger transition={false} overlay={<Tooltip>View planes</Tooltip>}>
       <Button
-        className={cn('icon-button', {
-          checked: state.context.main.viewPlanesEnabled
-        })}
+        className={'icon-button'}
         onClick={handleToggle}
         variant="secondary"
       >
@@ -58,6 +56,6 @@ function ViewPlanesToggle(props) {
       </Button>
     </OverlayTrigger>
   )
-}
+})
 
 export default ViewPlanesToggle

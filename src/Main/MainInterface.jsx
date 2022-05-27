@@ -12,6 +12,8 @@ import ViewModeButtons from './ViewModeButtons'
 import ViewPlanesToggle from './ViewPlanesToggle'
 import '../style.css'
 
+const STYLE = { width: '20%' }
+
 function MainInterface(props) {
   const { service } = props
   const [state] = useActor(service)
@@ -37,7 +39,7 @@ function MainInterface(props) {
         {!state.context.use2D && (
           <div className="mainUIRow">
             <ViewModeButtons {...props} />
-            <ResetCameraButton style={{ width: '20%' }} {...props} />
+            <ResetCameraButton style={STYLE} {...props} />
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useActor } from '@xstate/react'
+import { useActor, useSelector } from '@xstate/react'
 import { axesIconDataUri } from 'itk-viewer-icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
@@ -7,15 +7,19 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
-function AxesButton(props) {
+const AxesButton = React.memo(function AxesButton(props) {
   const { service } = props
-  const [state, send] = useActor(service)
+  const stateAxesEnabled = useSelector(
+    service,
+    (state) => state.context.main.axesEnabled
+  )
+  const send = service.send
 
   return (
     <OverlayTrigger transition={false} overlay={<Tooltip> Axes </Tooltip>}>
       <Button
         className={cn('icon-button', {
-          checked: state.context.main.axesEnabled
+          checked: stateAxesEnabled
         })}
         onClick={() => send('TOGGLE_AXES')}
         variant="secondary"
@@ -24,6 +28,6 @@ function AxesButton(props) {
       </Button>
     </OverlayTrigger>
   )
-}
+})
 
 export default AxesButton
