@@ -5,9 +5,8 @@ import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
-const ResetCamerButton = React.memo(function ResetCamerButton(props) {
-  const { service } = props
-  const send = service.send
+const ResetCamerButton = React.memo(function ResetCamerButton({ service }) {
+  const { send } = service
 
   return (
     <OverlayTrigger
