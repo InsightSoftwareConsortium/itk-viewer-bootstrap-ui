@@ -9,8 +9,10 @@ import cn from 'classnames'
 
 const AxesButton = React.memo(function AxesButton(props) {
   const { service } = props
-  const selectCount = (state) => state.context.main.axesEnabled
-  const stateAxesEnabled = useSelector(service, selectCount)
+  const stateAxesEnabled = useSelector(
+    service,
+    (state) => state.context.main.axesEnabled
+  )
   const send = service.send
 
   return (

@@ -13,8 +13,10 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
 function ViewButton(props) {
-  const selectCount = (state) => state.context.main.viewMode
-  const stateButtonEnabled = useSelector(props.service, selectCount)
+  const stateButtonEnabled = useSelector(
+    props.service,
+    (state) => state.context.main.viewMode
+  )
   const send = props.service.send
 
   return (

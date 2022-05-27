@@ -9,8 +9,10 @@ import cn from 'classnames'
 
 const BackgroundColorButton = React.memo(function BackgroundColorButton(props) {
   const { service } = props
-  const selectCount = (state) => state.context.main.selectedBackgroundColor
-  const stateBackgroundColorEnabled = useSelector(service, selectCount)
+  const stateBackgroundColorEnabled = useSelector(
+    service,
+    (state) => state.context.main.selectedBackgroundColor
+  )
   const send = service.send
 
   return (

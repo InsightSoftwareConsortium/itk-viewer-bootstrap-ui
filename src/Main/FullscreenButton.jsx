@@ -9,8 +9,10 @@ import cn from 'classnames'
 
 const FullscreenButton = React.memo(function FullscreenButton(props) {
   const { service } = props
-  const selectCount = (state) => state.context.main.fullscreenEnabled
-  const stateFullscreenEnabled = useSelector(service, selectCount)
+  const stateFullscreenEnabled = useSelector(
+    service,
+    (state) => state.context.main.fullscreenEnabled
+  )
   const send = service.send
 
   return (

@@ -9,8 +9,10 @@ import cn from 'classnames'
 
 const AnnotationsButton = React.memo(function AnnotationsButton(props) {
   const { service } = props
-  const selectCount = (state) => state.context.main.annotationsEnabled
-  const stateAnnotationsEnabled = useSelector(service, selectCount)
+  const stateAnnotationsEnabled = useSelector(
+    service,
+    (state) => state.context.main.annotationsEnabled
+  )
   const send = service.send
 
   return (

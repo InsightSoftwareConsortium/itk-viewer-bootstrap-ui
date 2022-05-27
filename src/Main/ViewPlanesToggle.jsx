@@ -8,8 +8,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 
 const ViewPlanesToggle = React.memo(function ViewPlanesToggle(props) {
   const { service } = props
-  const selectCount = (state) => state.context.main
-  const stateSlicingPlanes = useSelector(service, selectCount)
+  const stateSlicingPlanes = useSelector(service, (state) => state.context.main)
   const send = service.send
   const { slicingPlanes } = stateSlicingPlanes
 

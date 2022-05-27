@@ -9,8 +9,10 @@ import cn from 'classnames'
 
 const RotateButton = React.memo(function RotateButton(props) {
   const { service } = props
-  const selectCount = (state) => state.context.main.rotateEnabled
-  const stateRotateEnabled = useSelector(service, selectCount)
+  const stateRotateEnabled = useSelector(
+    service,
+    (state) => state.context.main.rotateEnabled
+  )
   const send = service.send
 
   return (
