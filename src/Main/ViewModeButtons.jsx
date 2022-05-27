@@ -40,7 +40,7 @@ function ViewButton(props) {
 const ViewModeButtons = React.memo(function ViewModeButtons(props) {
   const { service } = props
 
-  const buttonList = [
+  return [
     {
       title: 'X plane [1]',
       dataName: 'XPlane',
@@ -61,8 +61,7 @@ const ViewModeButtons = React.memo(function ViewModeButtons(props) {
       dataName: 'Volume',
       imageSrc: volumeIconDataUri
     }
-  ]
-  const listItems = buttonList.map(({ title, dataName, imageSrc }) => (
+  ].map(({ title, dataName, imageSrc }) => (
     <ViewButton
       key={title}
       title={title}
@@ -71,7 +70,6 @@ const ViewModeButtons = React.memo(function ViewModeButtons(props) {
       service={service}
     ></ViewButton>
   ))
-  return listItems
 })
 
 export default ViewModeButtons
