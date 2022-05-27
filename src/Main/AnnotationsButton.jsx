@@ -1,5 +1,5 @@
 import React from 'react'
-import { useActor, useSelector } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { annotationsIconDataUri } from 'itk-viewer-icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
@@ -20,7 +20,6 @@ const AnnotationsButton = React.memo(function AnnotationsButton(props) {
     >
       <Button
         className={cn('icon-button', {
-          //checked: state.context.main.annotationsEnabled
           checked: stateAnnotationsEnabled
         })}
         onClick={() => send('TOGGLE_ANNOTATIONS')}

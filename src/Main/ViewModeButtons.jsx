@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useActor, useSelector } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import {
   volumeIconDataUri,
   redPlaneIconDataUri,
@@ -13,10 +13,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
 function ViewButton(props) {
-  let dataNameLowerCase =
-    props.dataName.charAt(0).toLowerCase() + props.dataName.slice(1)
-  let enableButton = dataNameLowerCase + 'EnableButton'
-  const selectCount = (state) => state.context.main[enableButton]
+  const selectCount = (state) => state.context.main.viewMode
   const stateButtonEnabled = useSelector(props.service, selectCount)
   const send = props.service.send
 
@@ -27,7 +24,7 @@ function ViewButton(props) {
     >
       <Button
         className={cn('icon-button', {
-          checked: stateButtonEnabled
+          checked: stateButtonEnabled === props.dataName
         })}
         onClick={() => {
           send({ type: 'VIEW_MODE_CHANGED', data: props.dataName })

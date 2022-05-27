@@ -1,5 +1,5 @@
 import React from 'react'
-import { useActor, useSelector } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { selectColorIconDataUri } from 'itk-viewer-icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
@@ -7,9 +7,9 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
-function BackgroundColorButton(props) {
+const BackgroundColorButton = React.memo(function BackgroundColorButton(props) {
   const { service } = props
-  const selectCount = (state) => state.context.main.backgroundColorsEnabled
+  const selectCount = (state) => state.context.main.selectedBackgroundColor
   const stateBackgroundColorEnabled = useSelector(service, selectCount)
   const send = service.send
 
@@ -31,6 +31,6 @@ function BackgroundColorButton(props) {
       </Button>
     </OverlayTrigger>
   )
-}
+})
 
 export default BackgroundColorButton
