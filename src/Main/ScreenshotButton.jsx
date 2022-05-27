@@ -1,5 +1,5 @@
 import React from 'react'
-import { useActor } from '@xstate/react'
+import { useActor, useSelector } from '@xstate/react'
 import { screenshotIconDataUri } from 'itk-viewer-icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
@@ -9,26 +9,24 @@ import cn from 'classnames'
 
 function ScreenshotButton(props) {
   const { service } = props
-  const [state, send] = useActor(service)
+  const selectCount = (state) => state.context.main.screenshotEnabled
+  const stateScreenshotEnabled = useSelector(service, selectCount)
+  const send = service.send
 
   return (
-    <OverlayTrigger
-      transition={false}
-      overlay={<Tooltip>Screenshot</Tooltip>}
-    >
+    <OverlayTrigger transition={false} overlay={<Tooltip>Screenshot</Tooltip>}>
       <Button
         className={cn('icon-button', {
-          checked:state.context.main.screenshotEnabled
+          checked: stateScreenshotEnabled
         })}
         onClick={() => {
           send('TAKE_SCREENSHOT')
         }}
-        variant='secondary'
+        variant="secondary"
       >
-          <Image src={screenshotIconDataUri}></Image>
+        <Image src={screenshotIconDataUri}></Image>
       </Button>
     </OverlayTrigger>
-
   )
 }
 

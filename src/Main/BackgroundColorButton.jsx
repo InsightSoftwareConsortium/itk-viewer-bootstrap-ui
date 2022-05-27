@@ -1,5 +1,5 @@
 import React from 'react'
-import { useActor } from '@xstate/react'
+import { useActor, useSelector } from '@xstate/react'
 import { selectColorIconDataUri } from 'itk-viewer-icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
@@ -9,7 +9,9 @@ import cn from 'classnames'
 
 function BackgroundColorButton(props) {
   const { service } = props
-  const [state, send] = useActor(service)
+  const selectCount = (state) => state.context.main.backgroundColorsEnabled
+  const stateBackgroundColorEnabled = useSelector(service, selectCount)
+  const send = service.send
 
   return (
     <OverlayTrigger
@@ -18,7 +20,7 @@ function BackgroundColorButton(props) {
     >
       <Button
         className={cn('icon-button', {
-          checked: state.context.main.backgroundColorsEnabled
+          checked: stateBackgroundColorEnabled
         })}
         onClick={() => {
           send('TOGGLE_BACKGROUND_COLOR')

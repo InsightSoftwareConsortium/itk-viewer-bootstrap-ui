@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useActor } from '@xstate/react'
+import { useActor, useSelector } from '@xstate/react'
 import {
   volumeIconDataUri,
   redPlaneIconDataUri,
@@ -13,10 +13,12 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
 function ViewButton(props) {
-  const [state, send] = useActor(props.service)
   let dataNameLowerCase =
     props.dataName.charAt(0).toLowerCase() + props.dataName.slice(1)
   let enableButton = dataNameLowerCase + 'EnableButton'
+  const selectCount = (state) => state.context.main[enableButton]
+  const stateButtonEnabled = useSelector(props.service, selectCount)
+  const send = props.service.send
 
   return (
     <OverlayTrigger
@@ -25,7 +27,7 @@ function ViewButton(props) {
     >
       <Button
         className={cn('icon-button', {
-          checked: state.context.main[enableButton]
+          checked: stateButtonEnabled
         })}
         onClick={() => {
           send({ type: 'VIEW_MODE_CHANGED', data: props.dataName })
@@ -38,7 +40,7 @@ function ViewButton(props) {
   )
 }
 
-function ViewModeButtons(props) {
+const ViewModeButtons = React.memo(function ViewModeButtons(props) {
   const { service } = props
 
   const buttonList = [
@@ -73,6 +75,6 @@ function ViewModeButtons(props) {
     ></ViewButton>
   ))
   return listItems
-}
+})
 
 export default ViewModeButtons
