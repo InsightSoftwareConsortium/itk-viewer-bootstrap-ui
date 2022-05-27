@@ -1,40 +1,32 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useActor } from '@xstate/react'
-import { Icon, IconButton, Tooltip } from '@mui/material'
 import { resetCameraIconDataUri } from 'itk-viewer-icons'
-import '../style.css'
+import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
 
 function ResetCamerButton(props) {
   const { service } = props
-  const resetCameraButton = useRef(null)
   const [state, send] = useActor(service)
 
-  useEffect(() => {
-    state.context.main.resetCameraButtonLabel = resetCameraButton.current
-  }, [])
-
   return (
-    <Tooltip
-      ref={resetCameraButton}
-      title="Reset camera [r]"
-      PopperProps={{
-        anchorEl: resetCameraButton.current,
-        disablePortal: true,
-        keepMounted: true
-      }}
-    >
-      <IconButton
-        size="small"
-        onClick={() => {
-          send('RESET_CAMERA')
-        }}
-      >
-        <Icon>
-          <img src={resetCameraIconDataUri} />
-        </Icon>
-      </IconButton>
-    </Tooltip>
-  )
+    <OverlayTrigger
+      transition={false}
+      overlay={<Tooltip>Reset camera [r]</Tooltip>}
+     >
+     <Button
+        className={cn('icon-button', {
+          checked:state.context.main.resetCameraEnabled
+        })}
+        onClick={() =>send('RESET_CAMERA')}
+        variant='secondary'
+     >
+    <Image src={resetCameraIconDataUri}></Image>       
+     </Button>  
+     </OverlayTrigger>
+    )
 }
 
 export default ResetCamerButton
