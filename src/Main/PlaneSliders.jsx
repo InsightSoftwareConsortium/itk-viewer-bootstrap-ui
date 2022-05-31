@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import {
   visibleIconDataUri,
   invisibleIconDataUri,
@@ -13,12 +13,12 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 import Badge from 'react-bootstrap/Badge'
-import '../style.css' //  needs to be deleted
-import { Slider } from '@mui/material'
+import '../style.css'
 
 const PlaneSliders = React.memo(function PlaneSliders(props) {
   const { service } = props
-  const [state, send] = useActor(service)
+  const state = useSelector(service, (state) => state)
+  const send = service.send
   const xVisibility = useRef(null)
   const yVisibility = useRef(null)
   const zVisibility = useRef(null)
@@ -77,7 +77,7 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
   const handleSliderChange = (plane, val) => {
     send({
       type: `${plane.toUpperCase()}_SLICE_CHANGED`,
-      data: val
+      data: Number(val)
     })
   }
 
@@ -147,9 +147,11 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
               </Button>
             </OverlayTrigger>
             {/* Display Plane position */}
-            <Badge bg="secondary">{`${plane.toUpperCase()}: ${state.context.main[
-              `${plane}Slice`
-            ].toFixed(3)}`}</Badge>
+            <Badge bg="secondary">
+              {' '}
+              {plane.toUpperCase()}:
+              {state.context.main[`${plane}Slice`]?.toFixed(3)}
+            </Badge>
             {/* Display sliders */}
             <Form>
               <Form.Group>
@@ -161,22 +163,11 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                   max={slicingPlanes[`${plane}`].max}
                   step={slicingPlanes[`${plane}`].step}
                   onChange={(_e, val) => {
-                    console.log(val)
-                    console.log(state.context.main)
-                    // handleSliderChange(plane, val)
+                    handleSliderChange(plane, _e.target.value)
                   }}
                 />
               </Form.Group>
             </Form>
-            <Slider
-              min={slicingPlanes[`${plane}`].min}
-              max={slicingPlanes[`${plane}`].max}
-              step={slicingPlanes[`${plane}`].step}
-              onChange={(_e, val) => {
-                console.log(val)
-                handleSliderChange(plane, val)
-              }}
-            />
           </div>
         ) : (
           <div key={plane.toUpperCase() + 'hidden'} />
