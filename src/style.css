@@ -229,9 +229,11 @@ code.uiContainer {
 }
 
 .planeSliders {
-  display: flex;
+  display: block;
   align-items: center;
   padding-right: 2px;
+  height: 50px;
+  width: 60%;
 }
 
 .selectedLayer {
