@@ -32,12 +32,10 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
   const { slicingPlanes, viewMode } = state.context.main
   const [slidersClass, setClass] = useState(0)
 
-  // Resize sliders
   useEffect(() => {
     window.addEventListener('resize', () => getClass())
   }, [])
 
-  // Set buttons and sliders to be at the bottom of the page
   useEffect(() => {
     getClass()
   }, [state.context.uiDrawer?.clientHeight])
@@ -98,7 +96,6 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
             key={plane.toUpperCase()}
             className={`planeSliders ${sliderVisible(plane)}`}
           >
-            {/* Display visibility button */}
             <OverlayTrigger
               transition={false}
               overlay={
@@ -113,7 +110,7 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                   toggleVisibility(plane)
                 }}
                 variant="secondary"
-                ref={visRefs[idx]} // not sure if I need this
+                ref={visRefs[idx]}
               >
                 {slicingPlanes[`${plane}`].visible ? (
                   <Image src={visibleIconDataUri}></Image>
@@ -122,7 +119,6 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                 )}
               </Button>
             </OverlayTrigger>
-            {/* Display play/pause button */}
             <OverlayTrigger
               transition={false}
               overlay={
@@ -137,7 +133,7 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                   togglePlay(plane)
                 }}
                 variant="secondary"
-                ref={scrollRefs[idx]} // not sure I need this
+                ref={scrollRefs[idx]}
               >
                 {slicingPlanes[`${plane}`].scroll ? (
                   <Image src={pauseIconDataUri}></Image>
@@ -146,16 +142,13 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                 )}
               </Button>
             </OverlayTrigger>
-            {/* Display Plane position */}
             <Badge bg="secondary">
               {' '}
               {plane.toUpperCase()}:
               {state.context.main[`${plane}Slice`]?.toFixed(3)}
             </Badge>
-            {/* Display sliders */}
             <Form>
               <Form.Group>
-                {/* controlId="formBasicRangeCustom" */}
                 <Form.Control
                   type="range"
                   custom
