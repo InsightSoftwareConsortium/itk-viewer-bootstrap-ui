@@ -73,12 +73,17 @@ code.uiContainer {
 
 .gradientOpacityInput {
   position: absolute !important;
-  bottom: 40px;
-  left: -35px;
-  height: 150px !important;
+  bottom: 68px;
+  left: -45px;
+  width:30px !important;
+  height: 110px !important;
   -webkit-appearance: slider-vertical;
+  }  
+  
+.gradientSliderContainer {
+  width: 300px;
 }
-
+  
 .hidden {
   visibility: hidden !important;
   height: 0px !important;
