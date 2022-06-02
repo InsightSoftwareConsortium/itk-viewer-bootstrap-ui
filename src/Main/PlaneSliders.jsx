@@ -33,7 +33,9 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
   const [slidersClass, setClass] = useState(0)
 
   useEffect(() => {
-    window.addEventListener('resize', () => getClass())
+    const onResize = () => getClass()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener(onResize)
   }, [])
 
   useEffect(() => {
@@ -57,16 +59,13 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
   }
 
   const toggleVisibility = (plane) => {
-    slicingPlanes[`${plane}`].visible = !slicingPlanes[`${plane}`].visible
+    slicingPlanes[plane].visible = !slicingPlanes[plane].visible
     send({ type: 'SLICING_PLANES_CHANGED', data: slicingPlanes })
   }
 
   const togglePlay = (plane) => {
-    slicingPlanes[`${plane}`].scroll = !slicingPlanes[`${plane}`].scroll
-    if (
-      slicingPlanes[`${plane}`].scroll &&
-      !slicingPlanes[`${plane}`].visible
-    ) {
+    slicingPlanes[plane].scroll = !slicingPlanes[plane].scroll
+    if (slicingPlanes[plane].scroll && !slicingPlanes[plane].visible) {
       toggleVisibility(plane)
     }
     send({ type: 'SLICING_PLANES_CHANGED', data: slicingPlanes })
@@ -92,75 +91,80 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
     <div ref={planeSliders} className={slidersClass}>
       {planes.map((plane, idx) => {
         return state.context.main[`${plane}Slice`] ? (
-          <div
-            key={plane.toUpperCase()}
-            className={`planeSliders ${sliderVisible(plane)}`}
-          >
-            <OverlayTrigger
-              transition={false}
-              overlay={
-                <Tooltip>{plane.toUpperCase()} Plane Visibility</Tooltip>
-              }
-            >
-              <Button
-                className={cn('icon-button', {
-                  checked: true
-                })}
-                onClick={(_e) => {
-                  toggleVisibility(plane)
-                }}
-                variant="secondary"
-                ref={visRefs[idx]}
+          <div key={plane.toUpperCase()}>
+            <div className="input-group mb-2">
+              <div className="input-group-prepend">
+                <OverlayTrigger
+                  transition={false}
+                  overlay={
+                    <Tooltip>{plane.toUpperCase()} Plane Visibility</Tooltip>
+                  }
+                >
+                  <Button
+                    className={cn('icon-button', {
+                      checked: true
+                    })}
+                    onClick={(_e) => {
+                      toggleVisibility(plane)
+                    }}
+                    variant="secondary"
+                    ref={visRefs[idx]}
+                  >
+                    {slicingPlanes[plane].visible ? (
+                      <Image src={visibleIconDataUri}></Image>
+                    ) : (
+                      <Image src={invisibleIconDataUri}></Image>
+                    )}
+                  </Button>
+                </OverlayTrigger>
+                <OverlayTrigger
+                  transition={false}
+                  overlay={
+                    <Tooltip>{`${plane.toUpperCase()} Plane Toggle Scroll`}</Tooltip>
+                  }
+                >
+                  <Button
+                    className={cn('icon-button', {
+                      checked: true
+                    })}
+                    onClick={(_e) => {
+                      togglePlay(plane)
+                    }}
+                    variant="secondary"
+                    ref={scrollRefs[idx]}
+                  >
+                    {slicingPlanes[plane].scroll ? (
+                      <Image src={pauseIconDataUri}></Image>
+                    ) : (
+                      <Image src={playIconDataUri}></Image>
+                    )}
+                  </Button>
+                </OverlayTrigger>
+                <Badge className={`${plane}badge`} bg="secondary">
+                  {plane.toUpperCase()}: {state.context.main[`${plane}Slice`]}
+                </Badge>
+              </div>
+              <div
+                key={plane.toUpperCase()}
+                className={`planeSliders ${sliderVisible(plane)}`}
               >
-                {slicingPlanes[`${plane}`].visible ? (
-                  <Image src={visibleIconDataUri}></Image>
-                ) : (
-                  <Image src={invisibleIconDataUri}></Image>
-                )}
-              </Button>
-            </OverlayTrigger>
-            <OverlayTrigger
-              transition={false}
-              overlay={
-                <Tooltip>{`${plane.toUpperCase()} Plane Toggle Scroll`}</Tooltip>
-              }
-            >
-              <Button
-                className={cn('icon-button', {
-                  checked: true
-                })}
-                onClick={(_e) => {
-                  togglePlay(plane)
-                }}
-                variant="secondary"
-                ref={scrollRefs[idx]}
-              >
-                {slicingPlanes[`${plane}`].scroll ? (
-                  <Image src={pauseIconDataUri}></Image>
-                ) : (
-                  <Image src={playIconDataUri}></Image>
-                )}
-              </Button>
-            </OverlayTrigger>
-            <Badge bg="secondary">
-              {' '}
-              {plane.toUpperCase()}:
-              {state.context.main[`${plane}Slice`]?.toFixed(3)}
-            </Badge>
-            <Form>
-              <Form.Group>
-                <Form.Control
-                  type="range"
-                  custom
-                  min={slicingPlanes[`${plane}`].min}
-                  max={slicingPlanes[`${plane}`].max}
-                  step={slicingPlanes[`${plane}`].step}
-                  onChange={(_e, val) => {
-                    handleSliderChange(plane, _e.target.value)
-                  }}
-                />
-              </Form.Group>
-            </Form>
+                <Form>
+                  <Form.Group>
+                    <Form.Control
+                      type="range"
+                      custom
+                      min={slicingPlanes[plane].min}
+                      max={slicingPlanes[plane].max}
+                      value={state.context.main[`${plane}Slice`]}
+                      step={slicingPlanes[plane].step}
+                      onChange={(_e, val) => {
+                        handleSliderChange(plane, _e.target.value)
+                      }}
+                    />
+                  </Form.Group>
+                </Form>
+              </div>
+            </div>
           </div>
         ) : (
           <div key={plane.toUpperCase() + 'hidden'} />
