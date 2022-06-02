@@ -229,11 +229,37 @@ code.uiContainer {
 }
 
 .planeSliders {
+  margin-top:5px;
+  margin-left:10px;
   display: block;
   align-items: center;
   padding-right: 2px;
-  height: 50px;
-  width: 60%;
+  height: 10px;
+  width: 50%;
+}
+
+.xbadge {
+  margin-left: 10px;
+  margin-top:10px;
+  background-color: red;
+  height: 50%;
+  width: 55px;
+}
+
+.ybadge {
+  margin-left: 10px;
+  margin-top:10px;
+  background-color: yellow;
+  height: 50%;
+  width: 55px;
+}
+
+.zbadge {
+  margin-left: 10px;
+  margin-top:10px;
+  background-color: green;
+  height: 50%;
+  width: 55px;
 }
 
 .selectedLayer {
@@ -260,9 +286,10 @@ code.uiContainer {
 .slider {
   flex: 1;
   min-height: 1rem;
-  width: 5px;
   align-self: center;
   margin-right: 5px;
+  margin-left: 15px;
+  margin-top: 20px;
 }
 
 .sliderEntry {
