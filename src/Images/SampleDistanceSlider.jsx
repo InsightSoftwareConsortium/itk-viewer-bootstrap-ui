@@ -1,15 +1,20 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
-import { Icon, Slider, Tooltip } from '@mui/material'
+import { useSelector } from '@xstate/react'
 import { sampleDistanceIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Image from 'react-bootstrap/Image'
+import Tooltip from 'react-bootstrap/Tooltip'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
 function SampleDistanceSlider(props) {
   const { service } = props
   const spacingDiv = useRef(null)
   const spacingElement = useRef(null)
-  const [state, send] = useActor(service)
+  const state = useSelector(service, (state) => state)
+  const send = service.send
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
 
@@ -35,30 +40,36 @@ function SampleDistanceSlider(props) {
 
   return (
     <div className="iconWithSlider">
-      <Tooltip
-        ref={spacingDiv}
-        title="Volume sample distance"
-        PopperProps={{
-          anchorEl: spacingDiv.current,
-          disablePortal: true,
-          keepMounted: true
-        }}
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Volume sample distance</Tooltip>}
       >
-        <Icon className="sampleDistanceButton" style={{ margin: '0 10px 0 0' }}>
-          <img src={sampleDistanceIconDataUri} />
-        </Icon>
-      </Tooltip>
-      <Slider
-        ref={spacingElement}
-        className="slider"
-        min={0}
-        max={1}
-        value={actorContext.volumeSampleDistance}
-        step={0.01}
-        onChange={(_e, val) => {
-          spacingChanged(val)
-        }}
-      />
+        <Button
+          className="icon-button-disabled"
+          variant="primary"
+          ref={spacingDiv}
+          disabled
+        >
+          <Image src={sampleDistanceIconDataUri}></Image>
+        </Button>
+      </OverlayTrigger>
+      <Form>
+        <Form.Group>
+          <Form.Control
+            ref={spacingElement}
+            type="range"
+            custom
+            className="slider"
+            min={0}
+            max={1}
+            value={actorContext.volumeSampleDistance}
+            step={0.01}
+            onChange={(_e, val) => {
+              spacingChanged(_e.target.value)
+            }}
+          />
+        </Form.Group>
+      </Form>
     </div>
   )
 }
