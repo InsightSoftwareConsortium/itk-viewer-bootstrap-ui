@@ -1,14 +1,19 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
-import { Icon, ToggleButton, Tooltip } from '@mui/material'
+import { useSelector } from '@xstate/react'
+import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
 import { shadowIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
 
-function ShadowToggle(props) {
+const ShadowToggle = React.memo(function ShadowToggle(props) {
   const { service } = props
   const shadowButton = useRef(null)
-  const [state, send] = useActor(service)
+  const state = useSelector(service, (state) => state)
+  const send = service.send
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
 
@@ -22,33 +27,24 @@ function ShadowToggle(props) {
   }, [])
 
   return (
-    <Tooltip
-      ref={shadowButton}
-      title="Use Shadow"
-      PopperProps={{
-        anchorEl: shadowButton.current,
-        disablePortal: true,
-        keepMounted: true
-      }}
-    >
-      <ToggleButton
-        size="small"
-        className="toggleButton"
+    <OverlayTrigger transition={false} overlay={<Tooltip>Use Shadow</Tooltip>}>
+      <Button
+        className={cn('icon-button', {
+          checked: actorContext.shadowEnabled
+        })}
+        variant="secondary"
         value="shadowVisible"
-        selected={actorContext.shadowEnabled}
-        onChange={() => {
+        onClick={() => {
           send({
             type: 'TOGGLE_IMAGE_SHADOW',
             data: name
           })
         }}
       >
-        <Icon className="shadowButton">
-          <img src={shadowIconDataUri} />
-        </Icon>
-      </ToggleButton>
-    </Tooltip>
+        <Image src={shadowIconDataUri}></Image>
+      </Button>
+    </OverlayTrigger>
   )
-}
+})
 
 export default ShadowToggle
