@@ -106,76 +106,74 @@ function PlaneSliders(props) {
         return stateContextMain[`${plane}Slice`] ? (
           <div key={plane.toUpperCase()}>
             <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <OverlayTrigger
-                  transition={false}
-                  overlay={
-                    <Tooltip>{plane.toUpperCase()} Plane Visibility</Tooltip>
-                  }
+              <OverlayTrigger
+                transition={false}
+                overlay={
+                  <Tooltip>{plane.toUpperCase()} Plane Visibility</Tooltip>
+                }
+              >
+                <Button
+                  className={cn(
+                    `icon-button ${viewMode !== 'Volume' ? 'hidden' : ''}`,
+                    {
+                      checked: slicingPlanes[plane].visible
+                    }
+                  )}
+                  onClick={(_e) => {
+                    toggleVisibility(plane)
+                  }}
+                  variant="secondary"
+                  ref={visRefs[idx]}
                 >
-                  <Button
-                    className={cn(
-                      `icon-button ${viewMode !== 'Volume' ? 'hidden' : ''}`,
-                      {
-                        checked: slicingPlanes[plane].visible
-                      }
-                    )}
-                    onClick={(_e) => {
-                      toggleVisibility(plane)
-                    }}
-                    variant="secondary"
-                    ref={visRefs[idx]}
-                  >
-                    {slicingPlanes[plane].visible ? (
-                      <Image src={visibleIconDataUri}></Image>
-                    ) : (
-                      <Image src={invisibleIconDataUri}></Image>
-                    )}
-                  </Button>
-                </OverlayTrigger>
-                <OverlayTrigger
-                  transition={false}
-                  overlay={
-                    <Tooltip>{`${plane.toUpperCase()} Plane Toggle Scroll`}</Tooltip>
-                  }
+                  {slicingPlanes[plane].visible ? (
+                    <Image src={visibleIconDataUri}></Image>
+                  ) : (
+                    <Image src={invisibleIconDataUri}></Image>
+                  )}
+                </Button>
+              </OverlayTrigger>
+              <OverlayTrigger
+                transition={false}
+                overlay={
+                  <Tooltip>{`${plane.toUpperCase()} Plane Toggle Scroll`}</Tooltip>
+                }
+              >
+                <Button
+                  className={cn(
+                    `icon-button ${
+                      viewMode !== `${plane.toUpperCase()}Plane` &&
+                      viewMode !== 'Volume'
+                        ? 'hidden'
+                        : ''
+                    }`,
+                    {
+                      checked: slicingPlanes[plane].scroll
+                    }
+                  )}
+                  onClick={(_e) => {
+                    togglePlay(plane)
+                  }}
+                  variant="secondary"
+                  ref={scrollRefs[idx]}
                 >
-                  <Button
-                    className={cn(
-                      `icon-button ${
-                        viewMode !== `${plane.toUpperCase()}Plane` &&
-                        viewMode !== 'Volume'
-                          ? 'hidden'
-                          : ''
-                      }`,
-                      {
-                        checked: slicingPlanes[plane].scroll
-                      }
-                    )}
-                    onClick={(_e) => {
-                      togglePlay(plane)
-                    }}
-                    variant="secondary"
-                    ref={scrollRefs[idx]}
-                  >
-                    {slicingPlanes[plane].scroll ? (
-                      <Image src={pauseIconDataUri}></Image>
-                    ) : (
-                      <Image src={playIconDataUri}></Image>
-                    )}
-                  </Button>
-                </OverlayTrigger>
-                <Badge
-                  className={`labelBadge ${plane}badge ${
-                    viewMode !== `${plane.toUpperCase()}Plane` &&
-                    viewMode !== 'Volume'
-                      ? 'hidden'
-                      : ''
-                  }`}
-                  bg="secondary"
-                >
-                  {plane.toUpperCase()}: {stateContextMain[`${plane}Slice`]}
-                </Badge>
-              </div>
+                  {slicingPlanes[plane].scroll ? (
+                    <Image src={pauseIconDataUri}></Image>
+                  ) : (
+                    <Image src={playIconDataUri}></Image>
+                  )}
+                </Button>
+              </OverlayTrigger>
+              <Badge
+                className={`labelBadge ${plane}badge ${
+                  viewMode !== `${plane.toUpperCase()}Plane` &&
+                  viewMode !== 'Volume'
+                    ? 'hidden'
+                    : ''
+                }`}
+                bg="secondary"
+              >
+                {plane.toUpperCase()}: {stateContextMain[`${plane}Slice`]}
+              </Badge>
               <div
                 key={plane.toUpperCase()}
                 className={`planeSliders ${sliderVisible(plane)}`}
