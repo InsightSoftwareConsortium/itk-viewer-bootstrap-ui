@@ -12,18 +12,18 @@ import '../style.css'
 const ShadowToggle = React.memo(function ShadowToggle(props) {
   const { service } = props
   const shadowButton = useRef(null)
-  const state = useSelector(service, (state) => state)
+  const stateContext = useSelector(service, (state) => state.context)
   const send = service.send
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const name = stateContext.images.selectedName
+  const actorContext = stateContext.images.actorContext.get(name)
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-      state.context,
+      stateContext,
       'invertibleButton',
       shadowButton.current
     )
-    state.context.images.shadowButtonInput = shadowButton.current
+    stateContext.images.shadowButtonInput = shadowButton.current
   }, [])
 
   return (
