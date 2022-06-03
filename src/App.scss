@@ -20,3 +20,22 @@
     width: 1.2rem;
   }
 }
+
+
+.icon-button-disabled {
+  background-color: transparent !important;
+  border-color: transparent !important;
+
+  &:focus {
+    background-color: transparent !important;
+  }
+  
+  &.checked {
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+
+  & > img {
+    width: 1.2rem;
+  }
+}

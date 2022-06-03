@@ -8,31 +8,32 @@ import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'
 import Tooltip from 'react-bootstrap/Tooltip'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import cn from 'classnames'
 
-function SampleDistanceSlider(props) {
+const SampleDistanceSlider = React.memo(function SampleDistanceSlider(props) {
   const { service } = props
   const spacingDiv = useRef(null)
   const spacingElement = useRef(null)
-  const state = useSelector(service, (state) => state)
+  const stateContext = useSelector(service, (state) => state.context)
   const send = service.send
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const name = stateContext.images.selectedName
+  const actorContext = stateContext.images.actorContext.get(name)
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-      state.context,
+      stateContext,
       'invertibleButton',
       spacingDiv.current
     )
-    state.context.images.volumeSampleDistanceDiv = spacingDiv.current
-    state.context.images.volumeSampleDistanceSlider = spacingElement.current
+    stateContext.images.volumeSampleDistanceDiv = spacingDiv.current
+    stateContext.images.volumeSampleDistanceSlider = spacingElement.current
   }, [])
 
   const spacingChanged = (val) => {
     send({
       type: 'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED',
       data: {
-        name: state.context.images.selectedName,
+        name: stateContext.images.selectedName,
         volumeSampleDistance: val
       }
     })
@@ -44,14 +45,9 @@ function SampleDistanceSlider(props) {
         transition={false}
         overlay={<Tooltip>Volume sample distance</Tooltip>}
       >
-        <Button
-          className="icon-button-disabled"
-          variant="primary"
-          ref={spacingDiv}
-          disabled
-        >
+        <div className="icon-button-disabled" ref={spacingDiv}>
           <Image src={sampleDistanceIconDataUri}></Image>
-        </Button>
+        </div>
       </OverlayTrigger>
       <Form>
         <Form.Group>
@@ -64,14 +60,14 @@ function SampleDistanceSlider(props) {
             max={1}
             value={actorContext.volumeSampleDistance}
             step={0.01}
-            onChange={(_e, val) => {
-              spacingChanged(_e.target.value)
+            onChange={(e) => {
+              spacingChanged(e.target.value)
             }}
           />
         </Form.Group>
       </Form>
     </div>
   )
-}
+})
 
 export default SampleDistanceSlider
