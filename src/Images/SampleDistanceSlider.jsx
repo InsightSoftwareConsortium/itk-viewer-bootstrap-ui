@@ -3,14 +3,12 @@ import { useSelector } from '@xstate/react'
 import { sampleDistanceIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
-import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'
 import Tooltip from 'react-bootstrap/Tooltip'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import cn from 'classnames'
 
-const SampleDistanceSlider = React.memo(function SampleDistanceSlider(props) {
+function SampleDistanceSlider(props) {
   const { service } = props
   const spacingDiv = useRef(null)
   const spacingElement = useRef(null)
@@ -45,29 +43,27 @@ const SampleDistanceSlider = React.memo(function SampleDistanceSlider(props) {
         transition={false}
         overlay={<Tooltip>Volume sample distance</Tooltip>}
       >
-        <div className="icon-button-disabled" ref={spacingDiv}>
+        <div className="icon-button" ref={spacingDiv}>
           <Image src={sampleDistanceIconDataUri}></Image>
         </div>
       </OverlayTrigger>
       <Form>
-        <Form.Group>
-          <Form.Control
-            ref={spacingElement}
-            type="range"
-            custom
-            className="slider"
-            min={0}
-            max={1}
-            value={actorContext.volumeSampleDistance}
-            step={0.01}
-            onChange={(e) => {
-              spacingChanged(e.target.value)
-            }}
-          />
-        </Form.Group>
+        <Form.Control
+          ref={spacingElement}
+          type="range"
+          custom
+          className="slider"
+          min={0}
+          max={1}
+          value={actorContext.volumeSampleDistance}
+          step={0.01}
+          onChange={(e) => {
+            spacingChanged(e.target.value)
+          }}
+        />
       </Form>
     </div>
   )
-})
+}
 
 export default SampleDistanceSlider
