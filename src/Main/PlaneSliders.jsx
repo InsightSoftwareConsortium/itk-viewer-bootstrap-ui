@@ -15,9 +15,22 @@ import cn from 'classnames'
 import Badge from 'react-bootstrap/Badge'
 import '../style.css'
 
-const PlaneSliders = React.memo(function PlaneSliders(props) {
+function PlaneSliders(props) {
   const { service } = props
-  const state = useSelector(service, (state) => state)
+  const stateContextMain = useSelector(service, (state) => state.context.main)
+  const stateContextUiDrawer = useSelector(
+    service,
+    (state) => state.context.uiDrawer
+  )
+  const stateContextUiCollapsed = useSelector(
+    service,
+    (state) => state.context.uiCollapsed
+  )
+  const stateContextUse2D = useSelector(service, (state) => state.context.use2D)
+  const stateContextContainerClientHeight = useSelector(
+    service,
+    (state) => state.context.container.clientHeight
+  )
   const send = service.send
   const xVisibility = useRef(null)
   const yVisibility = useRef(null)
@@ -29,7 +42,7 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
   const planes = ['x', 'y', 'z']
   const visRefs = [xVisibility, yVisibility, zVisibility]
   const scrollRefs = [xScroll, yScroll, zScroll]
-  const { slicingPlanes, viewMode } = state.context.main
+  const { slicingPlanes, viewMode } = stateContextMain
   const [slidersClass, setClass] = useState(0)
 
   useEffect(() => {
@@ -40,17 +53,17 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
 
   useEffect(() => {
     getClass()
-  }, [state.context.uiDrawer?.clientHeight])
+  }, [stateContextUiDrawer?.clientHeight])
 
   const getClass = () => {
-    if (state.context.uiCollapsed) {
+    if (stateContextUiCollapsed) {
       setClass('hidden')
     }
-    const containerHeight = state.context.container.clientHeight
-    const panelHeight = state.context.uiDrawer?.clientHeight || 0
+    const containerHeight = stateContextContainerClientHeight
+    const panelHeight = stateContextUiDrawer?.clientHeight || 0
     const slidersHeight = planeSliders.current?.clientHeight || 0
     const panel_offset =
-      state.context.main.collapseUIButton?.parentNode?.clientHeight || 0
+      stateContextMain.collapseUIButton?.parentNode?.clientHeight || 0
     if (containerHeight - (panelHeight + panel_offset) < slidersHeight) {
       setClass('uiSlidersGroupCondensed')
     } else {
@@ -79,7 +92,7 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
   }
 
   const sliderVisible = (plane) => {
-    const isVolume = viewMode === 'Volume' && !state.context.use2D
+    const isVolume = viewMode === 'Volume' && !stateContextUse2D
     const planeVisible = viewMode === `${plane.toUpperCase()}Plane`
     if (!isVolume && !planeVisible) {
       return 'hidden'
@@ -90,7 +103,7 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
   return (
     <div ref={planeSliders} className={slidersClass}>
       {planes.map((plane, idx) => {
-        return state.context.main[`${plane}Slice`] ? (
+        return stateContextMain[`${plane}Slice`] ? (
           <div key={plane.toUpperCase()}>
             <div className="input-group mb-2">
               <div className="input-group-prepend">
@@ -101,9 +114,12 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                   }
                 >
                   <Button
-                    className={cn('icon-button', {
-                      checked: true
-                    })}
+                    className={cn(
+                      `icon-button ${viewMode !== 'Volume' ? 'hidden' : ''}`,
+                      {
+                        checked: slicingPlanes[plane].visible
+                      }
+                    )}
                     onClick={(_e) => {
                       toggleVisibility(plane)
                     }}
@@ -124,9 +140,17 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                   }
                 >
                   <Button
-                    className={cn('icon-button', {
-                      checked: true
-                    })}
+                    className={cn(
+                      `icon-button ${
+                        viewMode !== `${plane.toUpperCase()}Plane` &&
+                        viewMode !== 'Volume'
+                          ? 'hidden'
+                          : ''
+                      }`,
+                      {
+                        checked: slicingPlanes[plane].scroll
+                      }
+                    )}
                     onClick={(_e) => {
                       togglePlay(plane)
                     }}
@@ -140,8 +164,16 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                     )}
                   </Button>
                 </OverlayTrigger>
-                <Badge className={`${plane}badge`} bg="secondary">
-                  {plane.toUpperCase()}: {state.context.main[`${plane}Slice`]}
+                <Badge
+                  className={`labelBadge ${plane}badge ${
+                    viewMode !== `${plane.toUpperCase()}Plane` &&
+                    viewMode !== 'Volume'
+                      ? 'hidden'
+                      : ''
+                  }`}
+                  bg="secondary"
+                >
+                  {plane.toUpperCase()}: {stateContextMain[`${plane}Slice`]}
                 </Badge>
               </div>
               <div
@@ -149,19 +181,17 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
                 className={`planeSliders ${sliderVisible(plane)}`}
               >
                 <Form>
-                  <Form.Group>
-                    <Form.Control
-                      type="range"
-                      custom
-                      min={slicingPlanes[plane].min}
-                      max={slicingPlanes[plane].max}
-                      value={state.context.main[`${plane}Slice`]}
-                      step={slicingPlanes[plane].step}
-                      onChange={(_e, val) => {
-                        handleSliderChange(plane, _e.target.value)
-                      }}
-                    />
-                  </Form.Group>
+                  <Form.Control
+                    type="range"
+                    custom
+                    min={slicingPlanes[plane].min}
+                    max={slicingPlanes[plane].max}
+                    value={stateContextMain[`${plane}Slice`]}
+                    step={slicingPlanes[plane].step}
+                    onChange={(_e) => {
+                      handleSliderChange(plane, _e.target.value)
+                    }}
+                  />
                 </Form>
               </div>
             </div>
@@ -172,6 +202,6 @@ const PlaneSliders = React.memo(function PlaneSliders(props) {
       })}
     </div>
   )
-})
+}
 
 export default PlaneSliders
