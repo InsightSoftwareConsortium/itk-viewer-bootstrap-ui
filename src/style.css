@@ -291,9 +291,10 @@ code.uiContainer {
 .slider {
   flex: 1;
   min-height: 1rem;
-  width: 5px;
   align-self: center;
   margin-right: 5px;
+  margin-left: 15px;
+  margin-top: 20px;
 }
 
 .sliderEntry {
