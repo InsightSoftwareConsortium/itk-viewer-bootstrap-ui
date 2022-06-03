@@ -20,20 +20,3 @@
     width: 1.2rem;
   }
 }
-
-.icon-button-disabled {
-  background-color: transparent !important;
-  border-color: transparent !important;
-
-  &:focus {
-    background-color: transparent;
-  }
-
-  &:hover {
-    background-color: transparent;
-  }
-
-  & > img {
-    width: 1.2rem;
-  }
-}
