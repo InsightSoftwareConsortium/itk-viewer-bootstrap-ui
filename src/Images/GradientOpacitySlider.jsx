@@ -72,24 +72,20 @@ function GradientOpacitySlider(props) {
         </Button>
       </OverlayTrigger>
       <div className="gradientOpacityScale">
-        <Form>
-          <Form.Group>
-            <Form.Control
-              ref={gradientOpacitySlider}
-              type="range"
-              className={`slider gradientOpacityInput ${
-                vertSlider ? '' : 'hidden'
-              }`}
-              min={0}
-              max={1}
-              value={actorContext.gradientOpacity}
-              step={0.01}
-              onChange={(_e) => {
-                opacitySliderChanged(_e.target.value)
-              }}
-            />
-          </Form.Group>
-        </Form>
+        <Form.Control
+          ref={gradientOpacitySlider}
+          type="range"
+          className={`slider gradientOpacityInput ${
+            vertSlider ? '' : 'hidden'
+          }`}
+          min={0}
+          max={1}
+          value={actorContext.gradientOpacity}
+          step={0.01}
+          onChange={(_e) => {
+            opacitySliderChanged(_e.target.value)
+          }}
+        />
       </div>
       <Form className="gradientSliderContainer">
         <Form.Group>
