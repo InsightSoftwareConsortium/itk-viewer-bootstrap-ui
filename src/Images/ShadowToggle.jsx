@@ -16,6 +16,12 @@ function ShadowToggle(props) {
   const send = service.send
   const name = stateContext.images.selectedName
   const actorContext = stateContext.images.actorContext.get(name)
+  const shadowEnabled = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .shadowEnabled
+  )
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
@@ -30,7 +36,7 @@ function ShadowToggle(props) {
     <OverlayTrigger transition={false} overlay={<Tooltip>Use Shadow</Tooltip>}>
       <Button
         className={cn('icon-button', {
-          checked: actorContext.shadowEnabled
+          checked: shadowEnabled
         })}
         variant="secondary"
         value="shadowVisible"
