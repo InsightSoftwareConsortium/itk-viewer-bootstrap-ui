@@ -47,21 +47,19 @@ function SampleDistanceSlider(props) {
           <Image src={sampleDistanceIconDataUri}></Image>
         </div>
       </OverlayTrigger>
-      <Form>
-        <Form.Control
-          ref={spacingElement}
-          type="range"
-          custom
-          className="slider"
-          min={0}
-          max={1}
-          value={actorContext.volumeSampleDistance}
-          step={0.01}
-          onChange={(e) => {
-            spacingChanged(e.target.value)
-          }}
-        />
-      </Form>
+      <Form.Control
+        ref={spacingElement}
+        type="range"
+        custom
+        className="slider"
+        min={0}
+        max={1}
+        value={actorContext.volumeSampleDistance}
+        step={0.01}
+        onChange={(e) => {
+          spacingChanged(e.target.value)
+        }}
+      />
     </div>
   )
 }
