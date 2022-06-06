@@ -9,7 +9,7 @@ import { shadowIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
 
-const ShadowToggle = React.memo(function ShadowToggle(props) {
+function ShadowToggle(props) {
   const { service } = props
   const shadowButton = useRef(null)
   const stateContext = useSelector(service, (state) => state.context)
@@ -45,6 +45,6 @@ const ShadowToggle = React.memo(function ShadowToggle(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default ShadowToggle
