@@ -79,8 +79,14 @@ code.uiContainer {
   -webkit-appearance: slider-vertical;
 }
 
-.hidden {
+.hiddenSlider {
   display: none !important;
+}
+
+.hidden {
+  visibility: collapse !important;
+  height: 0px !important;
+  margin: 0px !important;
 }
 
 .iconWithSlider {
@@ -240,7 +246,7 @@ code.uiContainer {
   margin-left: 10px;
   margin-top:10px;
   height: 50%;
-  width: 6%;
+  width: max(2%, 60px);
 }
 
 .xbadge {

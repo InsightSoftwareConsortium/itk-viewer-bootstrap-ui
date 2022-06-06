@@ -57,7 +57,7 @@ function PlaneSliders(props) {
 
   const getClass = () => {
     if (stateContextUiCollapsed) {
-      setClass('hidden')
+      setClass('hiddenSlider')
     }
     const containerHeight = stateContextContainerClientHeight
     const panelHeight = stateContextUiDrawer?.clientHeight || 0
@@ -95,7 +95,7 @@ function PlaneSliders(props) {
     const isVolume = viewMode === 'Volume' && !stateContextUse2D
     const planeVisible = viewMode === `${plane.toUpperCase()}Plane`
     if (!isVolume && !planeVisible) {
-      return 'hidden'
+      return 'hiddenSlider'
     }
     return ''
   }
@@ -114,7 +114,9 @@ function PlaneSliders(props) {
               >
                 <Button
                   className={cn(
-                    `icon-button ${viewMode !== 'Volume' ? 'hidden' : ''}`,
+                    `icon-button ${
+                      viewMode !== 'Volume' ? 'hiddenSlider' : ''
+                    }`,
                     {
                       checked: slicingPlanes[plane].visible
                     }
@@ -143,7 +145,7 @@ function PlaneSliders(props) {
                     `icon-button ${
                       viewMode !== `${plane.toUpperCase()}Plane` &&
                       viewMode !== 'Volume'
-                        ? 'hidden'
+                        ? 'hiddenSlider'
                         : ''
                     }`,
                     {
@@ -167,7 +169,7 @@ function PlaneSliders(props) {
                 className={`labelBadge ${plane}badge ${
                   viewMode !== `${plane.toUpperCase()}Plane` &&
                   viewMode !== 'Volume'
-                    ? 'hidden'
+                    ? 'hiddenSlider'
                     : ''
                 }`}
                 bg="secondary"
@@ -196,7 +198,7 @@ function PlaneSliders(props) {
             </div>
           </div>
         ) : (
-          <div key={plane.toUpperCase() + 'hidden'} />
+          <div key={plane.toUpperCase() + 'hiddenSlider'} />
         )
       })}
     </div>
