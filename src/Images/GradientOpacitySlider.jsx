@@ -12,23 +12,23 @@ import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyle
 
 const GradientOpacitySlider = React.memo(function GradientOpacitySlider(props) {
   const { service } = props
-  const state = useSelector(service, (state) => state)
+  const stateContext = useSelector(service, (state) => state.context)
   const send = service.send
   const sliderEntry = useRef(null)
   const gradientOpacitySlider = useRef(null)
   const gradientOpacityScaleSlider = useRef(null)
   const [vertSlider, setVertSlider] = useState(false)
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const name = stateContext.images.selectedName
+  const actorContext = stateContext.images.actorContext.get(name)
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-      state.context,
+      stateContext,
       'invertibleButton',
       sliderEntry.current
     )
-    state.context.images.gradientOpacitySlider = gradientOpacitySlider.current
-    state.context.images.gradientOpacityScaleSlider =
+    stateContext.images.gradientOpacitySlider = gradientOpacitySlider.current
+    stateContext.images.gradientOpacityScaleSlider =
       gradientOpacityScaleSlider.current
   }, [])
 
@@ -36,7 +36,7 @@ const GradientOpacitySlider = React.memo(function GradientOpacitySlider(props) {
     send({
       type: 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
       data: {
-        name: state.context.images.selectedName,
+        name: stateContext.images.selectedName,
         gradientOpacityScale: value
       }
     })
@@ -46,7 +46,7 @@ const GradientOpacitySlider = React.memo(function GradientOpacitySlider(props) {
     send({
       type: 'IMAGE_GRADIENT_OPACITY_CHANGED',
       data: {
-        name: state.context.images.selectedName,
+        name: stateContext.images.selectedName,
         gradientOpacity: value
       }
     })
@@ -84,7 +84,7 @@ const GradientOpacitySlider = React.memo(function GradientOpacitySlider(props) {
               max={1}
               value={actorContext.gradientOpacity}
               step={0.01}
-              onChange={(_e, val) => {
+              onChange={(_e) => {
                 opacitySliderChanged(_e.target.value)
               }}
             />
@@ -102,7 +102,7 @@ const GradientOpacitySlider = React.memo(function GradientOpacitySlider(props) {
             max={0.99}
             value={actorContext.gradientOpacityScale}
             step={0.01}
-            onChange={(_e, val) => {
+            onChange={(_e) => {
               opacityScaleSliderChanged(_e.target.value)
             }}
           />
