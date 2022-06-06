@@ -16,6 +16,12 @@ function SampleDistanceSlider(props) {
   const send = service.send
   const name = stateContext.images.selectedName
   const actorContext = stateContext.images.actorContext.get(name)
+  const volumeSampleDistance = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .volumeSampleDistance
+  )
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
@@ -54,7 +60,7 @@ function SampleDistanceSlider(props) {
         className="slider"
         min={0}
         max={1}
-        value={actorContext.volumeSampleDistance}
+        value={volumeSampleDistance}
         step={0.01}
         onChange={(e) => {
           spacingChanged(e.target.value)
