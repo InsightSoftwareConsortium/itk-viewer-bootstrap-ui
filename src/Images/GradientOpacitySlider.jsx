@@ -10,7 +10,7 @@ import cn from 'classnames'
 import '../style.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-const GradientOpacitySlider = React.memo(function GradientOpacitySlider(props) {
+function GradientOpacitySlider(props) {
   const { service } = props
   const stateContext = useSelector(service, (state) => state.context)
   const send = service.send
@@ -60,7 +60,7 @@ const GradientOpacitySlider = React.memo(function GradientOpacitySlider(props) {
       >
         <Button
           className={cn('icon-button', {
-            checked: true
+            checked: vertSlider
           })}
           onClick={() => {
             setVertSlider(!vertSlider)
@@ -110,6 +110,6 @@ const GradientOpacitySlider = React.memo(function GradientOpacitySlider(props) {
       </Form>
     </div>
   )
-})
+}
 
 export default GradientOpacitySlider
