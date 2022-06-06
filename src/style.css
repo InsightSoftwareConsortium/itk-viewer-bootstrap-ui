@@ -80,9 +80,7 @@ code.uiContainer {
 }
 
 .hidden {
-  visibility: hidden !important;
-  height: 0px !important;
-  margin: 0px !important;
+  display: none !important;
 }
 
 .iconWithSlider {

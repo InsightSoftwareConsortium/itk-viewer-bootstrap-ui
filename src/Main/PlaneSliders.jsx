@@ -105,7 +105,7 @@ function PlaneSliders(props) {
       {planes.map((plane, idx) => {
         return stateContextMain[`${plane}Slice`] ? (
           <div key={plane.toUpperCase()}>
-            <div className="input-group mb-2">
+            <div className="input-group">
               <OverlayTrigger
                 transition={false}
                 overlay={
