@@ -172,7 +172,8 @@ function PlaneSliders(props) {
                 }`}
                 bg="secondary"
               >
-                {plane.toUpperCase()}: {stateContextMain[`${plane}Slice`]}
+                {plane.toUpperCase()}:{' '}
+                {stateContextMain[`${plane}Slice`]?.toFixed(2)}
               </Badge>
               <div
                 key={plane.toUpperCase()}

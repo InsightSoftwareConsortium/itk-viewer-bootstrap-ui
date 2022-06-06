@@ -240,7 +240,7 @@ code.uiContainer {
   margin-left: 10px;
   margin-top:10px;
   height: 50%;
-  width: 55px;
+  width: 6%;
 }
 
 .xbadge {
@@ -353,7 +353,7 @@ code.uiContainer {
 }
 
 .uiSlidersGroup {
-  background: rgba(128, 128, 128, 0.5);
+  background: transparent;
   position: fixed;
   bottom: 0;
   left: 7%;
