@@ -20,6 +20,14 @@ function GradientOpacitySlider(props) {
   const [vertSlider, setVertSlider] = useState(false)
   const name = stateContext.images.selectedName
   const actorContext = stateContext.images.actorContext.get(name)
+  const { gradientOpacityScale, gradientOpacity } = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName),
+    (a, b) =>
+      a.gradientOpacityScale === b.gradientOpacityScale &&
+      a.gradientOpacity === b.gradientOpacity
+  )
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
@@ -80,7 +88,7 @@ function GradientOpacitySlider(props) {
           }`}
           min={0}
           max={1}
-          value={actorContext.gradientOpacity}
+          value={gradientOpacity}
           step={0.01}
           onChange={(_e) => {
             opacitySliderChanged(_e.target.value)
@@ -96,7 +104,7 @@ function GradientOpacitySlider(props) {
             className="slider"
             min={0}
             max={0.99}
-            value={actorContext.gradientOpacityScale}
+            value={gradientOpacityScale}
             step={0.01}
             onChange={(_e) => {
               opacityScaleSliderChanged(_e.target.value)
