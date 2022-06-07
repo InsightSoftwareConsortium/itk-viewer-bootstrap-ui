@@ -181,19 +181,17 @@ function PlaneSliders(props) {
                 key={plane.toUpperCase()}
                 className={`planeSliders ${sliderVisible(plane)}`}
               >
-                <Form>
-                  <Form.Control
-                    type="range"
-                    custom
-                    min={slicingPlanes[plane].min}
-                    max={slicingPlanes[plane].max}
-                    value={stateContextMain[`${plane}Slice`]}
-                    step={slicingPlanes[plane].step}
-                    onChange={(_e) => {
-                      handleSliderChange(plane, _e.target.value)
-                    }}
-                  />
-                </Form>
+                <Form.Control
+                  type="range"
+                  custom
+                  min={slicingPlanes[plane].min}
+                  max={slicingPlanes[plane].max}
+                  value={stateContextMain[`${plane}Slice`]}
+                  step={slicingPlanes[plane].step}
+                  onChange={(_e) => {
+                    handleSliderChange(plane, _e.target.value)
+                  }}
+                />
               </div>
             </div>
           </div>
