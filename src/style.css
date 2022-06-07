@@ -27,13 +27,8 @@
 } 
 
 .icon-image {
-  background-color: transparent !important;
-  border-color: transparent !important;
   margin-right: 10px;
 }
-.icon-image > img {
-  width: 1.2rem;
-} 
 
 .categoricalMenu {
   margin: 0 5px !important;
