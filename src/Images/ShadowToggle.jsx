@@ -9,13 +9,19 @@ import { shadowIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
 
-const ShadowToggle = React.memo(function ShadowToggle(props) {
+function ShadowToggle(props) {
   const { service } = props
   const shadowButton = useRef(null)
   const stateContext = useSelector(service, (state) => state.context)
   const send = service.send
   const name = stateContext.images.selectedName
   const actorContext = stateContext.images.actorContext.get(name)
+  const shadowEnabled = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .shadowEnabled
+  )
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
@@ -30,7 +36,7 @@ const ShadowToggle = React.memo(function ShadowToggle(props) {
     <OverlayTrigger transition={false} overlay={<Tooltip>Use Shadow</Tooltip>}>
       <Button
         className={cn('icon-button', {
-          checked: actorContext.shadowEnabled
+          checked: shadowEnabled
         })}
         variant="secondary"
         value="shadowVisible"
@@ -45,6 +51,6 @@ const ShadowToggle = React.memo(function ShadowToggle(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default ShadowToggle
