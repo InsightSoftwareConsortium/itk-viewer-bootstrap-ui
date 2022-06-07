@@ -1,28 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useActor } from '@xstate/react'
-import { Icon, IconButton, Slider, Tooltip } from '@mui/material'
+import { useSelector } from '@xstate/react'
 import { gradientIconDataUri } from 'itk-viewer-icons'
-import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
 import '../style.css'
+import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
 function GradientOpacitySlider(props) {
   const { service } = props
+  const stateContext = useSelector(service, (state) => state.context)
+  const send = service.send
   const sliderEntry = useRef(null)
   const gradientOpacitySlider = useRef(null)
   const gradientOpacityScaleSlider = useRef(null)
   const [vertSlider, setVertSlider] = useState(false)
-  const [state, send] = useActor(service)
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const name = stateContext.images.selectedName
+  const actorContext = stateContext.images.actorContext.get(name)
+  const { gradientOpacityScale, gradientOpacity } = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName),
+    (a, b) =>
+      a.gradientOpacityScale === b.gradientOpacityScale &&
+      a.gradientOpacity === b.gradientOpacity
+  )
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-      state.context,
+      stateContext,
       'invertibleButton',
       sliderEntry.current
     )
-    state.context.images.gradientOpacitySlider = gradientOpacitySlider.current
-    state.context.images.gradientOpacityScaleSlider =
+    stateContext.images.gradientOpacitySlider = gradientOpacitySlider.current
+    stateContext.images.gradientOpacityScaleSlider =
       gradientOpacityScaleSlider.current
   }, [])
 
@@ -30,7 +44,7 @@ function GradientOpacitySlider(props) {
     send({
       type: 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
       data: {
-        name: state.context.images.selectedName,
+        name: stateContext.images.selectedName,
         gradientOpacityScale: value
       }
     })
@@ -40,7 +54,7 @@ function GradientOpacitySlider(props) {
     send({
       type: 'IMAGE_GRADIENT_OPACITY_CHANGED',
       data: {
-        name: state.context.images.selectedName,
+        name: stateContext.images.selectedName,
         gradientOpacity: value
       }
     })
@@ -48,53 +62,54 @@ function GradientOpacitySlider(props) {
 
   return (
     <div className="iconWithSlider">
-      <Tooltip
-        ref={sliderEntry}
-        title="Gradient opacity scale"
-        PopperProps={{
-          anchorEl: sliderEntry.current,
-          disablePortal: true,
-          keepMounted: true
-        }}
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Gradient opacity scale</Tooltip>}
       >
-        <IconButton
-          size="small"
+        <Button
+          className={cn('icon-button', {
+            checked: vertSlider
+          })}
           onClick={() => {
             setVertSlider(!vertSlider)
           }}
+          variant="secondary"
+          ref={sliderEntry}
         >
-          <Icon className="sliderEntry">
-            <img src={gradientIconDataUri} />
-          </Icon>
-        </IconButton>
-      </Tooltip>
+          <Image src={gradientIconDataUri}></Image>
+        </Button>
+      </OverlayTrigger>
       <div className="gradientOpacityScale">
-        <Slider
+        <Form.Control
           ref={gradientOpacitySlider}
+          type="range"
           className={`slider gradientOpacityInput ${
             vertSlider ? '' : 'hidden'
           }`}
-          orientation="vertical"
           min={0}
           max={1}
-          value={actorContext.gradientOpacity}
+          value={gradientOpacity}
           step={0.01}
-          onChange={(_e, val) => {
-            opacitySliderChanged(val)
+          onChange={(_e) => {
+            opacitySliderChanged(_e.target.value)
           }}
         />
       </div>
-      <Slider
-        ref={gradientOpacityScaleSlider}
-        className="slider"
-        min={0}
-        max={0.99}
-        value={actorContext.gradientOpacityScale}
-        step={0.01}
-        onChange={(_e, val) => {
-          opacityScaleSliderChanged(val)
-        }}
-      />
+      <Form className="gradientSliderContainer">
+        <Form.Control
+          ref={gradientOpacityScaleSlider}
+          type="range"
+          custom
+          className="slider"
+          min={0}
+          max={0.99}
+          value={gradientOpacityScale}
+          step={0.01}
+          onChange={(_e) => {
+            opacityScaleSliderChanged(_e.target.value)
+          }}
+        />
+      </Form>
     </div>
   )
 }
