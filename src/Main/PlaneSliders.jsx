@@ -1,17 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useActor } from '@xstate/react'
-import { Chip, Icon, IconButton, Slider, Tooltip } from '@mui/material'
+import { useSelector } from '@xstate/react'
 import {
   visibleIconDataUri,
   invisibleIconDataUri,
   pauseIconDataUri,
   playIconDataUri
 } from 'itk-viewer-icons'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import cn from 'classnames'
+import Badge from 'react-bootstrap/Badge'
 import '../style.css'
 
 function PlaneSliders(props) {
   const { service } = props
-  const [state, send] = useActor(service)
+  const stateContextMain = useSelector(service, (state) => state.context.main)
+  const stateContextUiDrawer = useSelector(
+    service,
+    (state) => state.context.uiDrawer
+  )
+  const stateContextUiCollapsed = useSelector(
+    service,
+    (state) => state.context.uiCollapsed
+  )
+  const stateContextUse2D = useSelector(service, (state) => state.context.use2D)
+  const stateContextContainerClientHeight = useSelector(
+    service,
+    (state) => state.context.container.clientHeight
+  )
+  const send = service.send
   const xVisibility = useRef(null)
   const yVisibility = useRef(null)
   const zVisibility = useRef(null)
@@ -22,23 +42,28 @@ function PlaneSliders(props) {
   const planes = ['x', 'y', 'z']
   const visRefs = [xVisibility, yVisibility, zVisibility]
   const scrollRefs = [xScroll, yScroll, zScroll]
-  const { slicingPlanes, viewMode } = state.context.main
-  const [slidersClass, setClass] = useState(0);
+  const { slicingPlanes, viewMode } = stateContextMain
+  const [slidersClass, setClass] = useState(0)
 
   useEffect(() => {
-    window.addEventListener("resize", () => getClass())
+    const onResize = () => getClass()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener(onResize)
   }, [])
 
-  useEffect(() => { getClass() }, [state.context.uiDrawer?.clientHeight])
+  useEffect(() => {
+    getClass()
+  }, [stateContextUiDrawer?.clientHeight])
 
   const getClass = () => {
-    if (state.context.uiCollapsed) {
-      setClass('hidden')
+    if (stateContextUiCollapsed) {
+      setClass('hiddenSlider')
     }
-    const containerHeight = state.context.container.clientHeight
-    const panelHeight = state.context.uiDrawer?.clientHeight || 0
+    const containerHeight = stateContextContainerClientHeight
+    const panelHeight = stateContextUiDrawer?.clientHeight || 0
     const slidersHeight = planeSliders.current?.clientHeight || 0
-    const panel_offset = state.context.main.collapseUIButton?.parentNode?.clientHeight || 0
+    const panel_offset =
+      stateContextMain.collapseUIButton?.parentNode?.clientHeight || 0
     if (containerHeight - (panelHeight + panel_offset) < slidersHeight) {
       setClass('uiSlidersGroupCondensed')
     } else {
@@ -47,16 +72,13 @@ function PlaneSliders(props) {
   }
 
   const toggleVisibility = (plane) => {
-    slicingPlanes[`${plane}`].visible = !slicingPlanes[`${plane}`].visible
+    slicingPlanes[plane].visible = !slicingPlanes[plane].visible
     send({ type: 'SLICING_PLANES_CHANGED', data: slicingPlanes })
   }
 
   const togglePlay = (plane) => {
-    slicingPlanes[`${plane}`].scroll = !slicingPlanes[`${plane}`].scroll
-    if (
-      slicingPlanes[`${plane}`].scroll &&
-      !slicingPlanes[`${plane}`].visible
-    ) {
+    slicingPlanes[plane].scroll = !slicingPlanes[plane].scroll
+    if (slicingPlanes[plane].scroll && !slicingPlanes[plane].visible) {
       toggleVisibility(plane)
     }
     send({ type: 'SLICING_PLANES_CHANGED', data: slicingPlanes })
@@ -65,15 +87,15 @@ function PlaneSliders(props) {
   const handleSliderChange = (plane, val) => {
     send({
       type: `${plane.toUpperCase()}_SLICE_CHANGED`,
-      data: val
+      data: Number(val)
     })
   }
 
   const sliderVisible = (plane) => {
-    const isVolume = viewMode === 'Volume' && !state.context.use2D
+    const isVolume = viewMode === 'Volume' && !stateContextUse2D
     const planeVisible = viewMode === `${plane.toUpperCase()}Plane`
     if (!isVolume && !planeVisible) {
-      return 'hidden'
+      return 'hiddenSlider'
     }
     return ''
   }
@@ -81,86 +103,100 @@ function PlaneSliders(props) {
   return (
     <div ref={planeSliders} className={slidersClass}>
       {planes.map((plane, idx) => {
-        return (
-          state.context.main[`${plane}Slice`] ? (
-            <div
-              key={plane.toUpperCase()}
-              className={`planeSliders ${sliderVisible(plane)}`}
-            >
-              <Tooltip
-                ref={visRefs[idx]}
-                title={`${plane.toUpperCase()} Plane Visibility`}
-                PopperProps={{
-                  anchorEl: visRefs[idx].current,
-                  disablePortal: true,
-                  keepMounted: true
-                }}
+        return stateContextMain[`${plane}Slice`] ? (
+          <div key={plane.toUpperCase()}>
+            <div className="input-group">
+              <OverlayTrigger
+                transition={false}
+                overlay={
+                  <Tooltip>{plane.toUpperCase()} Plane Visibility</Tooltip>
+                }
               >
-                <IconButton
-                  size="small"
-                  className={`sliderIcons ${
-                    viewMode !== 'Volume' ? 'hidden' : ''
-                  }`}
+                <Button
+                  className={cn(
+                    `icon-button ${
+                      viewMode !== 'Volume' ? 'hiddenSlider' : ''
+                    }`,
+                    {
+                      checked: slicingPlanes[plane].visible
+                    }
+                  )}
                   onClick={(_e) => {
                     toggleVisibility(plane)
                   }}
+                  variant="secondary"
+                  ref={visRefs[idx]}
                 >
-                  <Icon>
-                    {slicingPlanes[`${plane}`].visible ? (
-                      <img src={visibleIconDataUri} />
-                    ) : (
-                      <img
-                        className="toggledOffIcon"
-                        src={invisibleIconDataUri}
-                      />
-                    )}
-                  </Icon>
-                </IconButton>
-              </Tooltip>
-              <Tooltip
-                ref={scrollRefs[idx]}
-                title={`${plane.toUpperCase()} Plane Toggle Scroll`}
-                PopperProps={{
-                  anchorEl: scrollRefs[idx].current,
-                  disablePortal: true,
-                  keepMounted: true
-                }}
+                  {slicingPlanes[plane].visible ? (
+                    <Image src={visibleIconDataUri}></Image>
+                  ) : (
+                    <Image src={invisibleIconDataUri}></Image>
+                  )}
+                </Button>
+              </OverlayTrigger>
+              <OverlayTrigger
+                transition={false}
+                overlay={
+                  <Tooltip>{`${plane.toUpperCase()} Plane Toggle Scroll`}</Tooltip>
+                }
               >
-                <IconButton
-                  size="small"
-                  className="sliderIcons"
+                <Button
+                  className={cn(
+                    `icon-button ${
+                      viewMode !== `${plane.toUpperCase()}Plane` &&
+                      viewMode !== 'Volume'
+                        ? 'hiddenSlider'
+                        : ''
+                    }`,
+                    {
+                      checked: slicingPlanes[plane].scroll
+                    }
+                  )}
                   onClick={(_e) => {
                     togglePlay(plane)
                   }}
+                  variant="secondary"
+                  ref={scrollRefs[idx]}
                 >
-                  <Icon>
-                    {slicingPlanes[`${plane}`].scroll ? (
-                      <img src={pauseIconDataUri} />
-                    ) : (
-                      <img className="toggledOffIcon" src={playIconDataUri} />
-                    )}
-                  </Icon>
-                </IconButton>
-              </Tooltip>
-              <Chip
-                className="sliderIcons"
-                size="small"
-                label={`${plane.toUpperCase()}: ${state.context.main[
-                  `${plane}Slice`
-                ].toFixed(3)}`}
-                color="secondary"
-              />
-              <Slider
-                min={slicingPlanes[`${plane}`].min}
-                max={slicingPlanes[`${plane}`].max}
-                step={slicingPlanes[`${plane}`].step}
-                value={state.context.main[`${plane}Slice`]}
-                onChange={(_e, val) => {
-                  handleSliderChange(plane, val)
-                }}
-              />
+                  {slicingPlanes[plane].scroll ? (
+                    <Image src={pauseIconDataUri}></Image>
+                  ) : (
+                    <Image src={playIconDataUri}></Image>
+                  )}
+                </Button>
+              </OverlayTrigger>
+              <Badge
+                className={`labelBadge ${plane}badge ${
+                  viewMode !== `${plane.toUpperCase()}Plane` &&
+                  viewMode !== 'Volume'
+                    ? 'hiddenSlider'
+                    : ''
+                }`}
+                bg="secondary"
+              >
+                {plane.toUpperCase()}:{' '}
+                {stateContextMain[`${plane}Slice`]?.toPrecision(4)}
+              </Badge>
+              <div
+                key={plane.toUpperCase()}
+                className={`planeSliders ${sliderVisible(plane)}`}
+              >
+                <Form.Control
+                  type="range"
+                  custom
+                  min={slicingPlanes[plane].min}
+                  max={slicingPlanes[plane].max}
+                  value={stateContextMain[`${plane}Slice`]}
+                  step={slicingPlanes[plane].step}
+                  onChange={(_e) => {
+                    handleSliderChange(plane, _e.target.value)
+                  }}
+                />
+              </div>
             </div>
-          ) : <div key={plane.toUpperCase()+'hidden'}/>
+          </div>
+        ) : (
+          <div key={plane.toUpperCase() + 'hiddenSlider'} />
         )
       })}
     </div>
