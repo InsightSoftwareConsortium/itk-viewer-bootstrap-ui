@@ -96,21 +96,19 @@ function GradientOpacitySlider(props) {
         />
       </div>
       <Form className="gradientSliderContainer">
-        <Form.Group>
-          <Form.Control
-            ref={gradientOpacityScaleSlider}
-            type="range"
-            custom
-            className="slider"
-            min={0}
-            max={0.99}
-            value={gradientOpacityScale}
-            step={0.01}
-            onChange={(_e) => {
-              opacityScaleSliderChanged(_e.target.value)
-            }}
-          />
-        </Form.Group>
+        <Form.Control
+          ref={gradientOpacityScaleSlider}
+          type="range"
+          custom
+          className="slider"
+          min={0}
+          max={0.99}
+          value={gradientOpacityScale}
+          step={0.01}
+          onChange={(_e) => {
+            opacityScaleSliderChanged(_e.target.value)
+          }}
+        />
       </Form>
     </div>
   )
