@@ -1,30 +1,34 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
-import { Icon, MenuItem, Select, Tooltip } from '@mui/material'
+import { useSelector } from '@xstate/react'
 import { blendModeIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
+import Image from 'react-bootstrap/Image'
+import Form from 'react-bootstrap/Form'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 import '../style.css'
 
 function BlendModeSelector(props) {
   const { service } = props
+  const send = service.send
   const blendModeDiv = useRef(null)
   const blendModeSelector = useRef(null)
   const blendModeIcon = useRef(null)
-  const [state, send] = useActor(service)
+  const stateContext = useSelector(service, (state) => state.context)
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-      state.context,
+      stateContext,
       'invertibleButton',
       blendModeIcon.current
     )
-    state.context.images.blendModeDiv = blendModeIcon.current
-    state.context.images.blendModeSelector = blendModeSelector.current
+    stateContext.images.blendModeDiv = blendModeIcon.current
+    stateContext.images.blendModeSelector = blendModeSelector.current
   }, [])
 
   const selectionChanged = (event) => {
     const value = parseInt(event.target.value)
-    state.context.images.blendModeSelector.value = value
+    stateContext.images.blendModeSelector.value = value
     let mode = 'blendmode'
     switch (value) {
       case 0:
@@ -43,7 +47,7 @@ function BlendModeSelector(props) {
     send({
       type: 'IMAGE_BLEND_MODE_CHANGED',
       data: {
-        name: state.context.images.selectedName,
+        name: stateContext.images.selectedName,
         blendMode: mode
       }
     })
@@ -51,38 +55,27 @@ function BlendModeSelector(props) {
 
   return (
     <div ref={blendModeDiv} className="blendSelector">
-      <Tooltip
-        ref={blendModeIcon}
-        title="Blend mode"
-        PopperProps={{
-          anchorEl: blendModeIcon.current,
-          disablePortal: true,
-          keepMounted: true
-        }}
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Blend mode</Tooltip>}
       >
-        <Icon className="blendModeButton">
-          <img src={blendModeIconDataUri} />
-        </Icon>
-      </Tooltip>
-      <Select
+        <div className="icon-image blendModeButton">
+          <Image src={blendModeIconDataUri}></Image>
+        </div>
+      </OverlayTrigger>
+      <Form.Control
+        as="select"
         ref={blendModeSelector}
-        className="selector"
-        defaultValue={0}
+        className="selector blendMenu"
         onChange={(event) => {
           selectionChanged(event)
         }}
-        MenuProps={{
-          anchorEl: blendModeSelector.current,
-          disablePortal: true,
-          keepMounted: true,
-          classes: { paper: 'blendMenu' }
-        }}
       >
-        <MenuItem value={0}>Composite</MenuItem>
-        <MenuItem value={1}>Maximum</MenuItem>
-        <MenuItem value={2}>Minimum</MenuItem>
-        <MenuItem value={3}>Average</MenuItem>
-      </Select>
+        <option value={0}>Composite</option>
+        <option value={1}>Maximum</option>
+        <option value={2}>Minimum</option>
+        <option value={3}>Average</option>
+      </Form.Control>
     </div>
   )
 }
