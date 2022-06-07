@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useActor } from '@xstate/react'
-import { Grid, Icon, IconButton } from '@mui/material'
+import { useSelector } from '@xstate/react'
+import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
+import Tooltip from 'react-bootstrap/Tooltip'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import {
   visibleIconDataUri,
   invisibleIconDataUri,
@@ -9,34 +12,37 @@ import {
 } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
+import { Button } from 'react-bootstrap'
+import cn from 'classnames'
 
 function LayerEntry(props) {
   const { service } = props
+  const send = service.send
+  const stateContext = useSelector(service, (state) => state.context)
   const layerEntry = useRef(null)
-  const [state, send] = useActor(service)
-  const lastAdded = state.context.layers.lastAddedData
-  const actorContext = state.context.layers.actorContext
+  const lastAdded = stateContext.layers.lastAddedData
+  const actorContext = stateContext.layers.actorContext
   const [allLayers, updateLayers] = useState([])
 
   useEffect(() => {
     applyContrastSensitiveStyleToElement(
-      state.context,
+      stateContext,
       'layerEntry',
       layerEntry.current
     )
   }, [])
 
   useEffect(() => {
-    if (state.context.layers.uiLayers && lastAdded) {
-      state.context.layers.uiLayers.set(lastAdded.name, layerEntry.current)
+    if (stateContext.layers.uiLayers && lastAdded) {
+      stateContext.layers.uiLayers.set(lastAdded.name, layerEntry.current)
     }
   })
 
   useEffect(() => {
-    if (state.context.layers.lastAddedData) {
-      updateLayers([...allLayers, state.context.layers.lastAddedData])
+    if (stateContext.layers.lastAddedData) {
+      updateLayers([...allLayers, stateContext.layers.lastAddedData])
     }
-  }, [state.context.layers.lastAddedData])
+  }, [stateContext.layers.lastAddedData])
 
   const layerVisible = (name) => {
     if (actorContext && lastAdded) {
@@ -69,8 +75,8 @@ function LayerEntry(props) {
   return actorContext && allLayers.length ? (
     allLayers.map((layer, idx) => {
       return (
-        <Grid
-          item
+        <Col
+          //item
           key={idx}
           xs={useColumnSize(idx)}
           ref={layerEntry}
@@ -79,30 +85,47 @@ function LayerEntry(props) {
             layerSelected(layer.name)
           }}
         >
-          <IconButton
-            onClick={() => {
-              send({ type: 'TOGGLE_LAYER_VISIBILITY', data: layer.name })
-            }}
+          <OverlayTrigger
+            transition={false}
+            overlay={<Tooltip>Data visibility</Tooltip>}
           >
-            <Icon>
+            <Button
+              onClick={() => {
+                send({ type: 'TOGGLE_LAYER_VISIBILITY', data: layer.name })
+              }}
+              variant="secondary"
+              className={cn(`icon-button`, {
+                checked: layerVisible(layer.name)
+              })}
+            >
               {layerVisible(layer.name) ? (
-                <img src={visibleIconDataUri} />
+                <Image src={visibleIconDataUri}></Image>
               ) : (
-                <img src={invisibleIconDataUri} />
+                <Image src={invisibleIconDataUri}></Image>
               )}
-            </Icon>
-          </IconButton>
-          <span className="layerLabelCommon"> {layer.name} </span>
-          <Icon className="layerIcon">
-            {layerType(layer.name) === 'image' ? (
-              <img src={imageIconDataUri} />
-            ) : (
-              layerType(layer.name) === 'labelImage' && (
-                <img src={labelsIconDataUri} />
-              )
-            )}
-          </Icon>
-        </Grid>
+            </Button>
+          </OverlayTrigger>
+          <div className="layerLabelCommon"> {layer.name} </div>
+          <OverlayTrigger
+            transition={false}
+            overlay={<Tooltip> SOME TITLE</Tooltip>}
+          >
+            <Button
+              className={cn(`icon-button`, {
+                checked: layerType(layer.name) === 'image'
+              })}
+              variant="secondary"
+            >
+              {layerType(layer.name) === 'image' ? (
+                <Image src={imageIconDataUri} />
+              ) : (
+                layerType(layer.name) === 'labelImage' && (
+                  <Image src={labelsIconDataUri} />
+                )
+              )}
+            </Button>
+          </OverlayTrigger>
+        </Col>
       )
     })
   ) : (
