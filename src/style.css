@@ -83,9 +83,13 @@ code.uiContainer {
 .gradientSliderContainer {
   width: 300px;
 }
-  
+
+.hiddenSlider {
+  display: none !important;
+}
+
 .hidden {
-  visibility: hidden !important;
+  visibility: collapse !important;
   height: 0px !important;
   margin: 0px !important;
 }
@@ -243,28 +247,23 @@ code.uiContainer {
   width: 50%;
 }
 
-.xbadge {
+.labelBadge {
   margin-left: 10px;
   margin-top:10px;
-  background-color: red;
   height: 50%;
-  width: 55px;
+  width: max(2%, 60px);
+}
+
+.xbadge {
+  background-color: red;
 }
 
 .ybadge {
-  margin-left: 10px;
-  margin-top:10px;
   background-color: yellow;
-  height: 50%;
-  width: 55px;
 }
 
 .zbadge {
-  margin-left: 10px;
-  margin-top:10px;
   background-color: green;
-  height: 50%;
-  width: 55px;
 }
 
 .selectedLayer {
@@ -291,10 +290,9 @@ code.uiContainer {
 .slider {
   flex: 1;
   min-height: 1rem;
+  width: 5px;
   align-self: center;
   margin-right: 5px;
-  margin-left: 15px;
-  margin-top: 20px;
 }
 
 .sliderEntry {
@@ -366,10 +364,10 @@ code.uiContainer {
 }
 
 .uiSlidersGroup {
-  background: rgba(128, 128, 128, 0.5);
+  background: transparent;
   position: fixed;
   bottom: 0;
-  left: 85px;
+  left: 7%;
   width: calc(100% - 90px);
   margin: 10px 0;
 }
