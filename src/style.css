@@ -27,13 +27,8 @@
 } 
 
 .icon-image {
-  background-color: transparent !important;
-  border-color: transparent !important;
   margin-right: 10px;
 }
-.icon-image > img {
-  width: 1.2rem;
-} 
 
 .categoricalMenu {
   margin: 0 5px !important;
@@ -96,10 +91,10 @@ code.uiContainer {
 
 .gradientOpacityInput {
   position: absolute !important;
-  bottom: 68px;
-  left: -45px;
+  bottom: 25px;
+  left: -38px;
   width:30px !important;
-  height: 110px !important;
+  height: 140px !important;
   -webkit-appearance: slider-vertical;
   }  
   
