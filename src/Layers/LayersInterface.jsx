@@ -1,16 +1,17 @@
-import { useActor } from '@xstate/react'
+import { useActor, useSelector } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
 import LayerInterface from './LayerInterface'
 
 function LayersInterface(props) {
   const { service } = props
   const layersUIGroup = useRef(null)
-  const [state] = useActor(service)
+  const uiGroups = useSelector(service, (state) => state.context.uiGroups)
+  const layers = useSelector(service, (state) => state.context.layers)
 
   useEffect(() => {
-    state.context.layers.uiLayers = new Map()
-    state.context.layers.layersUIGroup = layersUIGroup.current
-    state.context.uiGroups.set('layers', layersUIGroup.current)
+    layers.uiLayers = new Map()
+    layers.layersUIGroup = layersUIGroup.current
+    uiGroups.set('layers', layersUIGroup.current)
   }, [])
 
   return (
