@@ -7,7 +7,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
-const FullscreenButton = React.memo(function FullscreenButton(props) {
+function FullscreenButton(props) {
   const { service } = props
   const stateFullscreenEnabled = useSelector(
     service,
@@ -31,6 +31,6 @@ const FullscreenButton = React.memo(function FullscreenButton(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default FullscreenButton

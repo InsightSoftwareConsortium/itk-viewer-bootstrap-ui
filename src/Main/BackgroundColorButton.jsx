@@ -7,7 +7,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
-const BackgroundColorButton = React.memo(function BackgroundColorButton(props) {
+function BackgroundColorButton(props) {
   const { service } = props
   const stateBackgroundColorEnabled = useSelector(
     service,
@@ -33,6 +33,6 @@ const BackgroundColorButton = React.memo(function BackgroundColorButton(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default BackgroundColorButton

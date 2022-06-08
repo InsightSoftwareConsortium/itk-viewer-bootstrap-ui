@@ -7,7 +7,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
-const AxesButton = React.memo(function AxesButton(props) {
+function AxesButton(props) {
   const { service } = props
   const stateAxesEnabled = useSelector(
     service,
@@ -28,6 +28,6 @@ const AxesButton = React.memo(function AxesButton(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default AxesButton

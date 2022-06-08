@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
-const ViewPlanesToggle = React.memo(function ViewPlanesToggle(props) {
+function ViewPlanesToggle(props) {
   const { service } = props
   const stateSlicingPlanes = useSelector(service, (state) => state.context.main)
   const send = service.send
@@ -56,6 +56,6 @@ const ViewPlanesToggle = React.memo(function ViewPlanesToggle(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default ViewPlanesToggle
