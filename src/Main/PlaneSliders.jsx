@@ -18,6 +18,19 @@ import '../style.css'
 function PlaneSliders(props) {
   const { service } = props
   const stateContextMain = useSelector(service, (state) => state.context.main)
+  const stateContextMainXSlice = useSelector(
+    service,
+    (state) => state.context.main[`xSlice`]
+  )
+  const stateContextMainYSlice = useSelector(
+    service,
+    (state) => state.context.main[`ySlice`]
+  )
+  const stateContextMainZSlice = useSelector(
+    service,
+    (state) => state.context.main[`zSlice`]
+  )
+
   const stateContextUiDrawer = useSelector(
     service,
     (state) => state.context.uiDrawer
