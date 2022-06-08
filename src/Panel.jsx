@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { Drawer } from '@mui/material'
 import './Panel.css'
 
@@ -7,11 +7,19 @@ function Panel(props) {
   const { children, service } = props
   const uiPanel = useRef(null)
   const uiDrawer = useRef(null)
-  const [state] = useActor(service)
+  let stateContextUIDrawer = useSelector(
+    service,
+    (state) => state.context.uiDrawer
+  )
+  let stateContextUIPanel = useSelector(
+    service,
+    (state) => state.context.uiPanel
+  )
+  const uiCollapsed = useSelector(service, (state) => state.context.uiCollapsed)
 
   useEffect(() => {
-    state.context.uiPanel = uiPanel.current
-    state.context.uiDrawer = uiDrawer.current
+    stateContextUIPanel = uiPanel.current
+    stateContextUIDrawer = uiDrawer.current
   }, [])
 
   return (
@@ -20,7 +28,7 @@ function Panel(props) {
         className="drawer"
         variant="persistent"
         anchor="left"
-        open={!state.context.uiCollapsed}
+        open={!uiCollapsed}
       >
         <div ref={uiDrawer}>
           {React.Children.map(children, (child) => {
