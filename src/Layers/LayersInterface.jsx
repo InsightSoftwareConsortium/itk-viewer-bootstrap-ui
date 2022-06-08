@@ -1,4 +1,4 @@
-import { useActor, useSelector } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
 import LayerInterface from './LayerInterface'
 
