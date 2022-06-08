@@ -6,7 +6,8 @@
     "build": "vite build",
     "serve": "vite preview",
     "prettier": "prettier --config ./.prettierrc.json --write ./src/**/*.{js,jsx}",
-    "postversion": "npm publish && git push --follow-tags"
+    "postversion": "npm publish && git push --follow-tags",
+    "lint": "eslint . --ext .js,.jsx"
   },
   "keywords": [
     "react",
@@ -34,6 +35,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react-refresh": "^1.3.1",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.30.0",
     "sass": "~1.32.0",
     "vite": "^2.4.4"
   },
