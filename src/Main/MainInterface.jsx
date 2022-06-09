@@ -19,11 +19,6 @@ function MainInterface(props) {
   const mainUIGroup = useRef(null)
 
   let use2D = useSelector(service, (state) => state.context.use2D)
-  let uiGroups = useSelector(service, (state) => state.context.uiGroups)
-
-  useEffect(() => {
-    uiGroups.set('main', mainUIGroup.current)
-  }, [])
 
   return (
     <div>
