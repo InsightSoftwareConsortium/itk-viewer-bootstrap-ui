@@ -1,34 +1,24 @@
-function toggleUICollapsed(
-  uiContainer,
-  uiCollapsed,
-  selectedName,
-  service,
-  use2D,
-  planeUIGroup,
-  viewMode,
-  mainPlaneUIGroup,
-  _event,
-  actionMeta
-) {
-  if (!uiContainer) {
+function toggleUICollapsed(context, _event, actionMeta) {
+  if (!context.uiContainer) {
     return
   }
   if (actionMeta) {
-    uiCollapsed = actionMeta.state.value.active.uiCollapsed === 'enabled'
+    context.uiCollapsed =
+      actionMeta.state.value.active.uiCollapsed === 'enabled'
   }
 
-  if (!uiCollapsed && selectedName) {
-    service.send({
+  if (!context.uiCollapsed && context.images.selectedName) {
+    context.service.send({
       type: 'SELECT_LAYER',
-      data: selectedName
+      data: context.images.selectedName
     })
   }
 
-  if (!use2D && !!planeUIGroup) {
-    if (uiCollapsed && viewMode === 'Volume') {
-      mainPlaneUIGroup.style.display = 'none'
+  if (!context.use2D && !!context.main.planeUIGroup) {
+    if (context.uiCollapsed && context.main.viewMode === 'Volume') {
+      context.main.planeUIGroup.style.display = 'none'
     } else {
-      mainPlaneUIGroup.style.display = 'block'
+      context.main.planeUIGroup.style.display = 'block'
     }
   }
 }
