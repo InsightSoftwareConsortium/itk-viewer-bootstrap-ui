@@ -18,6 +18,7 @@ import '../style.css'
 function PlaneSliders(props) {
   const { service } = props
   const stateContextMain = useSelector(service, (state) => state.context.main)
+  //Change to 2D views
   const stateContextMainXSlice = useSelector(
     service,
     (state) => state.context.main[`xSlice`]
@@ -44,6 +45,41 @@ function PlaneSliders(props) {
     service,
     (state) => state.context.container.clientHeight
   )
+
+  // Make visibility button change
+  const xVisible = useSelector(
+    service,
+    (state) => state.context.main.slicingPlanes[`x`].visible
+  )
+  const yVisible = useSelector(
+    service,
+    (state) => state.context.main.slicingPlanes[`y`].visible
+  )
+  const zVisible = useSelector(
+    service,
+    (state) => state.context.main.slicingPlanes[`z`].visible
+  )
+  // Make pause button change
+  const xxcroll = useSelector(
+    service,
+    (state) => state.context.main.slicingPlanes[`x`].scroll
+  )
+  const yycroll = useSelector(
+    service,
+    (state) => state.context.main.slicingPlanes[`y`].scroll
+  )
+  const zzcroll = useSelector(
+    service,
+    (state) => state.context.main.slicingPlanes[`z`].scroll
+  )
+
+  // const slicingPlanes = useSelector(
+  // service,
+  // (state) => state.context.main.slicingPlanes
+  // )
+
+  //Re-render so sliders disappear when we go to 2D mode
+  const viewMode = useSelector(service, (state) => state.context.main.viewMode)
   const send = service.send
   const xVisibility = useRef(null)
   const yVisibility = useRef(null)
@@ -55,8 +91,10 @@ function PlaneSliders(props) {
   const planes = ['x', 'y', 'z']
   const visRefs = [xVisibility, yVisibility, zVisibility]
   const scrollRefs = [xScroll, yScroll, zScroll]
-  const { slicingPlanes, viewMode } = stateContextMain
+  const { slicingPlanes } = stateContextMain
   const [slidersClass, setClass] = useState(0)
+
+  console.log(slicingPlanes[`x`].visible)
 
   useEffect(() => {
     const onResize = () => getClass()
