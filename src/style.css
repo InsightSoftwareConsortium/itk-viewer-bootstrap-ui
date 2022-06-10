@@ -30,6 +30,10 @@
   margin-right: 10px;
 }
 
+.inverted_filter {
+  filter: invert(100%);
+}
+
 .categoricalMenu {
   margin: 0 5px !important;
 }
