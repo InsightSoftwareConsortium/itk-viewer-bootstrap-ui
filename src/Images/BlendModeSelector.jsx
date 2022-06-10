@@ -26,6 +26,7 @@ function BlendModeSelector(props) {
       'invertibleButton',
       blendModeIcon.current
     )
+
     service.machine.context.images.blendModeDiv = blendModeIcon.current
     service.machine.context.images.blendModeSelector = blendModeSelector.current
   }, [])
