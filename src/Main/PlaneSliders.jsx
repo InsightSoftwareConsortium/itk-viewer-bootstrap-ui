@@ -148,7 +148,7 @@ function PlaneSliders(props) {
                       viewMode !== 'Volume' ? 'hiddenSlider' : ''
                     }`,
                     {
-                      checked: slicingPlanesVisibility[idx] //slicingPlanes[plane].visible
+                      checked: slicingPlanesVisibility[idx]
                     }
                   )}
                   onClick={(_e) => {
