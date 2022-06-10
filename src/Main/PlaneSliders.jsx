@@ -17,20 +17,26 @@ import '../style.css'
 
 function PlaneSliders(props) {
   const { service } = props
-  const stateContextMain = useSelector(service, (state) => state.context.main)
-  //Change to 2D views
-  const stateContextMainXSlice = useSelector(
+  const collapseUIButton = useSelector(
     service,
-    (state) => state.context.main[`xSlice`]
+    (state) => state.context.main.collapseUIButton
   )
-  const stateContextMainYSlice = useSelector(
+  const send = service.send
+  const xVisibility = useRef(null)
+  const yVisibility = useRef(null)
+  const zVisibility = useRef(null)
+  const xScroll = useRef(null)
+  const yScroll = useRef(null)
+  const zScroll = useRef(null)
+  const planeSliders = useRef(null)
+  const planes = ['x', 'y', 'z']
+  const visRefs = [xVisibility, yVisibility, zVisibility]
+  const scrollRefs = [xScroll, yScroll, zScroll]
+  const slicingPlanes = useSelector(
     service,
-    (state) => state.context.main[`ySlice`]
+    (state) => state.context.main.slicingPlanes
   )
-  const stateContextMainZSlice = useSelector(
-    service,
-    (state) => state.context.main[`zSlice`]
-  )
+  const [slidersClass, setClass] = useState(0)
 
   const stateContextUiDrawer = useSelector(
     service,
@@ -46,55 +52,29 @@ function PlaneSliders(props) {
     (state) => state.context.container.clientHeight
   )
 
-  // Make visibility button change
-  const xVisible = useSelector(
-    service,
-    (state) => state.context.main.slicingPlanes[`x`].visible
-  )
-  const yVisible = useSelector(
-    service,
-    (state) => state.context.main.slicingPlanes[`y`].visible
-  )
-  const zVisible = useSelector(
-    service,
-    (state) => state.context.main.slicingPlanes[`z`].visible
-  )
-  // Make pause button change
-  const xxcroll = useSelector(
-    service,
-    (state) => state.context.main.slicingPlanes[`x`].scroll
-  )
-  const yycroll = useSelector(
-    service,
-    (state) => state.context.main.slicingPlanes[`y`].scroll
-  )
-  const zzcroll = useSelector(
-    service,
-    (state) => state.context.main.slicingPlanes[`z`].scroll
-  )
-
-  // const slicingPlanes = useSelector(
-  // service,
-  // (state) => state.context.main.slicingPlanes
-  // )
-
-  //Re-render so sliders disappear when we go to 2D mode
+  // Force re-render so sliders disappear in 2D mode
   const viewMode = useSelector(service, (state) => state.context.main.viewMode)
-  const send = service.send
-  const xVisibility = useRef(null)
-  const yVisibility = useRef(null)
-  const zVisibility = useRef(null)
-  const xScroll = useRef(null)
-  const yScroll = useRef(null)
-  const zScroll = useRef(null)
-  const planeSliders = useRef(null)
-  const planes = ['x', 'y', 'z']
-  const visRefs = [xVisibility, yVisibility, zVisibility]
-  const scrollRefs = [xScroll, yScroll, zScroll]
-  const { slicingPlanes } = stateContextMain
-  const [slidersClass, setClass] = useState(0)
 
-  console.log(slicingPlanes[`x`].visible)
+  // Force re-render for 2D view modes
+  const planeSlice2D = planes.map((plane) =>
+    useSelector(service, (state) => state.context.main[`${plane}Slice`])
+  )
+
+  // Force re-render for visibility button
+  const slicingPlanesVisibility = planes.map((plane) =>
+    useSelector(
+      service,
+      (state) => state.context.main.slicingPlanes[`${plane}`].visible
+    )
+  )
+
+  // Force re-render for play/pause button
+  const slicingPlanesScroll = planes.map((plane) =>
+    useSelector(
+      service,
+      (state) => state.context.main.slicingPlanes[`${plane}`].scroll
+    )
+  )
 
   useEffect(() => {
     const onResize = () => getClass()
@@ -113,8 +93,7 @@ function PlaneSliders(props) {
     const containerHeight = stateContextContainerClientHeight
     const panelHeight = stateContextUiDrawer?.clientHeight || 0
     const slidersHeight = planeSliders.current?.clientHeight || 0
-    const panel_offset =
-      stateContextMain.collapseUIButton?.parentNode?.clientHeight || 0
+    const panel_offset = collapseUIButton?.parentNode?.clientHeight || 0
     if (containerHeight - (panelHeight + panel_offset) < slidersHeight) {
       setClass('uiSlidersGroupCondensed')
     } else {
@@ -154,7 +133,7 @@ function PlaneSliders(props) {
   return (
     <div ref={planeSliders} className={slidersClass}>
       {planes.map((plane, idx) => {
-        return stateContextMain[`${plane}Slice`] ? (
+        return planeSlice2D[idx] ? (
           <div key={plane.toUpperCase()}>
             <div className="input-group">
               <OverlayTrigger
@@ -169,7 +148,7 @@ function PlaneSliders(props) {
                       viewMode !== 'Volume' ? 'hiddenSlider' : ''
                     }`,
                     {
-                      checked: slicingPlanes[plane].visible
+                      checked: slicingPlanesVisibility[idx] //slicingPlanes[plane].visible
                     }
                   )}
                   onClick={(_e) => {
@@ -200,7 +179,7 @@ function PlaneSliders(props) {
                         : ''
                     }`,
                     {
-                      checked: slicingPlanes[plane].scroll
+                      checked: slicingPlanesScroll[idx]
                     }
                   )}
                   onClick={(_e) => {
@@ -225,8 +204,7 @@ function PlaneSliders(props) {
                 }`}
                 bg="secondary"
               >
-                {plane.toUpperCase()}:{' '}
-                {stateContextMain[`${plane}Slice`]?.toPrecision(4)}
+                {plane.toUpperCase()}: {planeSlice2D[idx]?.toPrecision(4)}
               </Badge>
               <div
                 key={plane.toUpperCase()}
@@ -237,7 +215,7 @@ function PlaneSliders(props) {
                   custom
                   min={slicingPlanes[plane].min}
                   max={slicingPlanes[plane].max}
-                  value={stateContextMain[`${plane}Slice`]}
+                  value={planeSlice2D[idx]}
                   step={slicingPlanes[plane].step}
                   onChange={(_e) => {
                     handleSliderChange(plane, _e.target.value)
