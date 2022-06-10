@@ -19,16 +19,16 @@ function DistanceWidget(props) {
     state.context.widgets.distanceButtonInput = distanceButtonInput.current
     state.context.widgets.distanceButtonLabel = distanceButtonLabel.current
     state.context.widgets.distanceLabel = distanceLabel.current
-    applyContrastSensitiveStyleToElement(
-      state.context,
-      'invertibleButton',
-      distanceButtonLabel.current
-    )
-    applyContrastSensitiveStyleToElement(
-      state.context,
-      'distanceLabel',
-      distanceLabel.current
-    )
+    // applyContrastSensitiveStyleToElement(
+    //   state.context,
+    //   'invertibleButton',
+    //   distanceButtonLabel.current
+    // )
+    // applyContrastSensitiveStyleToElement(
+    //   state.context,
+    //   'distanceLabel',
+    //   distanceLabel.current
+    // )
   }, [])
 
   return (
