@@ -19,8 +19,15 @@ function LayerEntry(props) {
   const { service } = props
   const send = service.send
   const stateContext = useSelector(service, (state) => state.context)
+  const uiLayers = useSelector(
+    service,
+    (state) => state.context.layers.uiLayers
+  )
   const layerEntry = useRef(null)
-  const lastAdded = stateContext.layers.lastAddedData
+  const lastAddedData = useSelector(
+    service,
+    (state) => state.context.layers.lastAddedData
+  )
   const actorContext = stateContext.layers.actorContext
   const [allLayers, updateLayers] = useState([])
 
@@ -33,19 +40,22 @@ function LayerEntry(props) {
   }, [])
 
   useEffect(() => {
-    if (stateContext.layers.uiLayers && lastAdded) {
-      stateContext.layers.uiLayers.set(lastAdded.name, layerEntry.current)
+    if (uiLayers && lastAddedData) {
+      service.machine.context.layers.uiLayers.set(
+        lastAddedData.name,
+        layerEntry.current
+      )
     }
   })
 
   useEffect(() => {
-    if (stateContext.layers.lastAddedData) {
-      updateLayers([...allLayers, stateContext.layers.lastAddedData])
+    if (lastAddedData) {
+      updateLayers([...allLayers, lastAddedData])
     }
-  }, [stateContext.layers.lastAddedData])
+  }, [lastAddedData])
 
   const layerVisible = (name) => {
-    if (actorContext && lastAdded) {
+    if (actorContext && lastAddedData) {
       if (actorContext.get(name).visible) {
         return 'selectedLayer'
       }
@@ -54,7 +64,7 @@ function LayerEntry(props) {
   }
 
   const layerType = (name) => {
-    if (actorContext && lastAdded) {
+    if (actorContext && lastAddedData) {
       return actorContext.get(name).type
     }
     return ''
@@ -76,7 +86,6 @@ function LayerEntry(props) {
     allLayers.map((layer, idx) => {
       return (
         <Col
-          //item
           key={idx}
           xs={useColumnSize(idx)}
           ref={layerEntry}
@@ -106,25 +115,15 @@ function LayerEntry(props) {
             </Button>
           </OverlayTrigger>
           <div className="layerLabelCommon"> {layer.name} </div>
-          <OverlayTrigger
-            transition={false}
-            overlay={<Tooltip> SOME TITLE</Tooltip>}
-          >
-            <Button
-              className={cn(`icon-button`, {
-                checked: layerType(layer.name) === 'image'
-              })}
-              variant="secondary"
-            >
-              {layerType(layer.name) === 'image' ? (
-                <Image src={imageIconDataUri} />
-              ) : (
-                layerType(layer.name) === 'labelImage' && (
-                  <Image src={labelsIconDataUri} />
-                )
-              )}
-            </Button>
-          </OverlayTrigger>
+          <div className={`icon-button`}>
+            {layerType(layer.name) === 'image' ? (
+              <Image src={imageIconDataUri} />
+            ) : (
+              layerType(layer.name) === 'labelImage' && (
+                <Image src={labelsIconDataUri} />
+              )
+            )}
+          </div>
         </Col>
       )
     })
