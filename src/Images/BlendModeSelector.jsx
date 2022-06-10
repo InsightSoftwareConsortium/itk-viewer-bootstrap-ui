@@ -14,6 +14,10 @@ function BlendModeSelector(props) {
   const blendModeDiv = useRef(null)
   const blendModeSelector = useRef(null)
   const blendModeIcon = useRef(null)
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
   const stateContext = useSelector(service, (state) => state.context)
 
   useEffect(() => {
@@ -22,13 +26,13 @@ function BlendModeSelector(props) {
       'invertibleButton',
       blendModeIcon.current
     )
-    stateContext.images.blendModeDiv = blendModeIcon.current
-    stateContext.images.blendModeSelector = blendModeSelector.current
+    service.machine.context.images.blendModeDiv = blendModeIcon.current
+    service.machine.context.images.blendModeSelector = blendModeSelector.current
   }, [])
 
   const selectionChanged = (event) => {
     const value = parseInt(event.target.value)
-    stateContext.images.blendModeSelector.value = value
+    service.machine.context.images.blendModeSelector.value = value
     let mode = 'blendmode'
     switch (value) {
       case 0:
@@ -47,7 +51,7 @@ function BlendModeSelector(props) {
     send({
       type: 'IMAGE_BLEND_MODE_CHANGED',
       data: {
-        name: stateContext.images.selectedName,
+        name: selectedName,
         blendMode: mode
       }
     })
