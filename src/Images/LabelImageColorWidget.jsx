@@ -17,7 +17,6 @@ function LabelImageColorWidget(props) {
 
   useEffect(() => {
     state.context.images.labelImageColorUIGroup = labelImageColorUIGroup.current
-    state.context.uiGroups.set('labelImages', labelImageColorUIGroup.current)
   }, [])
 
   const blendChanged = (val) => {
