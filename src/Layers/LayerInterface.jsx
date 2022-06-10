@@ -18,7 +18,7 @@ function LayerInterface(props) {
   }, [lastAddedData])
 
   return (
-    <Col>
+    <Col className="layerUIGroupPadding">
       <LayerEntry {...props} />
     </Col>
   )
