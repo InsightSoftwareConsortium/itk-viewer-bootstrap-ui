@@ -17,13 +17,13 @@ function BlendModeSelector(props) {
   )
 
   useEffect(() => {
-    // applyContrastSensitiveStyleToElement(
-    //   stateContext,
-    //   'invertibleButton',
-    //   blendModeIcon.current
-    // )
-    service.machine.context.images.blendModeDiv = blendModeIcon.current
-    service.machine.context.images.blendModeSelector = blendModeSelector.current
+    applyContrastSensitiveStyleToElement(
+      state.context,
+      'invertibleButton',
+      blendModeIcon.current
+    )
+    state.context.images.blendModeDiv = blendModeIcon.current
+    state.context.images.blendModeSelector = blendModeSelector.current
   }, [])
 
   const selectionChanged = (event) => {

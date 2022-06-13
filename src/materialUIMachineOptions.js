@@ -19,7 +19,7 @@ const materialUIMachineOptions = {
   widgets: widgetsUIMachineOptions,
 
   actions: {
-    // toggleDarkMode,
+    toggleDarkMode,
 
     createInterface,
 

@@ -24,11 +24,11 @@ function SampleDistanceSlider(props) {
   )
 
   useEffect(() => {
-    // applyContrastSensitiveStyleToElement(
-    //   stateContext,
-    //   'invertibleButton',
-    //   spacingDiv.current
-    // )
+    applyContrastSensitiveStyleToElement(
+      stateContext,
+      'invertibleButton',
+      spacingDiv.current
+    )
     stateContext.images.volumeSampleDistanceDiv = spacingDiv.current
     stateContext.images.volumeSampleDistanceSlider = spacingElement.current
   }, [])

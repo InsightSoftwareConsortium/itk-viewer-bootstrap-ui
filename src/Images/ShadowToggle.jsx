@@ -24,11 +24,11 @@ function ShadowToggle(props) {
   )
 
   useEffect(() => {
-    // applyContrastSensitiveStyleToElement(
-    //   stateContext,
-    //   'invertibleButton',
-    //   shadowButton.current
-    // )
+    applyContrastSensitiveStyleToElement(
+      stateContext,
+      'invertibleButton',
+      shadowButton.current
+    )
     stateContext.images.shadowButtonInput = shadowButton.current
   }, [])
 
