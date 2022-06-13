@@ -29,16 +29,16 @@ function DistanceWidget(props) {
     service.machine.context.widgets.distanceButtonLabel =
       distanceButtonLabel.current
     service.machine.context.widgets.distanceLabel = distanceLabel.current
-    applyContrastSensitiveStyleToElement(
-      state.context,
-      'invertibleButton',
-      distanceButtonLabel.current
-    )
-    applyContrastSensitiveStyleToElement(
-      state.context,
-      'distanceLabel',
-      distanceLabel.current
-    )
+    // applyContrastSensitiveStyleToElement(
+    //   state.context,
+    //   'invertibleButton',
+    //   distanceButtonLabel.current
+    // )
+    // applyContrastSensitiveStyleToElement(
+    //   state.context,
+    //   'distanceLabel',
+    //   distanceLabel.current
+    // )
   }, [])
 
   return (

@@ -30,11 +30,11 @@ function GradientOpacitySlider(props) {
   )
 
   useEffect(() => {
-    applyContrastSensitiveStyleToElement(
-      stateContext,
-      'invertibleButton',
-      sliderEntry.current
-    )
+    // applyContrastSensitiveStyleToElement(
+    //   stateContext,
+    //   'invertibleButton',
+    //   sliderEntry.current
+    // )
     stateContext.images.gradientOpacitySlider = gradientOpacitySlider.current
     stateContext.images.gradientOpacityScaleSlider =
       gradientOpacityScaleSlider.current

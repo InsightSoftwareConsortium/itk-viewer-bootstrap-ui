@@ -19,11 +19,11 @@ function LayerEntry(props) {
   const [allLayers, updateLayers] = useState([])
 
   useEffect(() => {
-    applyContrastSensitiveStyleToElement(
-      state.context,
-      'layerEntry',
-      layerEntry.current
-    )
+    // applyContrastSensitiveStyleToElement(
+    //   state.context,
+    //   'layerEntry',
+    //   layerEntry.current
+    // )
   }, [])
 
   useEffect(() => {
