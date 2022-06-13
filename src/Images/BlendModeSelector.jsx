@@ -63,7 +63,7 @@ function BlendModeSelector(props) {
         transition={false}
         overlay={<Tooltip>Blend mode</Tooltip>}
       >
-        <div className="icon-image blendModeButton">
+        <div className="icon-image">
           <Image src={blendModeIconDataUri}></Image>
         </div>
       </OverlayTrigger>
