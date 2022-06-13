@@ -1,21 +1,27 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { Tabs, Tab, FormControlLabel, Checkbox } from '@mui/material'
 import '../style.css'
 
 function ComponentSelector(props) {
   const { service } = props
-  const [state, send] = useActor(service)
+  const send = service.send
   const componentRow = useRef(null)
   const componentSelector = useRef(null)
+  const actorContextName = useSelector(service, (state) =>
+    state.context.images.actorContext.get(state.context.images.selectedName)
+  )
 
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = actorContextName
   const components = actorContext.image.imageType.components
 
   useEffect(() => {
-    state.context.images.componentRow = componentRow.current
-    state.context.images.componentSelector = componentSelector.current
+    service.machine.context.images.componentRow = componentRow.current
+    service.machine.context.images.componentSelector = componentSelector.current
   }, [])
 
   const changeComponentVisibility = (_e, idx) => {

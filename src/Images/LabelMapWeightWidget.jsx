@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { Slider } from '@mui/material'
 import MapWeightSelector from './MapWeightSelector'
 import '../style.css'
@@ -8,15 +8,32 @@ function LabelMapWeightWidget(props) {
   const { service } = props
   const labelImageWeightUIGroup = useRef(null)
   const weightSlider = useRef(null)
-  const [state, send] = useActor(service)
+  const send = service.send
 
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(state.context.images.selectedName)
+  )
+  const actorContextlabelImageWeights = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .labelImageWeights
+  )
+  const actorContextSelectedLabel = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .selectedLabel
+  )
 
   useEffect(() => {
-    state.context.images.labelImageWeightUIGroup =
+    service.machine.context.images.labelImageWeightUIGroup =
       labelImageWeightUIGroup.current
-    state.context.images.labelImageWeightSlider = weightSlider.current
+    service.machine.context.images.labelImageWeightSlider = weightSlider.current
     actorContext.labelImageToggleWeight = 1.0
   }, [])
 
@@ -25,7 +42,7 @@ function LabelMapWeightWidget(props) {
   }, [actorContext.selectedLabel])
 
   const weightChanged = (val) => {
-    const labelImageWeights = actorContext.labelImageWeights
+    const labelImageWeights = actorContextlabelImageWeights
     if (actorContext.selectedLabel === 'all') {
       for (const label of labelImageWeights.keys()) {
         labelImageWeights.set(label, val)
@@ -41,11 +58,11 @@ function LabelMapWeightWidget(props) {
   }
 
   const sliderValue = () => {
-    const labelImageWeights = actorContext.labelImageWeights
+    const labelImageWeights = actorContextlabelImageWeights
     if (actorContext.selectedLabel === 'all') {
       return actorContext.labelImageToggleWeight
     } else {
-      return labelImageWeights.get(actorContext.selectedLabel)
+      return labelImageWeights.get(actorContextSelectedLabel)
     }
   }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
 import ColorMapPresetIcons from '../ColorMapPresetIcons'
 import '../style.css'
@@ -7,7 +7,22 @@ import '../style.css'
 function ColorMapIconSelector(props) {
   const { service } = props
   const iconSelector = useRef(null)
-  const [state, send] = useActor(service)
+  const send = service.send
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContextName = useSelector(service, (state) =>
+    state.context.images.actorContext.get(state.context.images.selectedName)
+  )
+  const actorContext = useSelector(
+    service,
+    (state) => state.context.images.actorContext
+  )
+  const imagesLookupTableProxies = useSelector(
+    service,
+    (state) => state.context.images.lookupTableProxies
+  )
   let colorMapIcons = []
   ColorMapPresetIcons.forEach((value, key) => {
     colorMapIcons.push({
@@ -18,15 +33,14 @@ function ColorMapIconSelector(props) {
   })
 
   useEffect(() => {
-    state.context.images.iconSelector = iconSelector.current
+    service.machine.context.images.iconSelector = iconSelector.current
   }, [])
 
   const currentColorMap = () => {
-    const name = state.context.images.selectedName
-    if (state.context.images.actorContext) {
-      const actorContext = state.context.images.actorContext.get(name)
+    if (actorContext) {
+      const actorContext = actorContextName
       const component = actorContext.selectedComponent
-      const lookupTableProxies = state.context.images.lookupTableProxies
+      const lookupTableProxies = imagesLookupTableProxies
       if (lookupTableProxies) {
         return lookupTableProxies.get(component).getPresetName()
       }
@@ -35,8 +49,8 @@ function ColorMapIconSelector(props) {
   }
 
   const handleChange = (colorMap) => {
-    const name = state.context.images.selectedName
-    const actorContext = state.context.images.actorContext.get(name)
+    const name = selectedName
+    const actorContext = actorContextName
     const componentIndex = actorContext.selectedComponent
     send({
       type: 'IMAGE_COLOR_MAP_CHANGED',

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { FormControl, Icon, MenuItem, Select } from '@mui/material'
 import CategoricalPresetIcons from '../CategoricalPresetIcons'
 import '../style.css'
@@ -7,7 +7,15 @@ import '../style.css'
 function CategoricalIconSelector(props) {
   const { service } = props
   const iconSelector = useRef(null)
-  const [state, send] = useActor(service)
+  const send = service.send
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = useSelector(
+    service,
+    (state) => state.context.images.actorContext
+  )
 
   let catergoricalPresetIcons = []
   CategoricalPresetIcons.forEach((value, key) => {
@@ -18,20 +26,20 @@ function CategoricalIconSelector(props) {
   })
 
   useEffect(() => {
-    state.context.images.labelImageIconSelector = iconSelector
+    service.machine.context.images.labelImageIconSelector = iconSelector
   }, [])
 
   const currentCatergoricalPreset = () => {
-    const name = state.context.images.selectedName
-    if (state.context.images.actorContext) {
-      const actorContext = state.context.images.actorContext.get(name)
+    const name = selectedName
+    if (actorContext) {
+      const actorContext = actorContext.get(name)
       return actorContext.lookupTable
     }
     return ''
   }
 
   const handleChange = (lut) => {
-    const name = state.context.images.selectedName
+    const name = selectedName
     send({
       type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
       data: { name, lookupTable: lut }

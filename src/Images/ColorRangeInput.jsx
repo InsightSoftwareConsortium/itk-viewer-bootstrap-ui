@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { Icon, TextField, ToggleButton, Tooltip } from '@mui/material'
 import { interpolationIconDataUri } from 'itk-viewer-icons'
 import ColorMapIconSelector from './ColorMapIconSelector'
@@ -9,12 +9,17 @@ function ColorRangeInput(props) {
   const { service } = props
   const colorRangeInput = useRef(null)
   const interpolationButton = useRef(null)
-  const [state, send] = useActor(service)
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const send = service.send
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(state.context.images.selectedName)
+  )
 
   useEffect(() => {
-    state.context.images.colorRangeInputRow = colorRangeInput.current
+    service.machine.context.images.colorRangeInputRow = colorRangeInput.current
   }, [colorRangeInput.current])
 
   const interpolate = () => {
@@ -27,7 +32,7 @@ function ColorRangeInput(props) {
   const toggleInterpolate = () => {
     send({
       type: 'TOGGLE_IMAGE_INTERPOLATION',
-      data: state.context.images.selectedName
+      data: name
     })
   }
 

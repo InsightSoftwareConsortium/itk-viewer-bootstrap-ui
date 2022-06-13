@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { Icon, MenuItem, Select, Tooltip } from '@mui/material'
 import { blendModeIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
@@ -7,10 +7,14 @@ import '../style.css'
 
 function BlendModeSelector(props) {
   const { service } = props
+  const send = service.send
   const blendModeDiv = useRef(null)
   const blendModeSelector = useRef(null)
   const blendModeIcon = useRef(null)
-  const [state, send] = useActor(service)
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
 
   useEffect(() => {
     // applyContrastSensitiveStyleToElement(
@@ -24,7 +28,7 @@ function BlendModeSelector(props) {
 
   const selectionChanged = (event) => {
     const value = parseInt(event.target.value)
-    state.context.images.blendModeSelector.value = value
+    service.machine.context.images.blendModeSelector.value = value
     let mode = 'blendmode'
     switch (value) {
       case 0:
@@ -43,7 +47,7 @@ function BlendModeSelector(props) {
     send({
       type: 'IMAGE_BLEND_MODE_CHANGED',
       data: {
-        name: state.context.images.selectedName,
+        name: selectedName,
         blendMode: mode
       }
     })

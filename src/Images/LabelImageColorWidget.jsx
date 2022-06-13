@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { Icon, Slider, Tooltip } from '@mui/material'
 import CategoricalIconSelector from './CategoricalIconSelector'
 import { opacityIconDataUri } from 'itk-viewer-icons'
@@ -10,13 +10,19 @@ function LabelImageColorWidget(props) {
   const labelImageColorUIGroup = useRef(null)
   const opacityDiv = useRef(null)
   const blendElement = useRef(null)
-  const [state, send] = useActor(service)
+  const send = service.send
 
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(name)
+  )
 
   useEffect(() => {
-    state.context.images.labelImageColorUIGroup = labelImageColorUIGroup.current
+    service.machine.context.images.labelImageColorUIGroup =
+      labelImageColorUIGroup.current
   }, [])
 
   const blendChanged = (val) => {

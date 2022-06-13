@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import ColorRangeInput from './ColorRangeInput'
 import ComponentSelector from './ComponentSelector'
 import LabelImageColorWidget from './LabelImageColorWidget'
@@ -10,14 +10,17 @@ import '../style.css'
 
 function ImagesInterface(props) {
   const { service } = props
-  const [state] = useActor(service)
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
-  const layersContext = state.context.layers.actorContext.get(name)
+  const updateState = useSelector(service, (state) => state.actions)
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(state.context.images.selectedName)
+  )
+  const layersContext = useSelector(service, (state) =>
+    state.context.layers.actorContext.get(state.context.images.selectedName)
+  )
 
   const imagesUIGroup = useRef(null)
   useEffect(() => {
-    state.context.images.imagesUIGroup = imagesUIGroup.current
+    service.machine.context.images.imagesUIGroup = imagesUIGroup.current
   }, [])
 
   const visible = () => {
