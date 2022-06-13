@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useActor, useSelector } from '@xstate/react'
 
 import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
 import vtkItkPiecewiseGaussianWidget from '../vtk/ItkPiecewiseGaussianWidget'
@@ -9,11 +9,50 @@ import '../style.css'
 
 function TransferFunctionWidget(props) {
   const { service } = props
+  const send = service.send
   const piecewiseWidgetContainer = useRef(null)
   const context = useRef(null)
-  const [state, send] = useActor(service)
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const [state] = useActor(service)
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(state.context.images.selectedName)
+  )
+  const lut = useSelector(
+    service,
+    (state) => state.context.images.lookupTableProxies
+  )
+  const component = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .selectedComponent
+  )
+  const dataRange = useSelector(service, (state) =>
+    state.context.images.actorContext
+      .get(state.context.images.selectedName)
+      .colorRanges.get(
+        state.context.images.actorContext.get(state.context.images.selectedName)
+          .selectedComponent
+      )
+  )
+  const getInteractorStyle2D = useSelector(service, (state) =>
+    state.context.itkVtkView.getInteractorStyle2D()
+  )
+  const getInteractorStyle3D = useSelector(service, (state) =>
+    state.context.itkVtkView.getInteractorStyle3D()
+  )
+  const use2D = useSelector(service, (state) => state.context.use2D)
+  const windowMotionScale = useSelector(
+    service,
+    (state) => state.context.images.transferFunctionManipulator
+  )
+  const lookupTableProxies = useSelector(
+    service,
+    (state) => state.context.images.lookupTableProxies
+  )
 
   useEffect(() => {
     // Create range manipulator
@@ -21,7 +60,7 @@ function TransferFunctionWidget(props) {
       button: 1,
       alt: true
     })
-    state.context.images.transferFunctionManipulator = {
+    service.machine.context.images.transferFunctionManipulator = {
       rangeManipulator: null,
       windowMotionScale: 150.0,
       levelMotionScale: 150.0,
@@ -30,16 +69,12 @@ function TransferFunctionWidget(props) {
       levelGet: null,
       levelSet: null
     }
-    state.context.images.transferFunctionManipulator.rangeManipulator =
+    service.machine.context.images.transferFunctionManipulator.rangeManipulator =
       rangeManipulator
 
     // Add range manipulator
-    state.context.itkVtkView
-      .getInteractorStyle2D()
-      .addMouseManipulator(rangeManipulator)
-    state.context.itkVtkView
-      .getInteractorStyle3D()
-      .addMouseManipulator(rangeManipulator)
+    getInteractorStyle2D.addMouseManipulator(rangeManipulator)
+    getInteractorStyle3D.addMouseManipulator(rangeManipulator)
   }, [])
 
   useEffect(() => {
@@ -50,7 +85,7 @@ function TransferFunctionWidget(props) {
       })
       transferFunctionWidget.setEnableRangeZoom(true)
       let iconSize = 20
-      if (state.context.use2D) {
+      if (use2D) {
         iconSize = 0
       }
       transferFunctionWidget.updateStyle({
@@ -76,10 +111,6 @@ function TransferFunctionWidget(props) {
       transferFunctionWidget.bindMouseListeners()
       transferFunctionWidget.onAnimation(onAnimationChange)
       transferFunctionWidget.onOpacityChange(() => {
-        const name = state.context.images.selectedName
-        const actorContext = state.context.images.actorContext.get(name)
-        const component = actorContext.selectedComponent
-        const dataRange = actorContext.colorRanges.get(component)
         const range = transferFunctionWidget.getOpacityRange(dataRange)
         const nodes = transferFunctionWidget.getOpacityNodes(dataRange)
         send({
@@ -108,7 +139,8 @@ function TransferFunctionWidget(props) {
   useEffect(() => {
     if (context.current) {
       const { transferFunctionWidget } = context.current
-      state.context.images.transferFunctionWidget = transferFunctionWidget
+      service.machine.context.images.transferFunctionWidget =
+        transferFunctionWidget
 
       // Window
       const windowGet = () => {
@@ -118,42 +150,47 @@ function TransferFunctionWidget(props) {
           state.context.images.transferFunctionManipulator.windowMotionScale
         )
       }
-      state.context.images.transferFunctionManipulator.windowGet = windowGet
+      service.machine.context.images.transferFunctionManipulator.windowGet =
+        windowGet
       const windowSet = (value) => {
         const gaussians = transferFunctionWidget.getGaussians()
         const newGaussians = gaussians.slice()
         newGaussians[0].width =
           value /
           state.context.images.transferFunctionManipulator.windowMotionScale
-        const name = state.context.images.selectedName
-        const component = state.context.images.selectedComponent
+        // const name = state.context.images.selectedName
+        // const component = state.context.images.selectedComponent
         send({
           type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
           data: { name, component, gaussians: newGaussians }
         })
       }
-      state.context.images.transferFunctionManipulator.windowSet = windowSet
+      service.machine.context.images.transferFunctionManipulator.windowSet =
+        windowSet
 
       // Level
       const levelGet = () => {
         const gaussian = transferFunctionWidget.getGaussians()[0]
         return (
           gaussian.position *
-          state.context.images.transferFunctionManipulator.levelMotionScale
+          service.machine.context.images.transferFunctionManipulator
+            .levelMotionScale
         )
       }
-      state.context.images.transferFunctionManipulator.levelGet = levelGet
+      service.machine.context.images.transferFunctionManipulator.levelGet =
+        levelGet
       const levelSet = () => {
         const gaussians = transferFunctionWidget.getGaussians()
         const newGaussians = gaussians.slice()
-        const name = state.context.images.selectedName
-        const component = state.context.images.selectedComponent
+        // const name = state.context.images.selectedName
+        // const component = state.context.images.selectedComponent
         send({
           type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
           data: { name, component, gaussians: newGaussians }
         })
       }
-      state.context.images.transferFunctionManipulator.levelSet = levelSet
+      service.machine.context.images.transferFunctionManipulator.levelSet =
+        levelSet
 
       const pwfRangeManipulator = vtkMouseRangeManipulator.newInstance({
         button: 3, // Right mouse
@@ -173,8 +210,8 @@ function TransferFunctionWidget(props) {
         const gaussians = transferFunctionWidget.getGaussians()
         const newGaussians = gaussians.slice()
         newGaussians[0].height = value / pwfMotionScale
-        const name = state.context.images.selectedName
-        const component = state.context.images.selectedComponent
+        // const name = state.context.images.selectedName
+        // const component = state.context.images.selectedComponent
         send({
           type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
           data: { name, component, gaussians: newGaussians }
@@ -194,17 +231,12 @@ function TransferFunctionWidget(props) {
         pwfGet,
         pwfSet
       )
-      state.context.itkVtkView
-        .getInteractorStyle3D()
-        .addMouseManipulator(pwfRangeManipulator)
-      state.context.itkVtkView
-        .getInteractorStyle3D()
-        .addMouseManipulator(pwfRangeManipulatorShift)
+      getInteractorStyle3D.addMouseManipulator(pwfRangeManipulator)
+      getInteractorStyle3D.addMouseManipulator(pwfRangeManipulatorShift)
     }
   }, [context])
 
   useEffect(() => {
-    const lut = state.context.images.lookupTableProxies
     if (lut && lut.size === 1) {
       const componentIndex = actorContext.selectedComponent
       send({
@@ -212,7 +244,7 @@ function TransferFunctionWidget(props) {
         data: { name, component: componentIndex, colorMap: 'Grayscale' }
       })
     }
-  }, [state.context.images.lookupTableProxies])
+  }, [lookupTableProxies])
 
   // Manage update when opacity changes
   const onAnimationChange = (start) => {
@@ -230,10 +262,21 @@ function TransferFunctionWidget(props) {
   }
 
   const onZoomChange = (zoom) => {
-    const name = state.context.images.selectedName
-    const actorContext = state.context.images.actorContext.get(name)
-    const component = actorContext.selectedComponent
-    const fullRange = actorContext.colorRanges.get(component)
+    const component = useSelector(
+      service,
+      (state) =>
+        state.context.images.actorContext.get(state.context.images.selectedName)
+          .selectedComponent
+    )
+    const fullRange = useSelector(service, (state) =>
+      state.context.images.actorContext
+        .get(state.context.images.selectedName)
+        .colorRanges.get(
+          state.context.images.actorContext.get(
+            state.context.images.selectedName
+          ).selectedComponent
+        )
+    )
     const diff = fullRange[1] - fullRange[0]
     const colorRange = new Array(2)
     colorRange[0] = fullRange[0] + zoom[0] * diff
