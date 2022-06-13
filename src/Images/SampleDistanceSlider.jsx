@@ -49,7 +49,7 @@ function SampleDistanceSlider(props) {
         transition={false}
         overlay={<Tooltip>Volume sample distance</Tooltip>}
       >
-        <div className="icon-button icon-image" ref={spacingDiv}>
+        <div className="icon-image" ref={spacingDiv}>
           <Image src={sampleDistanceIconDataUri}></Image>
         </div>
       </OverlayTrigger>
