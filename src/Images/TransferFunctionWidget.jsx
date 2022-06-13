@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor, useSelector } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 
 import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
 import vtkItkPiecewiseGaussianWidget from '../vtk/ItkPiecewiseGaussianWidget'
@@ -12,13 +12,15 @@ function TransferFunctionWidget(props) {
   const send = service.send
   const piecewiseWidgetContainer = useRef(null)
   const context = useRef(null)
-  const [state] = useActor(service)
   const name = useSelector(
     service,
     (state) => state.context.images.selectedName
   )
-  const actorContext = useSelector(service, (state) =>
-    state.context.images.actorContext.get(state.context.images.selectedName)
+  const selectedComponent = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .selectedComponent
   )
   const lut = useSelector(
     service,
@@ -47,7 +49,8 @@ function TransferFunctionWidget(props) {
   const use2D = useSelector(service, (state) => state.context.use2D)
   const windowMotionScale = useSelector(
     service,
-    (state) => state.context.images.transferFunctionManipulator
+    (state) =>
+      state.context.images.transferFunctionManipulator?.windowMotionScale
   )
   const lookupTableProxies = useSelector(
     service,
@@ -145,19 +148,14 @@ function TransferFunctionWidget(props) {
       // Window
       const windowGet = () => {
         const gaussian = transferFunctionWidget.getGaussians()[0]
-        return (
-          gaussian.width *
-          state.context.images.transferFunctionManipulator.windowMotionScale
-        )
+        return gaussian.width * windowMotionScale
       }
       service.machine.context.images.transferFunctionManipulator.windowGet =
         windowGet
       const windowSet = (value) => {
         const gaussians = transferFunctionWidget.getGaussians()
         const newGaussians = gaussians.slice()
-        newGaussians[0].width =
-          value /
-          state.context.images.transferFunctionManipulator.windowMotionScale
+        newGaussians[0].width = value / windowMotionScale
         // const name = state.context.images.selectedName
         // const component = state.context.images.selectedComponent
         send({
@@ -238,7 +236,7 @@ function TransferFunctionWidget(props) {
 
   useEffect(() => {
     if (lut && lut.size === 1) {
-      const componentIndex = actorContext.selectedComponent
+      const componentIndex = selectedComponent
       send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
         data: { name, component: componentIndex, colorMap: 'Grayscale' }
