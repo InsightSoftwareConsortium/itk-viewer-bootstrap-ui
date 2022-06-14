@@ -133,99 +133,99 @@ function PlaneSliders(props) {
   return (
     <div ref={planeSliders} className={slidersClass}>
       {planes.map((plane, idx) => {
-        return planeSlice2D[idx] ? (
-          <div key={plane.toUpperCase()}>
-            <div className="input-group">
-              <OverlayTrigger
-                transition={false}
-                overlay={
-                  <Tooltip>{plane.toUpperCase()} Plane Visibility</Tooltip>
-                }
-              >
-                <Button
-                  className={cn(
-                    `icon-button ${
-                      viewMode !== 'Volume' ? 'hiddenSlider' : ''
-                    }`,
-                    {
-                      checked: slicingPlanesVisibility[idx]
-                    }
-                  )}
-                  onClick={(_e) => {
-                    toggleVisibility(plane)
-                  }}
-                  variant="secondary"
-                  ref={visRefs[idx]}
+        return (
+          planeSlice2D[idx] !== null && (
+            <div key={plane.toUpperCase()}>
+              <div className="input-group">
+                <OverlayTrigger
+                  transition={false}
+                  overlay={
+                    <Tooltip>{plane.toUpperCase()} Plane Visibility</Tooltip>
+                  }
                 >
-                  {slicingPlanes[plane].visible ? (
-                    <Image src={visibleIconDataUri}></Image>
-                  ) : (
-                    <Image src={invisibleIconDataUri}></Image>
-                  )}
-                </Button>
-              </OverlayTrigger>
-              <OverlayTrigger
-                transition={false}
-                overlay={
-                  <Tooltip>{`${plane.toUpperCase()} Plane Toggle Scroll`}</Tooltip>
-                }
-              >
-                <Button
-                  className={cn(
-                    `icon-button ${
-                      viewMode !== `${plane.toUpperCase()}Plane` &&
-                      viewMode !== 'Volume'
-                        ? 'hiddenSlider'
-                        : ''
-                    }`,
-                    {
-                      checked: slicingPlanesScroll[idx]
-                    }
-                  )}
-                  onClick={(_e) => {
-                    togglePlay(plane)
-                  }}
-                  variant="secondary"
-                  ref={scrollRefs[idx]}
+                  <Button
+                    className={cn(
+                      `icon-button ${
+                        viewMode !== 'Volume' ? 'hiddenSlider' : ''
+                      }`,
+                      {
+                        checked: slicingPlanesVisibility[idx]
+                      }
+                    )}
+                    onClick={(_e) => {
+                      toggleVisibility(plane)
+                    }}
+                    variant="secondary"
+                    ref={visRefs[idx]}
+                  >
+                    {slicingPlanes[plane].visible ? (
+                      <Image src={visibleIconDataUri}></Image>
+                    ) : (
+                      <Image src={invisibleIconDataUri}></Image>
+                    )}
+                  </Button>
+                </OverlayTrigger>
+                <OverlayTrigger
+                  transition={false}
+                  overlay={
+                    <Tooltip>{`${plane.toUpperCase()} Plane Toggle Scroll`}</Tooltip>
+                  }
                 >
-                  {slicingPlanes[plane].scroll ? (
-                    <Image src={pauseIconDataUri}></Image>
-                  ) : (
-                    <Image src={playIconDataUri}></Image>
-                  )}
-                </Button>
-              </OverlayTrigger>
-              <Badge
-                className={`labelBadge ${plane}badge ${
-                  viewMode !== `${plane.toUpperCase()}Plane` &&
-                  viewMode !== 'Volume'
-                    ? 'hiddenSlider'
-                    : ''
-                }`}
-                bg="secondary"
-              >
-                {plane.toUpperCase()}: {planeSlice2D[idx]?.toPrecision(4)}
-              </Badge>
-              <div
-                key={plane.toUpperCase()}
-                className={`planeSliders ${sliderVisible(plane)}`}
-              >
-                <Form.Control
-                  type="range"
-                  custom
-                  min={slicingPlanes[plane].min}
-                  max={slicingPlanes[plane].max}
-                  value={planeSlice2D[idx]}
-                  step={slicingPlanes[plane].step}
-                  onChange={(_e) => {
-                    handleSliderChange(plane, _e.target.value)
-                  }}
-                />
+                  <Button
+                    className={cn(
+                      `icon-button ${
+                        viewMode !== `${plane.toUpperCase()}Plane` &&
+                        viewMode !== 'Volume'
+                          ? 'hiddenSlider'
+                          : ''
+                      }`,
+                      {
+                        checked: slicingPlanesScroll[idx]
+                      }
+                    )}
+                    onClick={(_e) => {
+                      togglePlay(plane)
+                    }}
+                    variant="secondary"
+                    ref={scrollRefs[idx]}
+                  >
+                    {slicingPlanes[plane].scroll ? (
+                      <Image src={pauseIconDataUri}></Image>
+                    ) : (
+                      <Image src={playIconDataUri}></Image>
+                    )}
+                  </Button>
+                </OverlayTrigger>
+                <Badge
+                  className={`labelBadge ${plane}badge ${
+                    viewMode !== `${plane.toUpperCase()}Plane` &&
+                    viewMode !== 'Volume'
+                      ? 'hiddenSlider'
+                      : ''
+                  }`}
+                  bg="secondary"
+                >
+                  {plane.toUpperCase()}: {planeSlice2D[idx]?.toPrecision(4)}
+                </Badge>
+                <div
+                  key={plane.toUpperCase()}
+                  className={`planeSliders ${sliderVisible(plane)}`}
+                >
+                  <Form.Control
+                    type="range"
+                    custom
+                    min={slicingPlanes[plane].min}
+                    max={slicingPlanes[plane].max}
+                    value={planeSlice2D[idx]}
+                    step={slicingPlanes[plane].step}
+                    onChange={(_e) => {
+                      handleSliderChange(plane, _e.target.value)
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div key={plane.toUpperCase() + 'hiddenSlider'} />
+          )
         )
       })}
     </div>
