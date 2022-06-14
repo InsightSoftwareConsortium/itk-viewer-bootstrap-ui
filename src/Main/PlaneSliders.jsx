@@ -31,6 +31,10 @@ function PlaneSliders(props) {
     service,
     (state) => state.context.container.clientHeight
   )
+  const stateBackgroundColorEnabled = useSelector(
+    service,
+    (state) => state.context.main.selectedBackgroundColor
+  )
   const send = service.send
   const xVisibility = useRef(null)
   const yVisibility = useRef(null)
@@ -118,7 +122,8 @@ function PlaneSliders(props) {
                       viewMode !== 'Volume' ? 'hiddenSlider' : ''
                     }`,
                     {
-                      checked: slicingPlanes[plane].visible
+                      checked: slicingPlanes[plane].visible,
+                      inverted_filter: stateBackgroundColorEnabled === 1
                     }
                   )}
                   onClick={(_e) => {
@@ -149,7 +154,8 @@ function PlaneSliders(props) {
                         : ''
                     }`,
                     {
-                      checked: slicingPlanes[plane].scroll
+                      checked: slicingPlanes[plane].scroll,
+                      inverted_filter: stateBackgroundColorEnabled === 1
                     }
                   )}
                   onClick={(_e) => {
