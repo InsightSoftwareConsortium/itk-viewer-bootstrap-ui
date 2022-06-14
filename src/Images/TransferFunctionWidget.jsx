@@ -245,12 +245,9 @@ function TransferFunctionWidget(props) {
   }
 
   return (
-    actorContext.colorRanges.get(actorContext.selectedComponent) !==
-      undefined && (
-      <div className="uiRow" style={{ background: 'rgba(127, 127, 127, 0.5)' }}>
-        <div className="piecewiseWidget" ref={piecewiseWidgetContainer} />
-      </div>
-    )
+    <div className="uiRow" style={{ background: 'rgba(127, 127, 127, 0.5)' }}>
+      <div className="piecewiseWidget" ref={piecewiseWidgetContainer} />
+    </div>
   )
 }
 
