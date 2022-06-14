@@ -138,6 +138,8 @@ code.uiContainer {
   border-width: 2px !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
   border: solid;
+  max-width: 100% !important;
+  border-width: 3px !important
 }
 
 .layerEntryBrightBG {
@@ -292,6 +294,7 @@ code.uiContainer {
   border: solid;
   border-color: rgba(255, 255, 255, 0.3);
   border-width: 3px !important;
+  max-width: 100% !important;
 }
 
 .selector {
