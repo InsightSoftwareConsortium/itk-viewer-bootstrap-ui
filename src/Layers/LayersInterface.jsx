@@ -10,7 +10,6 @@ function LayersInterface(props) {
   useEffect(() => {
     state.context.layers.uiLayers = new Map()
     state.context.layers.layersUIGroup = layersUIGroup.current
-    state.context.uiGroups.set('layers', layersUIGroup.current)
   }, [])
 
   return (
