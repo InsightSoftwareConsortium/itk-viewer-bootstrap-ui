@@ -1,33 +1,11 @@
 .blendMenu {
-  min-width: auto !important;
-}
-
-.blendModeButton {
-  margin-right: 5px;
+  min-width: 125px !important;
 }
 
 .blendSelector {
   display: flex;
   align-items: center;
   margin-left: 10px;
-}
-
-
-.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
-  background-color: #5a6268 !important;
-  border-color: #5a6268 !important; 
-} 
-
-.icon-button {
-  background-color: transparent !important;
-  border-color: transparent !important;
-}
-.icon-button > img {
-  width: 1.2rem;
-} 
-
-.icon-image {
-  margin-right: 10px;
 }
 
 .categoricalMenu {
@@ -112,11 +90,43 @@ code.uiContainer {
   margin: 0px !important;
 }
 
+.icon-button {
+  background-color: transparent !important;
+  border-color: transparent !important;
+} 
+.icon-button > img {
+  width: 1.2rem;
+} 
+.icon-button:active, .icon-button:focus {
+
+
+  background-color:  rgba(255, 255, 255, 0.3) !important; 
+}
+.checked {
+  background-color: #5a6268 !important; 
+}
+
+.icon-image {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  margin-right: 10px;
+}
+.icon-image > img {
+  width: 1.2rem;
+}
+.icon-image:active, .icon-image:focus {
+  background-color:  transparent !important; 
+} 
+
 .iconWithSlider {
   width: 100%;
   display: flex;
   align-self: normal;
   align-items: center;
+}
+
+.inverted_filter {
+  filter: invert(100%);
 }
 
 .interpolationButton {
