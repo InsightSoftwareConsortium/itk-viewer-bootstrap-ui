@@ -19,25 +19,26 @@ function VolumeRenderingInputs(props) {
     state.context.images.volumeRow2 = volumeRow2.current
   }, [])
 
-  return (
-    !state.context.use2D ?
-      <div>
-        <div
-          ref={volumeRow1}
-          className={`uiRow ${
-            actorContext.blendMode !== 'Composite' && 'hidden'
-          }`}
-          style={{ whiteSpace: 'nowrap' }}
-        >
-          <ShadowToggle {...props} />
-          <GradientOpacitySlider {...props} />
-        </div>
-        <div ref={volumeRow2} className="uiRow">
-          <SampleDistanceSlider {...props} />
-          <BlendModeSelector {...props} />
-        </div>
+  return actorContext.colorRanges.get(actorContext.selectedComponent) !==
+    undefined && !state.context.use2D ? (
+    <div>
+      <div
+        ref={volumeRow1}
+        className={`uiRow ${
+          actorContext.blendMode !== 'Composite' && 'hidden'
+        }`}
+        style={{ whiteSpace: 'nowrap' }}
+      >
+        <ShadowToggle {...props} />
+        <GradientOpacitySlider {...props} />
       </div>
-    : <div />
+      <div ref={volumeRow2} className="uiRow">
+        <SampleDistanceSlider {...props} />
+        <BlendModeSelector {...props} />
+      </div>
+    </div>
+  ) : (
+    <div />
   )
 }
 
