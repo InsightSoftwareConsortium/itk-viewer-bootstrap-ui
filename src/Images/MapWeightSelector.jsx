@@ -1,18 +1,33 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
-import { FormControl, MenuItem, Select } from '@mui/material'
+import { useSelector } from '@xstate/react'
+import Form from 'react-bootstrap/Form'
 import '../style.css'
 
 function MapWeightSelector(props) {
   const { service } = props
   const labelImageWeightUIGroup = useRef(null)
   const labelSelector = useRef(null)
-  const [state, send] = useActor(service)
+  const send = service.send
 
   let labelMapWeights = [{ name: 'All', value: 'all' }]
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
-  actorContext.labelNames.forEach((value, key) => {
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = useSelector(
+    service,
+    (state) => state.context.images.actorContext
+  )
+  const actorContextName = useSelector(service, (state) =>
+    state.context.images.actorContext.get(state.context.images.selectedName)
+  )
+  const labelNames = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .labelNames
+  )
+  labelNames.forEach((value, key) => {
     labelMapWeights.push({
       name: value,
       value: key
@@ -20,22 +35,21 @@ function MapWeightSelector(props) {
   })
 
   useEffect(() => {
-    state.context.images.labelImageWeightUIGroup =
+    service.machine.context.images.labelImageWeightUIGroup =
       labelImageWeightUIGroup.current
-    state.context.images.labelSelector = labelSelector.current
+    service.machine.context.images.labelSelector = labelSelector.current
   }, [])
 
   const currentMapWeight = () => {
-    const name = state.context.images.selectedName
-    if (state.context.images.actorContext) {
-      const actorContext = state.context.images.actorContext.get(name)
+    if (actorContext) {
+      const actorContext = actorContextName
       return actorContext.selectedLabel
     }
     return ''
   }
 
   const handleChange = (label) => {
-    const name = state.context.images.selectedName
+    console.log(label)
     send({
       type: 'LABEL_IMAGE_SELECTED_LABEL_CHANGED',
       data: { name, selectedLabel: label }
@@ -45,36 +59,19 @@ function MapWeightSelector(props) {
   return (
     <div ref={labelImageWeightUIGroup} className="uiGroup">
       <div className="uiRow">
-        <FormControl
-          variant="outlined"
-          size="small"
+        <Form.Control
+          as="select"
           ref={labelSelector}
-          style={{ margin: '0 5px' }}
+          onChange={(e) => {
+            handleChange(e.target.value)
+          }}
         >
-          <Select
-            value={currentMapWeight()}
-            style={{ height: '40px' }}
-            onChange={(e) => {
-              handleChange(e.target.value)
-            }}
-            MenuProps={{
-              anchorEl: labelSelector.current,
-              disablePortal: true,
-              keepMounted: true,
-              classes: { root: 'categoricalRoot', list: 'categoricalMenu' }
-            }}
-          >
-            {labelMapWeights.map((weight, idx) => (
-              <MenuItem
-                key={idx}
-                value={weight.value}
-                style={{ minWidth: '100%' }}
-              >
-                {weight.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          {labelMapWeights.map((weight, idx) => (
+            <option key={idx} value={currentMapWeight()}>
+              {weight.name}
+            </option>
+          ))}
+        </Form.Control>
       </div>
     </div>
   )

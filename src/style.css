@@ -12,6 +12,12 @@
   margin: 0 5px !important;
 }
 
+.categoricalMenuForm{
+  width: 150px !important;
+  margin-right: 3px !important;
+  margin-left: 3px !important;
+}
+
 .categoricalRoot {
   height: 250px;
 }

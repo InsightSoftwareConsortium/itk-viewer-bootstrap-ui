@@ -1,17 +1,23 @@
 import React, { useEffect, useRef } from 'react'
 import { useActor } from '@xstate/react'
-import { FormControl, Icon, MenuItem, Select } from '@mui/material'
 import CategoricalPresetIcons from '../CategoricalPresetIcons'
 import '../style.css'
+import Navbar from 'react-bootstrap/Navbar'
+import Container from 'react-bootstrap/Container'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Image from 'react-bootstrap/Image'
+import Form from 'react-bootstrap/Form'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 function CategoricalIconSelector(props) {
   const { service } = props
   const iconSelector = useRef(null)
   const [state, send] = useActor(service)
 
-  let catergoricalPresetIcons = []
+  let categoricalPresetIcons = []
   CategoricalPresetIcons.forEach((value, key) => {
-    catergoricalPresetIcons.push({
+    categoricalPresetIcons.push({
       name: key,
       icon: value
     })
@@ -21,7 +27,7 @@ function CategoricalIconSelector(props) {
     state.context.images.labelImageIconSelector = iconSelector
   }, [])
 
-  const currentCatergoricalPreset = () => {
+  const currentCategoricalPreset = () => {
     const name = state.context.images.selectedName
     if (state.context.images.actorContext) {
       const actorContext = state.context.images.actorContext.get(name)
@@ -38,35 +44,54 @@ function CategoricalIconSelector(props) {
     })
   }
 
+  // return (
+  //   <Navbar
+  //     bg="light"
+  //     variant="light"
+  //     ref={iconSelector}
+  //     className="categoricalMenu"
+  //     style={{ width: '154px', margin: '0 5px' }}
+  //   >
+  //     <NavDropdown
+  //       title="Dropdown"
+  //       id="basic-nav-dropdown"
+  //       className="form-control"
+  //       value={currentCategoricalPreset()}
+  //       onChange={(e) => {
+  //         handleChange(e.target.value)
+  //       }}
+  //     >
+  //       {categoricalPresetIcons.map((preset, idx) => (
+  //         <NavDropdown.Item key={idx} style={{ minWidth: '100%' }}>
+  //           <Container>
+  //             <Navbar.Brand>
+  //               <Image alt="" src={preset.icon} className="colorMapIcon" />
+  //             </Navbar.Brand>
+  //           </Container>
+  //         </NavDropdown.Item>
+  //       ))}
+  //     </NavDropdown>
+  //   </Navbar>
+  // )
+
   return (
-    <FormControl
-      variant="outlined"
-      size="small"
+    <Form.Control
+      as="select"
       ref={iconSelector}
-      style={{ width: '154px', margin: '0 5px' }}
+      className="categoricalMenuForm"
+      // style={{ width: '20px !important' }}
+      onChange={(e) => {
+        handleChange(e.target.value)
+      }}
+      value={currentCategoricalPreset()}
     >
-      <Select
-        value={currentCatergoricalPreset()}
-        style={{ height: '40px' }}
-        onChange={(e) => {
-          handleChange(e.target.value)
-        }}
-        MenuProps={{
-          anchorEl: iconSelector.current,
-          disablePortal: true,
-          keepMounted: true,
-          classes: { list: 'categoricalMenu' }
-        }}
-      >
-        {catergoricalPresetIcons.map((preset, idx) => (
-          <MenuItem key={idx} value={preset.name} style={{ minWidth: '100%' }}>
-            <Icon style={{ width: '100%' }}>
-              <img className="colorMapIcon" src={preset.icon} />
-            </Icon>
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+      {categoricalPresetIcons.map((preset, idx) => (
+        <option key={idx} style={{ minWidth: '100%' }} value={preset.value}>
+          {preset.name}
+          {/* <Image className="colorMapIcon" src={preset.icon} /> */}
+        </option>
+      ))}
+    </Form.Control>
   )
 }
 
