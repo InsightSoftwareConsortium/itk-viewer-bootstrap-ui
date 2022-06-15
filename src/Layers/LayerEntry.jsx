@@ -115,7 +115,7 @@ function LayerEntry(props) {
             </Button>
           </OverlayTrigger>
           <div className="layerLabelCommon"> {layer.name} </div>
-          <div className={`icon-button`}>
+          <div className={`icon-image`}>
             {layerType(layer.name) === 'image' ? (
               <Image src={imageIconDataUri} />
             ) : (

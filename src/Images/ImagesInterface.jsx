@@ -47,8 +47,6 @@ function ImagesInterface(props) {
     return false
   }
 
-  console.log(layersContext)
-
   return (
     <div className={visible() ? '' : 'hidden'}>
       {actorContext && (
