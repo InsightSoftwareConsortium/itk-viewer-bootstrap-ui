@@ -20,7 +20,9 @@ function VolumeRenderingInputs(props) {
   }, [])
 
   return (
-    !state.context.use2D ?
+    actorContext.colorRanges.get(actorContext.selectedComponent) !==
+      undefined &&
+    !state.context.use2D && (
       <div>
         <div
           ref={volumeRow1}
@@ -37,7 +39,7 @@ function VolumeRenderingInputs(props) {
           <BlendModeSelector {...props} />
         </div>
       </div>
-    : <div />
+    )
   )
 }
 
