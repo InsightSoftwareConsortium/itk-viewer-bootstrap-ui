@@ -39,7 +39,7 @@ function ViewButton(props) {
   )
 }
 
-const ViewModeButtons = React.memo(function ViewModeButtons(props) {
+function ViewModeButtons(props) {
   const { service } = props
 
   return [
@@ -72,6 +72,6 @@ const ViewModeButtons = React.memo(function ViewModeButtons(props) {
       service={service}
     ></ViewButton>
   ))
-})
+}
 
 export default ViewModeButtons

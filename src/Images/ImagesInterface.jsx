@@ -18,7 +18,6 @@ function ImagesInterface(props) {
   const imagesUIGroup = useRef(null)
   useEffect(() => {
     state.context.images.imagesUIGroup = imagesUIGroup.current
-    state.context.uiGroups.set('images', imagesUIGroup.current)
   }, [])
 
   const visible = () => {

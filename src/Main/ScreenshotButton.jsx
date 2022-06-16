@@ -5,7 +5,7 @@ import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
-const ScreenshotButton = React.memo(function ScreenshotButton(props) {
+function ScreenshotButton(props) {
   const { service } = props
   const send = service.send
 
@@ -22,6 +22,6 @@ const ScreenshotButton = React.memo(function ScreenshotButton(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default ScreenshotButton

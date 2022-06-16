@@ -7,7 +7,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
-const AnnotationsButton = React.memo(function AnnotationsButton(props) {
+function AnnotationsButton(props) {
   const { service } = props
   const stateAnnotationsEnabled = useSelector(
     service,
@@ -31,6 +31,6 @@ const AnnotationsButton = React.memo(function AnnotationsButton(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default AnnotationsButton

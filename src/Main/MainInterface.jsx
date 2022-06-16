@@ -1,4 +1,4 @@
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
 import AnnotationsButton from './AnnotationsButton'
 import AxesButton from './AxesButton'
@@ -16,12 +16,9 @@ const STYLE = { width: '20%' }
 
 function MainInterface(props) {
   const { service } = props
-  const [state] = useActor(service)
   const mainUIGroup = useRef(null)
 
-  useEffect(() => {
-    state.context.uiGroups.set('main', mainUIGroup.current)
-  }, [])
+  let use2D = useSelector(service, (state) => state.context.use2D)
 
   return (
     <div>
@@ -29,14 +26,14 @@ function MainInterface(props) {
         <div className="mainUIRow">
           <ScreenshotButton {...props} />
           <FullscreenButton {...props} />
-          {!state.context.use2D && <RotateButton {...props} />}
+          {!use2D && <RotateButton {...props} />}
           <AnnotationsButton {...props} />
           <AxesButton {...props} />
-          {!state.context.use2D && <ViewPlanesToggle {...props} />}
+          {!use2D && <ViewPlanesToggle {...props} />}
           <BackgroundColorButton {...props} />
-          {state.context.use2D && <ResetCameraButton {...props} />}
+          {use2D && <ResetCameraButton {...props} />}
         </div>
-        {!state.context.use2D && (
+        {!use2D && (
           <div className="mainUIRow">
             <ViewModeButtons {...props} />
             <ResetCameraButton style={STYLE} {...props} />

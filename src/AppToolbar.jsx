@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import React from 'react'
 import { AppBar, Icon, IconButton, Toolbar, Typography } from '@mui/material'
 import { toggleIconDataUri } from 'itk-viewer-icons'
 import toggleUICollapsed from './toggleUICollapsed'
@@ -7,16 +6,11 @@ import './Panel.css'
 
 function AppToolbar(props) {
   const { service } = props
-  const collapseUIButton = useRef(null)
-  const [state, send] = useActor(service)
-
-  useEffect(() => {
-    state.context.main.collapseUIButton = collapseUIButton.current
-  }, [])
+  const send = service.send
 
   const handleToggle = () => {
     send('TOGGLE_UI_COLLAPSED')
-    toggleUICollapsed(state.context)
+    toggleUICollapsed(service.machine.context)
   }
 
   return (
@@ -24,7 +18,6 @@ function AppToolbar(props) {
       <Toolbar>
         <IconButton
           size="small"
-          ref={collapseUIButton}
           color="inherit"
           onClick={handleToggle}
           edge="start"

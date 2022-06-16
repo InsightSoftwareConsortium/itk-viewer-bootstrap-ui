@@ -7,7 +7,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
 
-const RotateButton = React.memo(function RotateButton(props) {
+function RotateButton(props) {
   const { service } = props
   const stateRotateEnabled = useSelector(
     service,
@@ -31,6 +31,6 @@ const RotateButton = React.memo(function RotateButton(props) {
       </Button>
     </OverlayTrigger>
   )
-})
+}
 
 export default RotateButton

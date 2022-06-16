@@ -16,10 +16,6 @@ function LabelMapWeightWidget(props) {
   useEffect(() => {
     state.context.images.labelImageWeightUIGroup =
       labelImageWeightUIGroup.current
-    state.context.uiGroups.set(
-      'labelImageWeights',
-      labelImageWeightUIGroup.current
-    )
     state.context.images.labelImageWeightSlider = weightSlider.current
     actorContext.labelImageToggleWeight = 1.0
   }, [])
