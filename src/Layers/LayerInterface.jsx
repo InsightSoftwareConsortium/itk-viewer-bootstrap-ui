@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import LayerEntry from './LayerEntry'
-import { Grid } from '@mui/material'
+import Col from 'react-bootstrap/Col'
 
 function LayerInterface(props) {
   const { service } = props
-  const [state] = useActor(service)
+  const lastAddedData = useSelector(
+    service,
+    (state) => state.context.layers.lastAddedData
+  )
   const [allLayers, updateLayers] = useState([])
 
   useEffect(() => {
-    if (state.context.layers.lastAddedData) {
-      updateLayers([...allLayers, state.context.layers.lastAddedData])
+    if (lastAddedData) {
+      updateLayers([...allLayers, lastAddedData])
     }
-  }, [state.context.layers.lastAddedData])
+  }, [lastAddedData])
 
   return (
-    <Grid container>
+    <Col className="layerUIGroupPadding">
       <LayerEntry {...props} />
-    </Grid>
+    </Col>
   )
 }
 

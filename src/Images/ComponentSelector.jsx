@@ -11,7 +11,7 @@ function ComponentSelector(props) {
 
   const name = state.context.images.selectedName
   const actorContext = state.context.images.actorContext.get(name)
-  const components = actorContext.image.imageType.components
+  const components = actorContext.image?.imageType.components
 
   useEffect(() => {
     state.context.images.componentRow = componentRow.current

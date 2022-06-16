@@ -39,18 +39,27 @@ function ImagesInterface(props) {
     return false
   }
 
+  const isLabelOnly = () => {
+    const type = layersContext.type
+    if (type === 'labelImage') {
+      return true
+    }
+    return false
+  }
+
   return (
     <div className={visible() ? '' : 'hidden'}>
       {actorContext && (
         <div>
-          <div
-            ref={imagesUIGroup}
-            className="uiGroup uiImages"
-          >
+          <div ref={imagesUIGroup} className="uiGroup uiImages">
             <ColorRangeInput {...props} />
             <ComponentSelector {...props} />
-            <TransferFunctionWidget {...props} />
-            <VolumeRenderingInputs {...props} />
+            {!isLabelOnly() && (
+              <div>
+                <TransferFunctionWidget {...props} />
+                <VolumeRenderingInputs {...props} />
+              </div>
+            )}
           </div>
           {showLabelWidgets() && (
             <div>
