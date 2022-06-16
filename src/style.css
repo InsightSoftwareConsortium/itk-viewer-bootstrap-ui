@@ -8,14 +8,29 @@
   margin-left: 10px;
 }
 
+.categoricalCol {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top:3px !important;
+}
+
+.categoricalColContainer {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.categoricalDropDown {
+ padding: 0 0 !important;
+}
 .categoricalMenu {
   margin: 0 5px !important;
 }
 
 .categoricalMenuForm{
   width: 150px !important;
-  margin-right: 3px !important;
+  margin-right: 10px !important;
   margin-left: 3px !important;
+  position: relative !important;
 }
 
 .categoricalRoot {
@@ -30,13 +45,15 @@
 }
 
 code.uiContainer {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Mo naco, Consolas, 'Courier New',
     monospace;
 }
 
 .colorMapIcon {
   height: inherit;
-  width: 100%;
+  width: 100% !important;
+  height: 100%;
+  min-height: 30px;
   margin: 0 3px;
 }
 
@@ -66,6 +83,14 @@ code.uiContainer {
   color: white;
   font-size: 1.0em;
   width: 80px;
+}
+
+.dropdown-menu {
+  min-width: 300px !important;
+
+}
+.dropdown-toggle:empty::after {
+  margin-left: 100% !important;
 }
 
 .gradientOpacityScale {
@@ -261,6 +286,14 @@ code.uiContainer {
 
 .numberInput {
   min-width: 98px;
+}
+
+.overlayImage{
+  position: absolute;
+  width: 85%;
+  height: 100%;
+  vertical-align: auto;
+  pointer-events: none;
 }
 
 .piecewiseWidget {
