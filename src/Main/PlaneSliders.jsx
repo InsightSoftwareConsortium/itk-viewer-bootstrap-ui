@@ -25,10 +25,6 @@ function PlaneSliders(props) {
     service,
     (state) => state.context.main.selectedBackgroundColor
   )
-  const stateBackgroundColorEnabled = useSelector(
-    service,
-    (state) => state.context.main.selectedBackgroundColor
-  )
   const send = service.send
   const xVisibility = useRef(null)
   const yVisibility = useRef(null)
