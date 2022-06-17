@@ -27,8 +27,8 @@
 }
 
 .categoricalMenuForm{
-  width: 150px !important;
-  margin-right: 10px !important;
+  width: 200px !important;
+  margin-right: 3px !important;
   margin-left: 3px !important;
   position: relative !important;
 }
@@ -290,7 +290,7 @@ code.uiContainer {
 }
 
 .numberInput {
-  min-width: 98px;
+  max-width: 70px;
 }
 
 .overlayImage{
