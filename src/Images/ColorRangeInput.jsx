@@ -9,7 +9,6 @@ import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
-import { ConstructionOutlined } from '@mui/icons-material'
 
 function ColorRangeInput(props) {
   const { service } = props
