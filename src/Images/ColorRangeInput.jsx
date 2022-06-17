@@ -19,9 +19,6 @@ function ColorRangeInput(props) {
     service,
     (state) => state.context.images.selectedName
   )
-  const actorContext = useSelector(service, (state) =>
-    state.context.images.actorContext.get(state.context.images.selectedName)
-  )
   const interpolationEnabled = useSelector(
     service,
     (state) =>
@@ -38,7 +35,25 @@ function ColorRangeInput(props) {
   const colorRangesSelected = useSelector(service, (state) =>
     state.context.images.actorContext
       .get(state.context.images.selectedName)
-      .colorRanges.get(actorContext.selectedComponent)
+      .colorRanges.get(
+        state.context.images.actorContext.get(state.context.images.selectedName)
+          .selectedComponent
+      )
+  )
+  const boundsSelected = useSelector(service, (state) =>
+    state.context.images.actorContext
+      .get(state.context.images.selectedName)
+      .colorRangeBounds.get(
+        state.context.images.actorContext.get(state.context.images.selectedName)
+          .selectedComponent
+      )
+  )
+
+  const selectedComponent = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .selectedComponent
   )
 
   useEffect(() => {
@@ -46,10 +61,7 @@ function ColorRangeInput(props) {
   }, [colorRangeInput.current])
 
   const interpolate = () => {
-    if (actorContext) {
-      return interpolationEnabled
-    }
-    return true
+    return interpolationEnabled
   }
 
   const toggleInterpolate = () => {
@@ -59,16 +71,10 @@ function ColorRangeInput(props) {
     })
   }
 
-  if (!actorContext) {
-    console.log(actorContext)
-  }
-
   const currentRange = () => {
     let range = [0, 0]
-    if (actorContext) {
-      if (colorRanges.size) {
-        range = colorRangesSelected
-      }
+    if (colorRanges.size) {
+      range = colorRangesSelected
     }
     return range
   }
@@ -80,20 +86,19 @@ function ColorRangeInput(props) {
 
   const currentRangeMax = () => {
     const range = currentRange()
+    console.log(range)
     return range[1]
   }
 
   const rangeChanged = (minVal, maxVal) => {
-    const bounds = actorContext.colorRangeBounds.get(
-      actorContext.selectedComponent
-    )
+    const bounds = boundsSelected
     const rangeMin = minVal < bounds[0] ? bounds[0] : minVal
     const rangeMax = maxVal > bounds[1] ? bounds[1] : maxVal
     send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
         name,
-        component: actorContext.selectedComponent,
+        component: selectedComponent,
         range: [rangeMin, rangeMax]
       }
     })
@@ -110,7 +115,6 @@ function ColorRangeInput(props) {
   }
 
   return (
-    actorContext &&
     colorRanges.size && (
       <div
         ref={colorRangeInput}
