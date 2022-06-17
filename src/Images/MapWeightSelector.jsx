@@ -1,25 +1,15 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from '@xstate/react'
 import Form from 'react-bootstrap/Form'
 import '../style.css'
 
 function MapWeightSelector(props) {
   const { service } = props
-  const labelImageWeightUIGroup = useRef(null)
-  const labelSelector = useRef(null)
   const send = service.send
-
   let labelMapWeights = [{ name: 'All', value: 'all' }]
   const name = useSelector(
     service,
     (state) => state.context.images.selectedName
-  )
-  const actorContext = useSelector(
-    service,
-    (state) => state.context.images.actorContext
-  )
-  const actorContextName = useSelector(service, (state) =>
-    state.context.images.actorContext.get(state.context.images.selectedName)
   )
   const labelNames = useSelector(
     service,
@@ -27,6 +17,7 @@ function MapWeightSelector(props) {
       state.context.images.actorContext.get(state.context.images.selectedName)
         .labelNames
   )
+
   labelNames.forEach((value, key) => {
     labelMapWeights.push({
       name: value,
@@ -34,40 +25,28 @@ function MapWeightSelector(props) {
     })
   })
 
-  useEffect(() => {
-    service.machine.context.images.labelImageWeightUIGroup =
-      labelImageWeightUIGroup.current
-    service.machine.context.images.labelSelector = labelSelector.current
-  }, [])
+  const [weightValue, setWeightValue] = useState(labelMapWeights[0].name)
 
-  const currentMapWeight = () => {
-    if (actorContext) {
-      const actorContext = actorContextName
-      return actorContext.selectedLabel
-    }
-    return ''
-  }
-
-  const handleChange = (label) => {
-    console.log(label)
+  const handleChange = (event) => {
+    setWeightValue(event.target.value)
     send({
       type: 'LABEL_IMAGE_SELECTED_LABEL_CHANGED',
-      data: { name, selectedLabel: label }
+      data: { name, selectedLabel: weightValue }
     })
   }
 
   return (
-    <div ref={labelImageWeightUIGroup} className="uiGroup">
+    <div className="uiGroup">
       <div className="uiRow">
         <Form.Control
           as="select"
-          ref={labelSelector}
+          value={weightValue}
           onChange={(e) => {
-            handleChange(e.target.value)
+            handleChange(e)
           }}
         >
           {labelMapWeights.map((weight, idx) => (
-            <option key={idx} value={currentMapWeight()}>
+            <option key={idx} value={weight.value}>
               {weight.name}
             </option>
           ))}

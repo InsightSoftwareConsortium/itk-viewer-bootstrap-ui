@@ -292,7 +292,7 @@ code.uiContainer {
   position: absolute;
   padding: 5px 5px;
   width: 85%;
-  height: 100%; */
+  height: 100%; 
   vertical-align: auto;
   pointer-events: none;
 }
