@@ -72,8 +72,11 @@ function ColorRangeInput(props) {
   }
 
   const currentRange = () => {
-    let range = [0, 0]
-    if (colorRanges.size) {
+    let range = [0, 1]
+    if (
+      colorRanges.size &&
+      colorRangesSelected[1] - colorRangesSelected[0] > 0
+    ) {
       range = colorRangesSelected
     }
     return range
@@ -86,14 +89,15 @@ function ColorRangeInput(props) {
 
   const currentRangeMax = () => {
     const range = currentRange()
-    console.log(range)
     return range[1]
   }
 
   const rangeChanged = (minVal, maxVal) => {
     const bounds = boundsSelected
     const rangeMin = minVal < bounds[0] ? bounds[0] : minVal
-    const rangeMax = maxVal > bounds[1] ? bounds[1] : maxVal
+    // avoid range size < 1
+    const rangeMaxAux = maxVal > bounds[1] ? bounds[1] : maxVal
+    const rangeMax = rangeMaxAux === 0 ? bounds[0] + 1 : rangeMaxAux
     send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
