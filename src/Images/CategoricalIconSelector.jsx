@@ -1,72 +1,100 @@
-import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
-import { FormControl, Icon, MenuItem, Select } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
+import { useSelector } from '@xstate/react'
 import CategoricalPresetIcons from '../CategoricalPresetIcons'
 import '../style.css'
+import Navbar from 'react-bootstrap/Navbar'
+import Container from 'react-bootstrap/Container'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Image from 'react-bootstrap/Image'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 function CategoricalIconSelector(props) {
   const { service } = props
   const iconSelector = useRef(null)
-  const [state, send] = useActor(service)
+  const send = service.send
 
-  let catergoricalPresetIcons = []
+  const actorContext = useSelector(
+    service,
+    (state) => state.context.images.actorContext
+  )
+  const actorContextName = useSelector(service, (state) =>
+    state.context.images.actorContext.get(state.context.images.selectedName)
+  )
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  let categoricalPresetIcons = []
   CategoricalPresetIcons.forEach((value, key) => {
-    catergoricalPresetIcons.push({
+    categoricalPresetIcons.push({
       name: key,
       icon: value
     })
   })
 
   useEffect(() => {
-    state.context.images.labelImageIconSelector = iconSelector
+    service.machine.context.images.labelImageIconSelector = iconSelector
   }, [])
 
-  const currentCatergoricalPreset = () => {
-    const name = state.context.images.selectedName
-    if (state.context.images.actorContext) {
-      const actorContext = state.context.images.actorContext.get(name)
+  const currentCategoricalPreset = () => {
+    if (actorContext) {
+      const actorContext = actorContextName
       return actorContext.lookupTable
     }
     return ''
   }
 
+  const [icon, setIcon] = useState(categoricalPresetIcons[0].icon)
+  const [nameColor, setNameColor] = useState(categoricalPresetIcons[0].name)
+
   const handleChange = (lut) => {
-    const name = state.context.images.selectedName
+    setIcon(lut.icon)
+    setNameColor(lut.name)
     send({
       type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
-      data: { name, lookupTable: lut }
+      data: { name, lookupTable: lut.name }
     })
   }
 
   return (
-    <FormControl
-      variant="outlined"
-      size="small"
-      ref={iconSelector}
-      style={{ width: '154px', margin: '0 5px' }}
-    >
-      <Select
-        value={currentCatergoricalPreset()}
-        style={{ height: '40px' }}
-        onChange={(e) => {
-          handleChange(e.target.value)
-        }}
-        MenuProps={{
-          anchorEl: iconSelector.current,
-          disablePortal: true,
-          keepMounted: true,
-          classes: { list: 'categoricalMenu' }
-        }}
+    <OverlayTrigger transition={false} overlay={<Tooltip>{nameColor}</Tooltip>}>
+      <Navbar
+        bg="light"
+        variant="light"
+        ref={iconSelector}
+        className="categoricalMenuForm"
+        style={{ width: '154px', margin: '0 5px' }}
       >
-        {catergoricalPresetIcons.map((preset, idx) => (
-          <MenuItem key={idx} value={preset.name} style={{ minWidth: '100%' }}>
-            <Icon style={{ width: '100%' }}>
-              <img className="colorMapIcon" src={preset.icon} />
-            </Icon>
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+        <NavDropdown
+          title=""
+          id="basic-nav-dropdown"
+          className="form-control categoricalDropDown"
+          value={currentCategoricalPreset()}
+        >
+          <Container>
+            <Row xs={4} md={2}>
+              {categoricalPresetIcons.map((preset, idx) => (
+                <Container key={idx} className="categoricalColContainer">
+                  <Col className="categoricalCol">
+                    <NavDropdown.Item
+                      key={idx}
+                      style={{ minWidth: '100%' }}
+                      onClick={() => handleChange(preset)}
+                    >
+                      <Image src={preset.icon} className="colorMapIcon" />
+                    </NavDropdown.Item>
+                  </Col>
+                </Container>
+              ))}
+            </Row>
+          </Container>
+        </NavDropdown>
+        <Image src={icon} className="overlayImage"></Image>
+      </Navbar>
+    </OverlayTrigger>
   )
 }
 
