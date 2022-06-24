@@ -11,6 +11,11 @@ import Col from 'react-bootstrap/Col'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
+const colorMapIcons = Array.from(ColorMapPresetIcons).map(([name, icon]) => ({
+  name,
+  icon
+}))
+
 function ColorMapIconSelector(props) {
   const { service } = props
   const iconSelector = useRef(null)
@@ -19,34 +24,17 @@ function ColorMapIconSelector(props) {
     service,
     (state) => state.context.images.selectedName
   )
-  const actorContextName = useSelector(service, (state) =>
-    state.context.images.actorContext.get(state.context.images.selectedName)
-  )
-  const actorContext = useSelector(
-    service,
-    (state) => state.context.images.actorContext
+  const selectedActorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(selectedName)
   )
   const imagesLookupTableProxies = useSelector(
     service,
     (state) => state.context.images.lookupTableProxies
   )
-  let colorMapIcons = []
-  ColorMapPresetIcons.forEach((value, key) => {
-    colorMapIcons.push({
-      name: key,
-      icon: value,
-      ref: useRef(null)
-    })
-  })
-
-  useEffect(() => {
-    service.machine.context.images.iconSelector = iconSelector.current
-  }, [])
 
   const currentColorMap = () => {
-    if (actorContext) {
-      const actorContext = actorContextName
-      const component = actorContext.selectedComponent
+    if (selectedActorContext) {
+      const component = selectedActorContext.selectedComponent
       const lookupTableProxies = imagesLookupTableProxies
       if (lookupTableProxies) {
         return lookupTableProxies.get(component).getPresetName()
@@ -55,15 +43,24 @@ function ColorMapIconSelector(props) {
     return ''
   }
 
-  const [icon, setIcon] = useState(colorMapIcons[0].icon)
-  const [nameColor, setNameColor] = useState(colorMapIcons[0].name)
+  const name = currentColorMap()
+  const index =
+    colorMapIcons
+      .map(function (e) {
+        return e.name
+      })
+      .indexOf(name) > 0
+      ? colorMapIcons
+          .map(function (e) {
+            return e.name
+          })
+          .indexOf(name)
+      : 0
+  const icon = colorMapIcons[index].icon
 
   const handleChange = (colorMap, colorMapIcon) => {
-    setIcon(colorMapIcon)
-    setNameColor(colorMap)
     const name = selectedName
-    const actorContext = actorContextName
-    const componentIndex = actorContext.selectedComponent
+    const componentIndex = selectedActorContext.selectedComponent
     send({
       type: 'IMAGE_COLOR_MAP_CHANGED',
       data: { name, component: componentIndex, colorMap }
@@ -71,7 +68,10 @@ function ColorMapIconSelector(props) {
   }
 
   return (
-    <OverlayTrigger transition={false} overlay={<Tooltip>{nameColor}</Tooltip>}>
+    <OverlayTrigger
+      transition={false}
+      overlay={<Tooltip>{currentColorMap()}</Tooltip>}
+    >
       <Navbar
         bg="light"
         variant="light"
@@ -83,16 +83,14 @@ function ColorMapIconSelector(props) {
           title=""
           id="basic-nav-dropdown"
           className="form-control categoricalDropDown"
-          value={currentColorMap()}
           style={{ height: '40px' }}
         >
           <Container>
             <Row xs={4} md={4}>
-              {colorMapIcons.map((preset, idx) => (
-                <Container key={idx} className="categoricalColContainer">
+              {colorMapIcons.map((preset, name) => (
+                <Container key={name} className="categoricalColContainer">
                   <Col className="categoricalCol">
                     <NavDropdown.Item
-                      key={idx}
                       style={{ minWidth: '100%' }}
                       onClick={() => handleChange(preset.name, preset.icon)}
                       className="navItem"
