@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from '@xstate/react'
 import { interpolationIconDataUri } from 'itk-viewer-icons'
 import ColorMapIconSelector from './ColorMapIconSelector'
@@ -56,6 +56,13 @@ function ColorRangeInput(props) {
         .selectedComponent
   )
 
+  const [minLocal, setMinLocal] = useState(
+    colorRanges.size ? colorRangesSelected[0] : 0 // DOUBLE check
+  )
+  const [maxLocal, setMaxLocal] = useState(
+    colorRanges.size ? colorRangesSelected[1] : 255
+  )
+
   useEffect(() => {
     service.machine.context.images.colorRangeInputRow = colorRangeInput.current
   }, [colorRangeInput.current])
@@ -94,18 +101,35 @@ function ColorRangeInput(props) {
 
   const rangeChanged = (minVal, maxVal) => {
     const bounds = boundsSelected
-    const rangeMin = minVal < bounds[0] ? bounds[0] : minVal
-    // avoid range size < 1
-    const rangeMaxAux = maxVal > bounds[1] ? bounds[1] : maxVal
-    const rangeMax = rangeMaxAux === 0 ? bounds[0] + 1 : rangeMaxAux
-    send({
-      type: 'IMAGE_COLOR_RANGE_CHANGED',
-      data: {
-        name,
-        component: selectedComponent,
-        range: [rangeMin, rangeMax]
+    // // avoid range size < 1
+
+    if (!isNaN(minVal) && !isNaN(maxVal)) {
+      const rangeMaxAux = maxVal > bounds[1] ? bounds[1] : maxVal
+      let rangeMax = rangeMaxAux <= minVal ? minVal + 1 : rangeMaxAux
+
+      const rangeMinAux = minVal < bounds[0] ? bounds[0] : minVal
+      let rangeMin = rangeMinAux >= maxVal - 1 ? maxVal - 1 : rangeMinAux
+
+      if (minVal == maxVal) {
+        rangeMin = minLocal
+        rangeMax = maxLocal
       }
-    })
+      setMinLocal(rangeMin)
+      setMaxLocal(rangeMax)
+
+      send({
+        type: 'IMAGE_COLOR_RANGE_CHANGED',
+        data: {
+          name,
+          component: selectedComponent,
+          range: [rangeMin, rangeMax]
+        }
+      })
+    } else if (!isNaN(maxVal)) {
+      setMinLocal('')
+    } else if (!isNaN(minVal)) {
+      setMaxLocal('')
+    }
   }
 
   const rangeMinChanged = (val) => {
@@ -146,7 +170,7 @@ function ColorRangeInput(props) {
           <Form.Control
             className="numberInput"
             type="number"
-            value={currentRangeMin()}
+            value={minLocal}
             onChange={(e) => {
               rangeMinChanged(e.target.value)
             }}
@@ -157,7 +181,7 @@ function ColorRangeInput(props) {
           <Form.Control
             className="numberInput"
             type="number"
-            value={currentRangeMax()}
+            value={maxLocal}
             onChange={(e) => {
               rangeMaxChanged(e.target.value)
             }}
