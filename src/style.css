@@ -156,6 +156,10 @@ code.uiContainer {
   align-items: center;
 }
 
+.invalidNumber {
+  border-color: red !important ;
+}
+
 .inverted_filter {
   filter: invert(100%);
 }

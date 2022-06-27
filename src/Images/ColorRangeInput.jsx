@@ -56,16 +56,22 @@ function ColorRangeInput(props) {
         .selectedComponent
   )
 
-  const [minLocal, setMinLocal] = useState(
+  const [minIntent, setminIntent] = useState(
     colorRanges.size ? colorRangesSelected[0] : 0 // DOUBLE check
   )
-  const [maxLocal, setMaxLocal] = useState(
+  const [maxIntent, setmaxIntent] = useState(
+    colorRanges.size ? colorRangesSelected[1] : 255
+  )
+  const [prevMinVal, setPrevMinVal] = useState(
+    colorRanges.size ? colorRangesSelected[0] : 0 // DOUBLE check
+  )
+  const [prevMaxVal, setPrevMaxVal] = useState(
     colorRanges.size ? colorRangesSelected[1] : 255
   )
 
   useEffect(() => {
     service.machine.context.images.colorRangeInputRow = colorRangeInput.current
-  }, [colorRangeInput.current])
+  }, [service.machine.context.images])
 
   const interpolate = () => {
     return interpolationEnabled
@@ -101,35 +107,47 @@ function ColorRangeInput(props) {
 
   const rangeChanged = (minVal, maxVal) => {
     const bounds = boundsSelected
-    // // avoid range size < 1
 
     if (!isNaN(minVal) && !isNaN(maxVal)) {
-      const rangeMaxAux = maxVal > bounds[1] ? bounds[1] : maxVal
-      let rangeMax = rangeMaxAux <= minVal ? minVal + 1 : rangeMaxAux
+      let rangeMax = maxVal >= bounds[1] ? bounds[1] : maxVal
+      let rangeMin = minVal <= bounds[0] ? bounds[0] : minVal
 
-      const rangeMinAux = minVal < bounds[0] ? bounds[0] : minVal
-      let rangeMin = rangeMinAux >= maxVal - 1 ? maxVal - 1 : rangeMinAux
-
-      if (minVal == maxVal) {
-        rangeMin = minLocal
-        rangeMax = maxLocal
-      }
-      setMinLocal(rangeMin)
-      setMaxLocal(rangeMax)
-
-      send({
-        type: 'IMAGE_COLOR_RANGE_CHANGED',
-        data: {
-          name,
-          component: selectedComponent,
-          range: [rangeMin, rangeMax]
+      // if have maxVal and minVal not respecting signs,
+      // display the numbers but do not send them up
+      if (minVal >= maxVal || maxVal <= minVal) {
+        if (maxVal <= bounds[0]) {
+          setmaxIntent(bounds[0] + 1)
+        } else if (maxVal === maxIntent || isNaN(prevMaxVal)) {
+          setmaxIntent(maxVal)
+        } else {
+          setmaxIntent(maxIntent + maxVal - prevMaxVal)
         }
-      })
-    } else if (!isNaN(maxVal)) {
-      setMinLocal('')
-    } else if (!isNaN(minVal)) {
-      setMaxLocal('')
+        if (minVal >= bounds[1]) {
+          setminIntent(bounds[1] - 1)
+        } else if (minVal === minIntent || isNaN(prevMinVal)) {
+          setminIntent(minVal)
+        } else {
+          setminIntent(minIntent + minVal - prevMinVal)
+        }
+      } else {
+        setmaxIntent(rangeMax)
+        setminIntent(rangeMin)
+        send({
+          type: 'IMAGE_COLOR_RANGE_CHANGED',
+          data: {
+            name,
+            component: selectedComponent,
+            range: [rangeMin, rangeMax]
+          }
+        })
+      }
+    } else if (isNaN(minVal)) {
+      setminIntent('')
+    } else if (isNaN(maxVal)) {
+      setmaxIntent('')
     }
+    setPrevMaxVal(maxVal)
+    setPrevMinVal(minVal)
   }
 
   const rangeMinChanged = (val) => {
@@ -168,9 +186,11 @@ function ColorRangeInput(props) {
         </OverlayTrigger>
         <OverlayTrigger transition={false} overlay={<Tooltip>Min</Tooltip>}>
           <Form.Control
-            className="numberInput"
+            className={
+              'numberInput' + (minIntent >= maxIntent ? ` invalidNumber` : ``)
+            }
             type="number"
-            value={minLocal}
+            value={minIntent}
             onChange={(e) => {
               rangeMinChanged(e.target.value)
             }}
@@ -179,9 +199,11 @@ function ColorRangeInput(props) {
         <ColorMapIconSelector {...props} />
         <OverlayTrigger transition={false} overlay={<Tooltip>Max</Tooltip>}>
           <Form.Control
-            className="numberInput"
+            className={
+              'numberInput' + (maxIntent <= minIntent ? ` invalidNumber` : ``)
+            }
             type="number"
-            value={maxLocal}
+            value={maxIntent}
             onChange={(e) => {
               rangeMaxChanged(e.target.value)
             }}
