@@ -138,7 +138,8 @@ function PlaneSliders(props) {
     <div ref={planeSliders} className={slidersClass}>
       {planes.map((plane, idx) => {
         return (
-          planeSlice2D[idx] !== null && (
+          planeSlice2D[idx] !== null &&
+          !service.machine.context.use2D && (
             <div key={plane.toUpperCase()}>
               <div className="input-group">
                 <OverlayTrigger
