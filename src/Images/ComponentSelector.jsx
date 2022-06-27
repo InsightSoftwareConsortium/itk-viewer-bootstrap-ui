@@ -1,29 +1,30 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
-import { Tabs, Tab, FormControlLabel, Checkbox } from '@mui/material'
+import { useSelector } from '@xstate/react'
+import Form from 'react-bootstrap/Form'
 import '../style.css'
 
-function ComponentSelector(props) {
-  const { service } = props
-  const [state, send] = useActor(service)
+function ComponentSelector({ service }) {
+  const send = service.send
   const componentRow = useRef(null)
   const componentSelector = useRef(null)
 
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
-  const components = actorContext.image?.imageType.components
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(name)
+  )
+  const components = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(name).image?.imageType.components
+  )
 
   useEffect(() => {
-    state.context.images.componentRow = componentRow.current
-    state.context.images.componentSelector = componentSelector.current
-  }, [])
-
-  const changeComponentVisibility = (_e, idx) => {
-    send({
-      type: 'SELECT_IMAGE_COMPONENT',
-      data: { name, component: idx }
-    })
-  }
+    service.machine.context.images.componentRow = componentRow.current
+    service.machine.context.images.componentSelector = componentSelector.current
+  })
 
   const toggleSelectedComponents = (idx) => {
     send({
@@ -49,30 +50,21 @@ function ComponentSelector(props) {
       className={`uiRow ${showSelector()}`}
       style={{ marginBottom: '0px' }}
     >
-      <Tabs
-        value={actorContext.selectedComponent}
-        onChange={changeComponentVisibility}
-      >
-        {[...Array(components).keys()].map((idx) => (
-          <Tab
-            key={idx}
-            label={
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={actorContext.componentVisibilities[idx]}
-                    onChange={() => {
-                      toggleSelectedComponents(idx)
-                    }}
-                    className="componentCheckbox"
-                  />
-                }
-                label={idx + 1}
-              />
-            }
-          />
-        ))}
-      </Tabs>
+      {[...Array(components).keys()].map((idx) => (
+        <Form key={idx}>
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              label={idx + 1}
+              checked={actorContext.componentVisibilities[idx]}
+              onChange={() => {
+                toggleSelectedComponents(idx)
+              }}
+              className="componentCheckbox mb-2 mr-sm-2"
+            />
+          </Form.Group>
+        </Form>
+      ))}
     </div>
   )
 }

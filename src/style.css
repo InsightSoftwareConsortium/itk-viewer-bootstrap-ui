@@ -58,8 +58,8 @@ code.uiContainer {
 }
 
 .componentCheckbox {
-  padding: 0px !important;
-}
+  padding: 2px 30px 2px 40px !important;
+} 
 
 .distanceEntry {
   align-items: center;
