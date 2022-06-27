@@ -48,6 +48,12 @@ function ColorRangeInput(props) {
           .selectedComponent
       )
   )
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(name)
+  )
+
+  const imageIsFloat =
+    actorContext.image.imageType.componentType.slice(0, 5) === 'float'
 
   const selectedComponent = useSelector(
     service,
@@ -56,17 +62,23 @@ function ColorRangeInput(props) {
         .selectedComponent
   )
 
+  const bounds = boundsSelected?.length !== undefined ? boundsSelected : [0, 1]
+
   const [minIntent, setminIntent] = useState(
-    colorRanges.size ? colorRangesSelected[0] : 0 // DOUBLE check
+    colorRanges.size && boundsSelected?.length !== undefined
+      ? colorRangesSelected[0]
+      : bounds[0]
   )
   const [maxIntent, setmaxIntent] = useState(
-    colorRanges.size ? colorRangesSelected[1] : 255
+    colorRanges.size && boundsSelected?.length !== undefined
+      ? colorRangesSelected[1]
+      : bounds[1]
   )
   const [prevMinVal, setPrevMinVal] = useState(
-    colorRanges.size ? colorRangesSelected[0] : 0 // DOUBLE check
+    colorRanges.size ? colorRangesSelected[0] : bounds[0]
   )
   const [prevMaxVal, setPrevMaxVal] = useState(
-    colorRanges.size ? colorRangesSelected[1] : 255
+    colorRanges.size ? colorRangesSelected[1] : bounds[1]
   )
 
   useEffect(() => {
@@ -107,6 +119,8 @@ function ColorRangeInput(props) {
 
   const rangeChanged = (minVal, maxVal) => {
     const bounds = boundsSelected
+    const step = (bounds[1] - bounds[0]) / 255
+    console.log(step)
 
     if (!isNaN(minVal) && !isNaN(maxVal)) {
       let rangeMax = maxVal >= bounds[1] ? bounds[1] : maxVal
@@ -116,14 +130,14 @@ function ColorRangeInput(props) {
       // display the numbers but do not send them up
       if (minVal >= maxVal || maxVal <= minVal) {
         if (maxVal <= bounds[0]) {
-          setmaxIntent(bounds[0] + 1)
+          setmaxIntent(bounds[0] + step)
         } else if (maxVal === maxIntent || isNaN(prevMaxVal)) {
           setmaxIntent(maxVal)
         } else {
           setmaxIntent(maxIntent + maxVal - prevMaxVal)
         }
         if (minVal >= bounds[1]) {
-          setminIntent(bounds[1] - 1)
+          setminIntent(bounds[1] - step)
         } else if (minVal === minIntent || isNaN(prevMinVal)) {
           setminIntent(minVal)
         } else {
@@ -190,7 +204,11 @@ function ColorRangeInput(props) {
               'numberInput' + (minIntent >= maxIntent ? ` invalidNumber` : ``)
             }
             type="number"
-            value={minIntent}
+            value={
+              imageIsFloat
+                ? Number.parseFloat(minIntent).toExponential(2)
+                : minIntent
+            }
             onChange={(e) => {
               rangeMinChanged(e.target.value)
             }}
@@ -203,7 +221,11 @@ function ColorRangeInput(props) {
               'numberInput' + (maxIntent <= minIntent ? ` invalidNumber` : ``)
             }
             type="number"
-            value={maxIntent}
+            value={
+              imageIsFloat
+                ? Number.parseFloat(maxIntent).toExponential(2)
+                : maxIntent
+            }
             onChange={(e) => {
               rangeMaxChanged(e.target.value)
             }}
