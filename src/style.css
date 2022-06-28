@@ -27,8 +27,8 @@
 }
 
 .categoricalMenuForm{
-  width: 200px !important;
-  margin-right: 3px !important;
+  width: 150px !important;
+  margin-right: 10px !important;
   margin-left: 3px !important;
   position: relative !important;
 }
@@ -88,7 +88,6 @@ code.uiContainer {
 .dropdown-menu {
   min-width: 300px ;
   z-index: 1100 !important;
-
 }
 .dropdown-toggle:empty::after {
   margin-left: 100% !important;
@@ -129,7 +128,6 @@ code.uiContainer {
 .icon-button > img {
   width: 1.2rem;
 } 
-
 .icon-button:active, .icon-button:focus {
   background-color:  rgba(255, 255, 255, 0.3) !important; 
 }
@@ -184,6 +182,8 @@ code.uiContainer {
   border-width: 2px !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
   border: solid;
+  max-width: 100% !important;
+  border-width: 3px !important
 }
 
 .layerEntryBrightBG {
@@ -220,9 +220,13 @@ code.uiContainer {
 
 .layersUIGroup {
   background-color: rgba(128, 128, 128, 0.5);
-  margin-left: 10px;
-  max-width: 400px;
+  margin: 2px;
 }
+
+.layerUIGroupPadding {
+  padding: 3px !important;
+}
+
 
 .layersUIRow {
   max-width: 420px;
@@ -307,6 +311,15 @@ code.uiContainer {
   pointer-events: none;
 }
 
+.overlayImage{
+  position: absolute;
+  padding: 5px 5px;
+  width: 85%;
+  height: 100%; 
+  vertical-align: auto;
+  pointer-events: none;
+}
+
 .piecewiseWidget {
   flex: 1;
   background: rgba(255, 255, 255, 0.05);
@@ -347,6 +360,7 @@ code.uiContainer {
   border: solid;
   border-color: rgba(255, 255, 255, 0.3);
   border-width: 3px !important;
+  max-width: 100% !important;
 }
 
 .selector {
