@@ -60,6 +60,9 @@ code.uiContainer {
 .componentCheckbox {
   padding: 2px 30px 2px 40px !important;
 } 
+.componentTabs {
+  padding: 0px 0px 0px 0px !important;
+} 
 
 .distanceEntry {
   align-items: center;
