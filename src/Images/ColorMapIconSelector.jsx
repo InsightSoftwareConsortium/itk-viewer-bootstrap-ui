@@ -1,32 +1,41 @@
-import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
-import { FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
+import { useSelector } from '@xstate/react'
 import ColorMapPresetIcons from '../ColorMapPresetIcons'
 import '../style.css'
+import Navbar from 'react-bootstrap/Navbar'
+import Container from 'react-bootstrap/Container'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Image from 'react-bootstrap/Image'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+
+const colorMapIcons = Array.from(ColorMapPresetIcons).map(([name, icon]) => ({
+  name,
+  icon
+}))
 
 function ColorMapIconSelector(props) {
   const { service } = props
   const iconSelector = useRef(null)
-  const [state, send] = useActor(service)
-  let colorMapIcons = []
-  ColorMapPresetIcons.forEach((value, key) => {
-    colorMapIcons.push({
-      name: key,
-      icon: value,
-      ref: useRef(null)
-    })
-  })
-
-  useEffect(() => {
-    state.context.images.iconSelector = iconSelector.current
-  }, [])
+  const send = service.send
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const selectedActorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(selectedName)
+  )
+  const imagesLookupTableProxies = useSelector(
+    service,
+    (state) => state.context.images.lookupTableProxies
+  )
 
   const currentColorMap = () => {
-    const name = state.context.images.selectedName
-    if (state.context.images.actorContext) {
-      const actorContext = state.context.images.actorContext.get(name)
-      const component = actorContext.selectedComponent
-      const lookupTableProxies = state.context.images.lookupTableProxies
+    if (selectedActorContext) {
+      const component = selectedActorContext.selectedComponent
+      const lookupTableProxies = imagesLookupTableProxies
       if (lookupTableProxies) {
         return lookupTableProxies.get(component).getPresetName()
       }
@@ -34,10 +43,14 @@ function ColorMapIconSelector(props) {
     return ''
   }
 
+  const name = currentColorMap()
+  const { icon } =
+    colorMapIcons.find(({ name: mapName }) => name === mapName) ??
+    colorMapIcons[0]
+
   const handleChange = (colorMap) => {
-    const name = state.context.images.selectedName
-    const actorContext = state.context.images.actorContext.get(name)
-    const componentIndex = actorContext.selectedComponent
+    const name = selectedName
+    const componentIndex = selectedActorContext.selectedComponent
     send({
       type: 'IMAGE_COLOR_MAP_CHANGED',
       data: { name, component: componentIndex, colorMap }
@@ -45,45 +58,44 @@ function ColorMapIconSelector(props) {
   }
 
   return (
-    <FormControl
-      variant="outlined"
-      size="small"
-      ref={iconSelector}
-      style={{ width: 'auto', margin: '0 5px' }}
+    <OverlayTrigger
+      transition={false}
+      overlay={<Tooltip>{currentColorMap()}</Tooltip>}
     >
-      <Select
-        value={currentColorMap()}
-        style={{ height: '40px' }}
-        onChange={(e) => {
-          handleChange(e.target.value)
-        }}
-        MenuProps={{
-          anchorEl: iconSelector.current,
-          disablePortal: true,
-          keepMounted: true,
-          classes: { list: 'cmapMenu' }
-        }}
+      <Navbar
+        bg="light"
+        variant="light"
+        ref={iconSelector}
+        className="categoricalMenuForm"
+        style={{ width: 'auto', margin: '0 5px' }}
       >
-        {colorMapIcons.map((preset, idx) => (
-          <MenuItem key={idx} value={preset.name}>
-            <Tooltip
-              ref={preset.ref}
-              title={preset.name}
-              placement="bottom"
-              PopperProps={{
-                anchorEl: preset.ref.current,
-                disablePortal: true,
-                keepMounted: true
-              }}
-            >
-              <Icon style={{ width: 'inherit' }}>
-                <img className="colorMapIcon" src={preset.icon} />
-              </Icon>
-            </Tooltip>
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+        <NavDropdown
+          title=""
+          id="basic-nav-dropdown"
+          className="form-control categoricalDropDown"
+          style={{ height: '40px' }}
+        >
+          <Container>
+            <Row xs={4} md={4}>
+              {colorMapIcons.map((preset, name) => (
+                <Container key={name} className="categoricalColContainer">
+                  <Col className="categoricalCol">
+                    <NavDropdown.Item
+                      style={{ minWidth: '100%' }}
+                      onClick={() => handleChange(preset.name, preset.icon)}
+                      className="navItem"
+                    >
+                      <Image src={preset.icon} className="colorMapIcon" />
+                    </NavDropdown.Item>
+                  </Col>
+                </Container>
+              ))}
+            </Row>
+          </Container>
+        </NavDropdown>
+        <Image src={icon} className="overlayImage"></Image>
+      </Navbar>
+    </OverlayTrigger>
   )
 }
 
