@@ -32,29 +32,6 @@ function ColorRangeInput(props) {
         .colorRanges
   )
 
-  const colorRangesSelected = useSelector(service, (state) =>
-    state.context.images.actorContext
-      .get(state.context.images.selectedName)
-      .colorRanges.get(
-        state.context.images.actorContext.get(state.context.images.selectedName)
-          .selectedComponent
-      )
-  )
-  const boundsSelected = useSelector(service, (state) =>
-    state.context.images.actorContext
-      .get(state.context.images.selectedName)
-      .colorRangeBounds.get(
-        state.context.images.actorContext.get(state.context.images.selectedName)
-          .selectedComponent
-      )
-  )
-  const actorContext = useSelector(service, (state) =>
-    state.context.images.actorContext.get(name)
-  )
-
-  const imageIsFloat =
-    actorContext.image.imageType.componentType.slice(0, 5) === 'float'
-
   const selectedComponent = useSelector(
     service,
     (state) =>
@@ -62,32 +39,27 @@ function ColorRangeInput(props) {
         .selectedComponent
   )
 
-  const bounds = boundsSelected?.length !== undefined ? boundsSelected : [0, 1]
+  const colorRangesSelected = useSelector(service, (state) =>
+    state.context.images.actorContext
+      .get(state.context.images.selectedName)
+      .colorRanges.get(selectedComponent)
+  )
 
-  const [minIntent, setminIntent] = useState(
-    colorRanges.size && boundsSelected?.length !== undefined
-      ? colorRangesSelected[0]
-      : bounds[0]
+  const boundsSelected = useSelector(service, (state) =>
+    state.context.images.actorContext
+      .get(state.context.images.selectedName)
+      .colorRangeBounds.get(selectedComponent)
   )
-  const [maxIntent, setmaxIntent] = useState(
-    colorRanges.size && boundsSelected?.length !== undefined
-      ? colorRangesSelected[1]
-      : bounds[1]
+
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(name)
   )
-  const [prevMinVal, setPrevMinVal] = useState(
-    colorRanges.size ? colorRangesSelected[0] : bounds[0]
-  )
-  const [prevMaxVal, setPrevMaxVal] = useState(
-    colorRanges.size ? colorRangesSelected[1] : bounds[1]
-  )
+
+  const imageType = actorContext.image.imageType.componentType
 
   useEffect(() => {
     service.machine.context.images.colorRangeInputRow = colorRangeInput.current
   }, [service.machine.context.images])
-
-  const interpolate = () => {
-    return interpolationEnabled
-  }
 
   const toggleInterpolate = () => {
     send({
@@ -98,10 +70,22 @@ function ColorRangeInput(props) {
 
   const currentRange = () => {
     let range = [0, 1]
-    if (
-      colorRanges.size &&
-      colorRangesSelected[1] - colorRangesSelected[0] > 0
-    ) {
+    // if (imageType === 'float32') {
+    //   range = [0, 1]
+    // } else if (imageType === 'uint8') {
+    //   range = [0, 255]
+    //   console.log(`this is uint8, range=${range}`)
+    // } else if (imageType === 'uint16') {
+    //   range = [0, 65535]
+    // } else if (imageType === 'int8') {
+    //   range = [-128, 127]
+    // } else if (imageType === 'int16') {
+    //   range = [-32767, 32767]
+    // } else {
+    //   range = [0, 0]
+    //   console.log(`imageType=${imageType} not recognized`)
+    // }
+    if (colorRanges.size) {
       range = colorRangesSelected
     }
     return range
@@ -117,10 +101,17 @@ function ColorRangeInput(props) {
     return range[1]
   }
 
+  const [minIntent, setminIntent] = useState(currentRangeMin())
+  const [maxIntent, setmaxIntent] = useState(currentRangeMax())
+  const [prevMinVal, setPrevMinVal] = useState(currentRangeMin())
+  const [prevMaxVal, setPrevMaxVal] = useState(currentRangeMax())
+
   const rangeChanged = (minVal, maxVal) => {
     const bounds = boundsSelected
-    const step = (bounds[1] - bounds[0]) / 255
-    console.log(step)
+    const step =
+      imageType.slice(0, 3) === 'int' || imageType.slice(0, 3) === 'uin'
+        ? 1
+        : (bounds[1] - bounds[0]) / 1000.0
 
     if (!isNaN(minVal) && !isNaN(maxVal)) {
       let rangeMax = maxVal >= bounds[1] ? bounds[1] : maxVal
@@ -155,10 +146,13 @@ function ColorRangeInput(props) {
           }
         })
       }
-    } else if (isNaN(minVal)) {
-      setminIntent('')
-    } else if (isNaN(maxVal)) {
-      setmaxIntent('')
+    } else {
+      if (isNaN(minVal)) {
+        setminIntent('')
+      }
+      if (isNaN(maxVal)) {
+        setmaxIntent('')
+      }
     }
     setPrevMaxVal(maxVal)
     setPrevMinVal(minVal)
@@ -173,9 +167,11 @@ function ColorRangeInput(props) {
     const minVal = currentRangeMin()
     rangeChanged(minVal, parseFloat(val))
   }
+  console.log(`colorRangesSelected=${colorRangesSelected}`)
 
   return (
-    colorRanges.size && (
+    colorRanges.size &&
+    colorRangesSelected !== undefined && ( // not sure if 2nd cond needed
       <div
         ref={colorRangeInput}
         className="uiRow"
@@ -187,7 +183,7 @@ function ColorRangeInput(props) {
         >
           <Button
             className={cn('icon-button', {
-              checked: interpolate()
+              checked: interpolationEnabled
             })}
             onClick={() => {
               toggleInterpolate()
@@ -200,12 +196,12 @@ function ColorRangeInput(props) {
         </OverlayTrigger>
         <OverlayTrigger transition={false} overlay={<Tooltip>Min</Tooltip>}>
           <Form.Control
-            className={
-              'numberInput' + (minIntent >= maxIntent ? ` invalidNumber` : ``)
-            }
+            className={cn('numberInput', {
+              invalidNumber: minIntent >= maxIntent
+            })}
             type="number"
             value={
-              imageIsFloat
+              imageType.slice(0, 5) === 'float'
                 ? Number.parseFloat(minIntent).toExponential(2)
                 : minIntent
             }
@@ -217,12 +213,12 @@ function ColorRangeInput(props) {
         <ColorMapIconSelector {...props} />
         <OverlayTrigger transition={false} overlay={<Tooltip>Max</Tooltip>}>
           <Form.Control
-            className={
-              'numberInput' + (maxIntent <= minIntent ? ` invalidNumber` : ``)
-            }
+            className={cn('numberInput', {
+              invalidNumber: maxIntent <= minIntent
+            })}
             type="number"
             value={
-              imageIsFloat
+              imageType.slice(0, 5) === 'float'
                 ? Number.parseFloat(maxIntent).toExponential(2)
                 : maxIntent
             }
