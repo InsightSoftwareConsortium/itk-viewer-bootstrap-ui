@@ -38,8 +38,8 @@ function ComponentSelector({ service }) {
 
   return (
     <div className={`uiRow ${showSelector()}`} style={{ marginBottom: '0px' }}>
-      {[...Array(components).keys()].map((idx) => (
-        <Form key={idx}>
+      {[...Array(components).keys()].map((value, idx) => (
+        <Form key={value}>
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check
               type="checkbox"
