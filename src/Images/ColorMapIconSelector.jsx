@@ -44,21 +44,11 @@ function ColorMapIconSelector(props) {
   }
 
   const name = currentColorMap()
-  const index =
-    colorMapIcons
-      .map(function (e) {
-        return e.name
-      })
-      .indexOf(name) > 0
-      ? colorMapIcons
-          .map(function (e) {
-            return e.name
-          })
-          .indexOf(name)
-      : 0
-  const icon = colorMapIcons[index].icon
+  const { icon } =
+    colorMapIcons.find(({ name: mapName }) => name === mapName) ??
+    colorMapIcons[0]
 
-  const handleChange = (colorMap, colorMapIcon) => {
+  const handleChange = (colorMap) => {
     const name = selectedName
     const componentIndex = selectedActorContext.selectedComponent
     send({
