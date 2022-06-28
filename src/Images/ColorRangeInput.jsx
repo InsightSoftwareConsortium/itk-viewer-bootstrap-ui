@@ -68,73 +68,37 @@ function ColorRangeInput(props) {
     })
   }
 
-  const currentRange = () => {
-    let range = [0, 1]
-    // if (imageType === 'float32') {
-    //   range = [0, 1]
-    // } else if (imageType === 'uint8') {
-    //   range = [0, 255]
-    //   console.log(`this is uint8, range=${range}`)
-    // } else if (imageType === 'uint16') {
-    //   range = [0, 65535]
-    // } else if (imageType === 'int8') {
-    //   range = [-128, 127]
-    // } else if (imageType === 'int16') {
-    //   range = [-32767, 32767]
-    // } else {
-    //   range = [0, 0]
-    //   console.log(`imageType=${imageType} not recognized`)
-    // }
-    if (colorRanges.size) {
-      range = colorRangesSelected
+  const currentRange = colorRanges.size ? colorRangesSelected : [0, 1]
+  const currentRangeMin = currentRange[0]
+  const currentRangeMax = currentRange[1]
+
+  const [minIntent, setminIntent] = useState(currentRangeMin)
+  const [maxIntent, setmaxIntent] = useState(currentRangeMax)
+
+  // update the initialized state for minIntent and maxIntent
+  useEffect(() => {
+    setminIntent(currentRangeMin)
+  }, [currentRangeMin])
+  useEffect(() => {
+    setmaxIntent(currentRangeMax)
+  }, [currentRangeMax])
+
+  const isValidBounds = (minVal, maxVal) => {
+    if (minVal < maxVal) {
+      return true
+    } else {
+      return false
     }
-    return range
   }
-
-  const currentRangeMin = () => {
-    const range = currentRange()
-    return range[0]
-  }
-
-  const currentRangeMax = () => {
-    const range = currentRange()
-    return range[1]
-  }
-
-  const [minIntent, setminIntent] = useState(currentRangeMin())
-  const [maxIntent, setmaxIntent] = useState(currentRangeMax())
-  const [prevMinVal, setPrevMinVal] = useState(currentRangeMin())
-  const [prevMaxVal, setPrevMaxVal] = useState(currentRangeMax())
 
   const rangeChanged = (minVal, maxVal) => {
     const bounds = boundsSelected
-    const step =
-      imageType.slice(0, 3) === 'int' || imageType.slice(0, 3) === 'uin'
-        ? 1
-        : (bounds[1] - bounds[0]) / 1000.0
 
     if (!isNaN(minVal) && !isNaN(maxVal)) {
       let rangeMax = maxVal >= bounds[1] ? bounds[1] : maxVal
       let rangeMin = minVal <= bounds[0] ? bounds[0] : minVal
 
-      // if have maxVal and minVal not respecting signs,
-      // display the numbers but do not send them up
-      if (minVal >= maxVal || maxVal <= minVal) {
-        if (maxVal <= bounds[0]) {
-          setmaxIntent(bounds[0] + step)
-        } else if (maxVal === maxIntent || isNaN(prevMaxVal)) {
-          setmaxIntent(maxVal)
-        } else {
-          setmaxIntent(maxIntent + maxVal - prevMaxVal)
-        }
-        if (minVal >= bounds[1]) {
-          setminIntent(bounds[1] - step)
-        } else if (minVal === minIntent || isNaN(prevMinVal)) {
-          setminIntent(minVal)
-        } else {
-          setminIntent(minIntent + minVal - prevMinVal)
-        }
-      } else {
+      if (isValidBounds(rangeMin, rangeMax)) {
         setmaxIntent(rangeMax)
         setminIntent(rangeMin)
         send({
@@ -145,6 +109,9 @@ function ColorRangeInput(props) {
             range: [rangeMin, rangeMax]
           }
         })
+      } else {
+        setmaxIntent(maxVal)
+        setminIntent(minVal)
       }
     } else {
       if (isNaN(minVal)) {
@@ -154,24 +121,20 @@ function ColorRangeInput(props) {
         setmaxIntent('')
       }
     }
-    setPrevMaxVal(maxVal)
-    setPrevMinVal(minVal)
   }
 
   const rangeMinChanged = (val) => {
-    const maxVal = currentRangeMax()
+    const maxVal = currentRangeMax
     rangeChanged(parseFloat(val), maxVal)
   }
 
   const rangeMaxChanged = (val) => {
-    const minVal = currentRangeMin()
+    const minVal = currentRangeMin
     rangeChanged(minVal, parseFloat(val))
   }
-  console.log(`colorRangesSelected=${colorRangesSelected}`)
 
   return (
-    colorRanges.size &&
-    colorRangesSelected !== undefined && ( // not sure if 2nd cond needed
+    colorRanges.size && (
       <div
         ref={colorRangeInput}
         className="uiRow"
