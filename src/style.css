@@ -158,6 +158,7 @@ code.uiContainer {
 
 .invalidNumber {
   border-color: red !important ;
+  -webkit-text-fill-color: red;
 }
 
 .inverted_filter {
