@@ -1,13 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useSelector } from '@xstate/react'
 import Form from 'react-bootstrap/Form'
 import '../style.css'
 
 function ComponentSelector({ service }) {
   const send = service.send
-  const componentRow = useRef(null)
-  const componentSelector = useRef(null)
-
   const name = useSelector(
     service,
     (state) => state.context.images.selectedName
@@ -20,11 +17,6 @@ function ComponentSelector({ service }) {
     (state) =>
       state.context.images.actorContext.get(name).image?.imageType.components
   )
-
-  useEffect(() => {
-    service.machine.context.images.componentRow = componentRow.current
-    service.machine.context.images.componentSelector = componentSelector.current
-  })
 
   const toggleSelectedComponents = (idx) => {
     send({
@@ -45,11 +37,7 @@ function ComponentSelector({ service }) {
   }
 
   return (
-    <div
-      ref={componentRow}
-      className={`uiRow ${showSelector()}`}
-      style={{ marginBottom: '0px' }}
-    >
+    <div className={`uiRow ${showSelector()}`} style={{ marginBottom: '0px' }}>
       {[...Array(components).keys()].map((idx) => (
         <Form key={idx}>
           <Form.Group controlId="formBasicCheckbox">
