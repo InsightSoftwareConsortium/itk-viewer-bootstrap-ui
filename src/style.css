@@ -86,8 +86,8 @@ code.uiContainer {
 }
 
 .dropdown-menu {
-  min-width: 300px !important;
-
+  min-width: 300px ;
+  z-index: 1100 !important;
 }
 .dropdown-toggle:empty::after {
   margin-left: 100% !important;
@@ -152,6 +152,11 @@ code.uiContainer {
   display: flex;
   align-self: normal;
   align-items: center;
+}
+
+.invalidNumber {
+  border-color: red !important ;
+  -webkit-text-fill-color: red;
 }
 
 .inverted_filter {
@@ -289,8 +294,21 @@ code.uiContainer {
   text-overflow: inherit !important;
 }
 
+.navItem {
+  padding: 0.2rem 0.5rem !important;
+}
+
 .numberInput {
-  min-width: 98px;
+  max-width: 100px;
+}
+
+.overlayImage{
+  position: absolute;
+  padding: 5px 7px;
+  width: 85%;
+  height: 100%; 
+  vertical-align: auto;
+  pointer-events: none;
 }
 
 .overlayImage{
