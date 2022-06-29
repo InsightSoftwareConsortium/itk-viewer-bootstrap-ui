@@ -37,7 +37,6 @@ function MapWeightSelector({ service }) {
     send({
       type: 'LABEL_IMAGE_SELECTED_LABEL_CHANGED',
       data: { name, selectedLabel }
-
     })
   }
 

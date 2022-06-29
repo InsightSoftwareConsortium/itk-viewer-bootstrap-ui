@@ -50,11 +50,11 @@ function LabelMapWeightWidget({ service }) {
       data: { name, labelImageWeights }
     })
   }
+
   const selectedLabelImageWeight =
     actorContext.selectedLabel === 'all'
       ? actorContext.labelImageToggleWeight
       : labelImageWeights.get(selectedLabel) ?? 1
-
 
   return (
     <div ref={labelImageWeightUIGroup} className="uiGroup">
