@@ -1,12 +1,8 @@
-// import React from 'react'
-// import { useSelector } from '@xstate/react'
-import Form from 'react-bootstrap/Form'
-import Nav from 'react-bootstrap/Nav'
 import React, { useEffect, useRef } from 'react'
-import { useActor, useSelector } from '@xstate/react'
-import { Tabs, Tab } from '@mui/material'
+import { useSelector } from '@xstate/react'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 import '../style.css'
-import { NavItem } from 'react-bootstrap'
 import cn from 'classnames'
 
 function ComponentSelector({ service }) {
@@ -24,15 +20,6 @@ function ComponentSelector({ service }) {
       state.context.images.actorContext.get(name).image?.imageType.components
   )
 
-  /////////////////////
-  const componentRow = useRef(null)
-  const componentSelector = useRef(null)
-  useEffect(() => {
-    service.machine.context.images.componentRow = componentRow.current
-    service.machine.context.images.componentSelector = componentSelector.current
-  }, [])
-  //////////////////////
-
   const toggleSelectedComponents = (idx) => {
     send({
       type: 'IMAGE_COMPONENT_VISIBILITY_CHANGED',
@@ -44,7 +31,7 @@ function ComponentSelector({ service }) {
     })
   }
 
-  const changeComponentVisibility = (_e, idx) => {
+  const changeComponentVisibility = (idx) => {
     send({
       type: 'SELECT_IMAGE_COMPONENT',
       data: { name, component: idx }
@@ -60,79 +47,35 @@ function ComponentSelector({ service }) {
 
   return (
     <div
-      ref={componentRow}
-      className={`uiRow ${showSelector()}`}
+      className={`uiRow ${showSelector()} uiSelector`}
       style={{ marginBottom: '0px' }}
     >
-      <Tabs
-        value={actorContext.selectedComponent}
-        onChange={changeComponentVisibility}
-      >
-        {[...Array(components).keys()].map((idx) => (
-          <Tab
-            key={idx}
-            label={idx}
-            //   label={
-            //     <FormControlLabel
-            //       control={
-            //         <Checkbox
-            //           checked={actorContext.componentVisibilities[idx]}
-            //           onChange={() => {
-            //             toggleSelectedComponents(idx)
-            //           }}
-            //           className="componentCheckbox"
-            //         />
-            //       }
-            //       label={idx + 1}
-            //     />
-            //   }
-          />
-        ))}
-      </Tabs>
+      {[...Array(components).keys()].map((value, idx) => (
+        <Button
+          key={value}
+          className={cn('componentTabs', {
+            checked: actorContext.selectedComponent === idx
+          })}
+          onClick={() => {
+            changeComponentVisibility(idx)
+          }}
+          variant="secondary"
+        >
+          <Form.Group key={value} controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              label={idx + 1}
+              checked={actorContext.componentVisibilities[idx]}
+              onChange={() => {
+                toggleSelectedComponents(idx)
+              }}
+              className="componentCheckbox mb-2 mr-sm-2"
+            />
+          </Form.Group>
+        </Button>
+      ))}
     </div>
   )
-
-  // console.log(name)
-
-  // return (
-  //   <div
-  //     className={`uiRow ${showSelector()} uiSelector`}
-  //     style={{ marginBottom: '0px' }}
-  //   >
-  //     <Nav
-  //       variant="tabs"
-  //       value={actorContext.selectedComponent}
-  //       className="componentTabs"
-  //     >
-  //       {[...Array(components).keys()].map((value, idx) => (
-  //         <NavItem
-  //           key={value}
-  //           onSelect={(e, idx) => {
-  //             changeComponentVisibility(e, idx)
-  //           }}
-  //           className={cn('componentTab', {
-  //             checked: actorContext.selectedComponent === idx
-  //           })}
-  //         >
-  //           {' '}
-  //           <Nav.Link>
-  //             <Form.Group controlId="formBasicCheckbox">
-  //               <Form.Check
-  //                 type="checkbox"
-  //                 label={idx + 1}
-  //                 checked={actorContext.componentVisibilities[idx]}
-  //                 onChange={() => {
-  //                   toggleSelectedComponents(idx)
-  //                 }}
-  //                 className="componentCheckbox mb-2 mr-sm-2"
-  //               />
-  //             </Form.Group>
-  //           </Nav.Link>
-  //         </NavItem>
-  //       ))}
-  //     </Nav>
-  //   </div>
-  // )
 }
 
 export default ComponentSelector
