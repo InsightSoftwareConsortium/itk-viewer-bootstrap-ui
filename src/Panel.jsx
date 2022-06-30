@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from '@xstate/react'
-import { Drawer } from '@mui/material'
+import Container from 'react-bootstrap/Container'
+import Nav from 'react-bootstrap/Nav'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { Collapse } from 'react-bootstrap'
 import './Panel.css'
 
 function Panel(props) {
@@ -24,18 +28,29 @@ function Panel(props) {
 
   return (
     <div ref={uiPanel} className="root">
-      <Drawer
-        className="drawer"
-        variant="persistent"
-        anchor="left"
-        open={!uiCollapsed}
-      >
-        <div ref={uiDrawer}>
-          {React.Children.map(children, (child) => {
-            return React.cloneElement(child, { service })
-          })}
-        </div>
-      </Drawer>
+      <Collapse in={!uiCollapsed}>
+        <Container fluid>
+          <Row>
+            <Col xs={2} id="sidebar-wrapper">
+              <>
+                <Nav
+                  className=" drawer"
+                  onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
+                >
+                  <div className="sidebar-sticky"></div>
+                  <Nav.Item>
+                    <div ref={uiDrawer}>
+                      {React.Children.map(children, (child) => {
+                        return React.cloneElement(child, { service })
+                      })}
+                    </div>
+                  </Nav.Item>
+                </Nav>
+              </>
+            </Col>
+          </Row>
+        </Container>
+      </Collapse>
     </div>
   )
 }
