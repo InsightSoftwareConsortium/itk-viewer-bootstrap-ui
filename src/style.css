@@ -58,7 +58,15 @@ code.uiContainer {
 }
 
 .componentCheckbox {
-  padding: 0px !important;
+  padding: 2px 30px 2px 40px !important;
+} 
+.componentTabs {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  padding: 0px 0px 0px 0px !important;
+} 
+.componentTabs:active, .componentTabs:focus {
+  background-color:  rgba(255, 255, 255, 0.3) !important;  
 }
 
 .distanceEntry {
@@ -453,6 +461,10 @@ code.uiContainer {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.uiSelector {
+  justify-content: left;
 }
 
 .uiSlidersGroup {
