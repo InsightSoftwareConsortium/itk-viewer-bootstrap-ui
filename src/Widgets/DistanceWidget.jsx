@@ -1,31 +1,46 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
-import { Icon, TextField, ToggleButton, Tooltip } from '@mui/material'
+import { useActor, useSelector } from '@xstate/react'
+import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import Form from 'react-bootstrap/Form'
 import { lengthToolIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
+import cn from 'classnames'
 
-function DistanceWidget(props) {
-  const { service } = props
+function DistanceWidget({ service }) {
   const [state, send] = useActor(service)
   const distanceRulerRow = useRef(null)
   const distanceButtonInput = useRef(null)
   const distanceButtonLabel = useRef(null)
   const distanceLabel = useRef(null)
   const viewMode = state.context.main.viewMode
+  const distanceEnabled = useSelector(
+    service,
+    (state) => state.context.widgets.distanceEnabled
+  )
+  const distanceValue = useSelector(
+    service,
+    (state) => state.context.widgets.distanceValue
+  )
+  const stateContext = useSelector(service, (state) => state.context)
 
   useEffect(() => {
-    state.context.widgets.distanceRulerRow = distanceRulerRow.current
-    state.context.widgets.distanceButtonInput = distanceButtonInput.current
-    state.context.widgets.distanceButtonLabel = distanceButtonLabel.current
-    state.context.widgets.distanceLabel = distanceLabel.current
+    service.machine.context.widgets.distanceRulerRow = distanceRulerRow.current
+    service.machine.context.widgets.distanceButtonInput =
+      distanceButtonInput.current
+    service.machine.context.widgets.distanceButtonLabel =
+      distanceButtonLabel.current
+    service.machine.context.widgets.distanceLabel = distanceLabel.current
     applyContrastSensitiveStyleToElement(
-      state.context,
+      stateContext,
       'invertibleButton',
       distanceButtonLabel.current
     )
     applyContrastSensitiveStyleToElement(
-      state.context,
+      stateContext,
       'distanceLabel',
       distanceLabel.current
     )
@@ -36,38 +51,22 @@ function DistanceWidget(props) {
       ref={distanceRulerRow}
       className={`uiRow distanceEntry ${viewMode === 'Volume' ? 'hidden' : ''}`}
     >
-      <Tooltip
-        ref={distanceButtonLabel}
-        title="Length"
-        PopperProps={{
-          anchorEl: distanceButtonLabel.current,
-          disablePortal: true,
-          keepMounted: true
-        }}
-      >
-        <ToggleButton
-          ref={distanceButtonInput}
-          size="small"
-          className="toggleButton"
-          value="lengthShown"
-          selected={state.context.widgets.distanceEnabled}
-          onChange={() => {
-            send('TOGGLE_DISTANCE_WIDGET')
-          }}
+      <OverlayTrigger transition={false} overlay={<Tooltip>Length</Tooltip>}>
+        <Button
+          className={cn('icon-button', {
+            checked: distanceEnabled
+          })}
+          onClick={() => send('TOGGLE_DISTANCE_WIDGET')}
+          variant="secondary"
         >
-          <Icon>
-            <img src={lengthToolIconDataUri} />
-          </Icon>
-        </ToggleButton>
-      </Tooltip>
-      <span ref={distanceLabel} className="distanceLabelCommon">
-        Length:
-      </span>
-      <TextField
-        variant="outlined"
+          <Image src={lengthToolIconDataUri}></Image>
+        </Button>
+      </OverlayTrigger>
+      <span className="distanceLabelCommon"> Length: </span>
+      <Form.Control
         className="distanceInput"
-        size="small"
-        value={state.context.widgets.distanceValue}
+        type="number"
+        value={distanceValue}
         disabled
       />
     </div>

@@ -63,6 +63,10 @@ code.uiContainer {
 
 .distanceEntry {
   align-items: center;
+  border: solid;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  margin: 2px;
+  padding-left: 15px;
 }
 
 .distanceLabelCommon {
@@ -82,7 +86,9 @@ code.uiContainer {
   background: transparent;
   color: white;
   font-size: 1.0em;
-  width: 80px;
+  width: 80px !important;
+  margin: 2px;
+  -webkit-text-fill-color:   #5a6268b0 ;
 }
 
 .dropdown-menu {
