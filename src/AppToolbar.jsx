@@ -19,13 +19,13 @@ function AppToolbar(props) {
     <Navbar className="appBar" bg="primary" variant="dark">
       <Button
         color="inherit"
-        className="icon-button"
+        className="navbar-button"
         onClick={handleToggle}
         variant="secondary"
       >
         <Image src={toggleIconDataUri} alt="toggle" />
       </Button>
-      <Navbar.Brand>ITK Viewer</Navbar.Brand>
+      <Navbar.Brand className="navbarTitle">ITK Viewer</Navbar.Brand>
     </Navbar>
   )
 }

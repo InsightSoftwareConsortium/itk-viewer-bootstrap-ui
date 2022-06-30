@@ -294,8 +294,24 @@ code.uiContainer {
   text-overflow: inherit !important;
 }
 
+.navbar-button {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  margin-left: 10px !important;
+} 
+.navbar-button > img {
+  width: 1.2rem;
+} 
+.navbar-button:active {
+  background-color:  rgba(255, 255, 255, 0.3) !important; 
+}
+
 .navItem {
   padding: 0.2rem 0.5rem !important;
+}
+
+.navbarTitle {
+  padding: 0.5rem 0rem 0.5rem 1rem !important;
 }
 
 .numberInput {
