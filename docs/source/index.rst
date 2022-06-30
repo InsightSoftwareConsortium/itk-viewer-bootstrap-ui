@@ -7,8 +7,6 @@ Welcome to itk-viewer-bootstrap-ui's documentation!
 ===================================================
 
 This is a React-Bootstrap interface for ITK/VTK Viewer. 
-#.. include:: ./landing_page.md
-# :parser: myst_parser.sphinx_
 
 .. toctree::
    :maxdepth: 2
