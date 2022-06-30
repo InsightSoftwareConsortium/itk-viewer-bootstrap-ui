@@ -55,7 +55,7 @@ function ColorRangeInput(props) {
     state.context.images.actorContext.get(name)
   )
 
-  const imageType = actorContext.image.imageType.componentType
+  const imageType = actorContext.image?.imageType.componentType
 
   useEffect(() => {
     service.machine.context.images.colorRangeInputRow = colorRangeInput.current
