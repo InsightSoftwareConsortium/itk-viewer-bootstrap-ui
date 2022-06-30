@@ -278,36 +278,6 @@ code.uiContainer {
   padding: 5px;
 }
 
-.Mui-selected {
-  background-color: rgba(0, 0, 0, 0.08) !important;
-}
-
-.MuiIconButton-root {
-  padding: 6px 12px !important;
-}
-
-.MuiIcon-root {
-  font-size: 1.3rem !important;
-}
-
-.MuiIcon-root img{
-  width: inherit;
-  height: inherit;
-}
-
-.MuiMenuItem-root {
-  width: 100px !important;
-  padding: 6px 0 !important;
-}
-
-.MuiSelect-select {
-  padding: 10px 30px 10px 10px !important;
-}
-
-.MuiSelect-selectMenu {
-  text-overflow: inherit !important;
-}
-
 .navbar-button {
   background-color: transparent !important;
   border-color: transparent !important;
