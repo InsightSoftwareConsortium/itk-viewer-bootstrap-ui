@@ -1,0 +1,11 @@
+:root {
+    --pst-font-size-base: 17px;
+    --pst-color-primary: #204a87; #notworking
+    --pst-color-on-background: cornflowerblue;
+    --pst-color-text-base: #fff;
+    --pst-color-text-muted: #fff;
+}
+
+.h1, .h2 {
+    color: #3677a9;
+}
