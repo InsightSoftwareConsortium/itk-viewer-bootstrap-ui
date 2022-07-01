@@ -1,0 +1,4 @@
+python3
+python3-sphinx
+pygments==2.11.2
+myst-parser
