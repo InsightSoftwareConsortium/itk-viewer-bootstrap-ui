@@ -8,3 +8,7 @@ This is a React-Bootstrap interface for ITK/VTK Viewer.
 Documentation/documentation.md
 Contribute/contribute.md
 ```
+
+```{eval-rst}
+.. include:: video.rst
+```
