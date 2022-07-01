@@ -11,13 +11,6 @@
 }
 
 .drawer {
-  width: 15%;
-  flex-shrink: 0;
-  z-index: 10;
-  margin-top: 10px;
-}
-
-.MuiDrawer-paper {
   width: fit-content;
   position: fixed;
   top: 60px !important;
