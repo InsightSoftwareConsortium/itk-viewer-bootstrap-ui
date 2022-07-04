@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import BlendModeSelector from './BlendModeSelector'
 import GradientOpacitySlider from './GradientOpacitySlider'
 import SampleDistanceSlider from './SampleDistanceSlider'
@@ -8,21 +8,26 @@ import '../style.css'
 
 function VolumeRenderingInputs(props) {
   const { service } = props
-  const [state] = useActor(service)
   const volumeRow1 = useRef(null)
   const volumeRow2 = useRef(null)
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(name)
+  )
+  const use2D = useSelector(service, (state) => state.context.use2D)
 
   useEffect(() => {
-    state.context.images.volumeRow1 = volumeRow1.current
-    state.context.images.volumeRow2 = volumeRow2.current
-  }, [])
+    service.machine.context.images.volumeRow1 = volumeRow1.current
+    service.machine.context.images.volumeRow2 = volumeRow2.current
+  }, [service.machine.context.images])
 
   return (
     actorContext.colorRanges.get(actorContext.selectedComponent) !==
       undefined &&
-    !state.context.use2D && (
+    !use2D && (
       <div>
         <div
           ref={volumeRow1}
