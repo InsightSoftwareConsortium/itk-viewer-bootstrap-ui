@@ -6,6 +6,7 @@ This is a React-Bootstrap interface for ITK/VTK Viewer.
 ## Contents:
 ```{toctree}
 Documentation/documentation.md
+Examples/examples.md
 Contribute/contribute.md
 ```
 
