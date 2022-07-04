@@ -1,5 +1,5 @@
 import React from 'react'
-import { useActor, useSelector } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import { rotateIconDataUri } from 'itk-viewer-icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
