@@ -1,11 +1,22 @@
 :root {
-    --pst-font-size-base: 17px;
-    --pst-color-primary: #204a87; #notworking
-    --pst-color-on-background: cornflowerblue;
-    --pst-color-text-base: #fff;
-    --pst-color-text-muted: #fff;
+    --pst-font-size-base: 17px !important;
+    --pst-color-primary: #fff !important;
+    --pst-color-secondary: #fff !important;
+    --pst-color-on-background: #6495ed !important;
+    --pst-color-text-base: #204a87 !important;
+    --pst-color-text-muted: var(--pst-color-base) !important;
+    --pst-color-link: #aaa !important;
 }
 
-.h1, .h2 {
+
+h1 {
     color: #3677a9;
+}
+
+h2 {
+    color: #495057;
+}
+
+html[data-theme="light"] {
+    --pst-color-link-hover: #6c757da6 !important;
 }
