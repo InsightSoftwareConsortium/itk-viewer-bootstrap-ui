@@ -19,6 +19,27 @@ function ComponentSelector({ service }) {
     (state) =>
       state.context.images.actorContext.get(name).image?.imageType.components
   )
+  // re-render when click on check-boxes
+  const componentVisibilities0 = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(name).componentVisibilities[0]
+  )
+  const componentVisibilities1 = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(name).componentVisibilities[1]
+  )
+  const componentVisibilities2 = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(name).componentVisibilities[2]
+  )
+  // re-render when click on tabs
+  const selectedComponent = useSelector(
+    service,
+    (state) => state.context.images.actorContext.get(name).selectedComponent
+  )
 
   const toggleSelectedComponents = (idx) => {
     send({
