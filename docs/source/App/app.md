@@ -2,8 +2,6 @@
 
 ## How to immerse app here? We are able to immerse an html:
 
-```{eval-rst}
-.. include:: video.rst
-```
+<iframe width="672" height="378" src="https://youtube.com/embed/nd7q-N8QAMY" frameborder="0" allowfullscreen></iframe>
 
 
