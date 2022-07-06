@@ -72,7 +72,12 @@ function ColorRangeInput(props) {
   const currentRangeMin = currentRange[0]
   const currentRangeMax = currentRange[1]
 
-  const [step] = useState((currentRange[1] - currentRange[0]) / 200)
+  const [rangeMin, rangeMax] =
+    actorContext.image.scaleInfo[actorContext.renderedScale].ranges[
+      actorContext.selectedComponent
+    ]
+  const step =
+    imageType.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
   const [minIntent, setminIntent] = useState(currentRangeMin)
   const [maxIntent, setmaxIntent] = useState(currentRangeMax)
 
@@ -168,7 +173,7 @@ function ColorRangeInput(props) {
             onChange={(e) => {
               rangeMinChanged(e.target.value)
             }}
-            step={imageType.slice(0, 5) === 'float' ? step : 1}
+            step={step}
           />
         </OverlayTrigger>
         <ColorMapIconSelector {...props} />
@@ -182,7 +187,7 @@ function ColorRangeInput(props) {
             onChange={(e) => {
               rangeMaxChanged(e.target.value)
             }}
-            step={imageType.slice(0, 5) === 'float' ? step : 1}
+            step={step}
           />
         </OverlayTrigger>
       </div>
