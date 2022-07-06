@@ -1,4 +1,7 @@
 sphinx==4.5.0
 pygments==2.11.2
 myst-parser==0.15.2
+jupyterlite==0.1.0b10
+jupyterlite-sphinx==0.6.0
 pydata-sphinx-theme==0.9.0
+
