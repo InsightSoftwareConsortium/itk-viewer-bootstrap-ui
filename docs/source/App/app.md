@@ -8,19 +8,10 @@
   height="100%"
 ></iframe>
 
+<iframe
+  src="http://127.0.0.1:8000/index.html"
+  width="100%"
+  height="600px"
+></iframe>
 
-<> Add jupyterlite directive
-```{eval-rst}
-.. jupyterlite:: 
-   :width: 100%
-   :height: 600px
-```
 
-<> test of another directive
-```{eval-rst}
-.. seealso::
-
-   Module :py:mod:`testing-directive`
-      This is a test.
-
-```

@@ -10,5 +10,4 @@ Documentation/documentation.md
 Examples/examples.md
 Contribute/contribute.md
 App/app.md
-App/test.ipynb
 ```

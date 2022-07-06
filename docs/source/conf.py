@@ -39,7 +39,7 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-      'jupyterlite_sphinx',
+#              'jupyterlite_sphinx',
         "myst_parser", 
 ]
 #    'sphinx.ext.viewcode',
