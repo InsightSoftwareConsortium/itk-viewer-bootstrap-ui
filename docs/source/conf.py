@@ -41,12 +41,17 @@ release = ''
 extensions = [
 #              'jupyterlite_sphinx',
         "myst_parser", 
+    'sphinx.ext.intersphinx',
 ]
 #    'sphinx.ext.viewcode',
 #    'sphinx.ext.githubpages',
-#    'sphinx.ext.intersphinx',
 #    'myst_parser',
 #]
+
+# Intershpinx mapping
+#intersphinx_mapping = {
+#    'githubRepo': ('https://github.com/InsightSoftwareConsortium/itk-viewer-bootstrap-ui/', None),
+#}
 
 # JupyterLite content
 jupyterlite_contents=['App/test.ipynb']
