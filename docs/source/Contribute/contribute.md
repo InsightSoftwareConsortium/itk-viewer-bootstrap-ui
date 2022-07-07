@@ -73,9 +73,17 @@ itkVtkViewer.createViewer(container,
  - MyST
  - Python and Docutils 0.17+
 
-## Resources 
- - [Sphinx][https://www.sphinx-doc.org/en/master/index.html]
- - [MyST][https://myst-parser.readthedocs.io/en/latest/index.html]
- - [Read the docs][https://readthedocs.org/]
- - [Sphinx and Markdown course][https://training.talkpython.fm/courses/static-sites-with-sphinx-and-markdown]
+For more details on version check the [requirements](https://github.com/InsightSoftwareConsortium/itk-viewer-bootstrap-ui/blob/main/docs/requirements.txt). 
 
+After installing python, you can install the dependencies by doing 
+```
+$ cd docs/
+$ pip install requirements.txt
+```
+
+
+## Resources 
+ - [Sphinx](https://www.sphinx-doc.org/en/master/index.html)
+ - [MyST](https://myst-parser.readthedocs.io/en/latest/index.html)
+ - [Read the docs](https://readthedocs.org/)
+ - [Sphinx and Markdown course](https://training.talkpython.fm/courses/static-sites-with-sphinx-and-markdown)
