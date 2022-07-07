@@ -1,6 +1,6 @@
 {
   "name": "itk-viewer-bootstrap-ui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -29,6 +29,7 @@
     "react": "^17.0.0",
     "react-bootstrap": "^1.6.5",
     "react-dom": "^17.0.0",
+    "vite-plugin-css-injected-by-js": "^1.5.1",
     "xstate": "^4.23.4"
   },
   "devDependencies": {
