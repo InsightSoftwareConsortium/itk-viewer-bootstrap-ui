@@ -12,7 +12,11 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+from pathlib import Path
+from sphinx.application import Sphinx
+import subprocess
+import os
+import json
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -123,7 +127,19 @@ html_css_files = [
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static' ]
+html_static_path = ['_static', 'jupyterlite/_output' ]
+def jupyterlite_build(app: Sphinx, error):
+    here = Path(__file__).parent.resolve()
+    jupyterlite_config = here / "jupyterlite" / "jupyterlite_config.json"
+    subprocess.check_call(['jupyter', 'lite', 'build', '--config',
+        str(jupyterlite_config)], cwd=str(here / 'jupyterlite'))
+
+def setup(app):
+    # For local builds, you can run jupyter lite build manually
+    # $ cd jupyterlite
+    # $ jupyter lite serve --config ./jupyterlite_config.json
+    app.connect("config-inited", jupyterlite_build)
+
 html_logo = "_static/logo.png"
 
 # Custom sidebar templates, must be a dictionary that maps document names

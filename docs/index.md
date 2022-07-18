@@ -5,9 +5,9 @@ Welcome! This is a React-Bootstrap interface for ITK/VTK Viewer.
 
 ## Contents:
 ```{toctree}
-UserGuide/user_guide.md
-Documentation/documentation.md
-Examples/examples.md
-Contribute/contribute.md
-App/app.md
+RTDContents/UserGuide/user_guide.md
+RTDContents/Documentation/documentation.md
+RTDContents/Examples/examples.md
+RTDContents/Contribute/contribute.md
+RTDContents/App/app.md
 ```
