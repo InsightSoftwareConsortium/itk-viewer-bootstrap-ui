@@ -7,7 +7,8 @@
     "serve": "vite preview",
     "prettier": "prettier --config ./.prettierrc.json --write ./src/**/*.{js,jsx}",
     "postversion": "npm publish && git push --follow-tags",
-    "lint": "eslint . --ext .js,.jsx"
+    "lint": "eslint . --ext .js,.jsx",
+    "semantic-release": "semantic-release"
   },
   "keywords": [
     "react",
@@ -39,6 +40,7 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "sass": "~1.32.0",
+    "semantic-release": "^19.0.3",
     "vite": "^2.4.4"
   },
   "husky": {
