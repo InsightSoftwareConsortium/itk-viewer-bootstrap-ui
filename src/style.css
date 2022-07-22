@@ -8,10 +8,14 @@
   margin-left: 10px;
 }
 
+.btn {
+  line-height: 1.0;
+}
+
 .categoricalCol {
   padding-left: 0 !important;
   padding-right: 0 !important;
-  padding-top:3px !important;
+  padding-top: 3px !important;
 }
 
 .categoricalColContainer {
@@ -20,13 +24,14 @@
 }
 
 .categoricalDropDown {
- padding: 0 0 !important;
+  padding: 0 0 !important;
 }
+
 .categoricalMenu {
   margin: 0 5px !important;
 }
 
-.categoricalMenuForm{
+.categoricalMenuForm {
   width: 150px !important;
   margin-right: 10px !important;
   margin-left: 3px !important;
@@ -59,14 +64,17 @@ code.uiContainer {
 
 .componentCheckbox {
   padding: 2px 30px 2px 40px !important;
-} 
+}
+
 .componentTabs {
   background-color: transparent !important;
   border-color: transparent !important;
   padding: 0px 0px 0px 0px !important;
-} 
-.componentTabs:active, .componentTabs:focus {
-  background-color:  rgba(255, 255, 255, 0.3) !important;  
+}
+
+.componentTabs:active,
+.componentTabs:focus {
+  background-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .distanceEntry {
@@ -96,13 +104,14 @@ code.uiContainer {
   font-size: 1.0em;
   width: 80px !important;
   margin: 2px;
-  -webkit-text-fill-color:   #5a6268b0 ;
+  -webkit-text-fill-color: #5a6268b0;
 }
 
 .dropdown-menu {
-  min-width: 300px ;
+  min-width: 300px;
   z-index: 1100 !important;
 }
+
 .dropdown-toggle:empty::after {
   margin-left: 100% !important;
 }
@@ -116,11 +125,11 @@ code.uiContainer {
   position: absolute !important;
   bottom: 25px;
   left: -38px;
-  width:30px !important;
+  width: 30px !important;
   height: 140px !important;
   -webkit-appearance: slider-vertical;
-  }  
-  
+}
+
 .gradientSliderContainer {
   width: 300px;
 }
@@ -138,15 +147,19 @@ code.uiContainer {
 .icon-button {
   background-color: transparent !important;
   border-color: transparent !important;
-} 
-.icon-button > img {
-  width: 1.2rem;
-} 
-.icon-button:active, .icon-button:focus {
-  background-color:  rgba(255, 255, 255, 0.3) !important; 
 }
+
+.icon-button>img {
+  width: 1.2rem;
+}
+
+.icon-button:active,
+.icon-button:focus {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
 .checked {
-  background-color: #5a6268 !important; 
+  background-color: #5a6268 !important;
 }
 
 .icon-image {
@@ -154,12 +167,15 @@ code.uiContainer {
   border-color: transparent !important;
   margin-right: 10px;
 }
-.icon-image > img {
+
+.icon-image>img {
   width: 1.2rem;
 }
-.icon-image:active, .icon-image:focus {
-  background-color:  transparent !important; 
-} 
+
+.icon-image:active,
+.icon-image:focus {
+  background-color: transparent !important;
+}
 
 .iconWithSlider {
   width: 100%;
@@ -169,7 +185,7 @@ code.uiContainer {
 }
 
 .invalidNumber {
-  border-color: red !important ;
+  border-color: red !important;
   -webkit-text-fill-color: red;
 }
 
@@ -275,19 +291,21 @@ code.uiContainer {
   flex: 1;
   flex-wrap: wrap;
   align-items: center;
-  padding: 5px;
+  padding: 2px;
 }
 
 .navbar-button {
   background-color: transparent !important;
   border-color: transparent !important;
   margin-left: 10px !important;
-} 
-.navbar-button > img {
+}
+
+.navbar-button>img {
   width: 1.2rem;
-} 
+}
+
 .navbar-button:active {
-  background-color:  rgba(255, 255, 255, 0.3) !important; 
+  background-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .navItem {
@@ -302,20 +320,20 @@ code.uiContainer {
   max-width: 100px;
 }
 
-.overlayImage{
+.overlayImage {
   position: absolute;
   padding: 5px 7px;
   width: 85%;
-  height: 100%; 
+  height: 100%;
   vertical-align: auto;
   pointer-events: none;
 }
 
-.overlayImage{
+.overlayImage {
   position: absolute;
   padding: 5px 5px;
   width: 85%;
-  height: 100%; 
+  height: 100%;
   vertical-align: auto;
   pointer-events: none;
 }
@@ -328,8 +346,8 @@ code.uiContainer {
 }
 
 .planeSliders {
-  margin-top:5px;
-  margin-left:10px;
+  margin-top: 5px;
+  margin-left: 10px;
   display: block;
   align-items: center;
   padding-right: 2px;
@@ -339,7 +357,7 @@ code.uiContainer {
 
 .labelBadge {
   margin-left: 10px;
-  margin-top:10px;
+  margin-top: 10px;
   height: 50%;
   width: max(2%, 60px);
 }
@@ -465,7 +483,7 @@ code.uiContainer {
   bottom: 0;
   left: 7%;
   width: calc(100% - 90px);
-  margin: 10px 0;
+  margin: 3px 0;
 }
 
 .uiSlidersGroupCondensed {

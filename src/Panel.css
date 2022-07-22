@@ -2,7 +2,7 @@
   display: flex;
 }
 
-.appBar{
+.appBar {
   position: fixed;
 }
 
@@ -13,9 +13,21 @@
 .drawer {
   width: fit-content;
   position: fixed;
-  top: 60px !important;
+  top: 40px !important;
   background: none !important;
   border: none !important;
+}
+
+@media only screen and (max-height: 900px) {
+  .drawer {
+    width: fit-content;
+    position: fixed;
+    top: 40px !important;
+    background: none !important;
+    border: none !important;
+    max-height: calc(100vh - 160px) !important;
+    overflow-y: scroll;
+  }
 }
 
 .content {
