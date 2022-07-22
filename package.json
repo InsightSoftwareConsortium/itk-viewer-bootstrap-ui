@@ -1,6 +1,6 @@
 {
   "name": "itk-viewer-bootstrap-ui",
-  "version": "0.3.0",
+  "version": "0.0.0-development",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -50,5 +50,9 @@
   },
   "lint-staged": {
     "*.{js,jsx}": "prettier --config ./.prettierrc.json --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InsightSoftwareConsortium/itk-viewer-bootstrap-ui.git"
   }
 }
