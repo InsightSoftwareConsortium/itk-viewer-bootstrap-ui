@@ -8,10 +8,9 @@ export default defineConfig({
   plugins: [reactRefresh(), cssInjectedByJsPlugin()],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src', 'materialUIMachineOptions.js'),
-      name: 'materialUIMachineOptions',
+      entry: path.resolve(__dirname, 'src', 'bootstrapUIMachineOptions.js'),
+      name: 'bootstrapUIMachineOptions',
       formats: ['es'],
-      fileName: 'materialUIMachineOptions.js'
     }
   },
   resolve: {
