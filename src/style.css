@@ -147,6 +147,7 @@ code.uiContainer {
 .icon-button {
   background-color: transparent !important;
   border-color: transparent !important;
+  padding: 0.2rem 0.75rem !important;
 }
 
 .icon-button>img {
@@ -458,11 +459,10 @@ code.uiContainer {
 .uiGroup {
   background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;
-  margin: 2px;
 }
 
 .uiImages {
-  padding: 10px;
+  padding: 2px;
   max-width: 420px;
 }
 
@@ -470,7 +470,7 @@ code.uiContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 }
 
 .uiSelector {

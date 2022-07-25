@@ -18,7 +18,7 @@
   border: none !important;
 }
 
-@media only screen and (max-height: 900px) {
+@media only screen and (max-height: 500px) {
   .drawer {
     width: fit-content;
     position: fixed;
