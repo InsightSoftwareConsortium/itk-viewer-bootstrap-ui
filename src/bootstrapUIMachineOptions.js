@@ -9,7 +9,7 @@ import toggleUICollapsed from './toggleUICollapsed.jsx'
 
 import './App.scss'
 
-const materialUIMachineOptions = {
+const boostrapUIMachineOptions = {
   main: mainUIMachineOptions,
 
   layers: layersUIMachineOptions,
@@ -27,4 +27,4 @@ const materialUIMachineOptions = {
   }
 }
 
-export default materialUIMachineOptions
+export default boostrapUIMachineOptions
