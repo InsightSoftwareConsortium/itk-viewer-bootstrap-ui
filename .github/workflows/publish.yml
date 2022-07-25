@@ -17,7 +17,7 @@ jobs:
       matrix:
         node-version: [16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        os: [ubuntu-20.04, ubuntu-latest, windows-latest]
+        os: [ubuntu-20.04, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v3
