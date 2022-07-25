@@ -9,9 +9,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src', 'bootstrapUIMachineOptions.js'),
-      name: 'materialUIMachineOptions',
+      name: 'bootstrapUIMachineOptions',
       formats: ['es'],
-      fileName: 'materialUIMachineOptions.js'
     }
   },
   resolve: {
