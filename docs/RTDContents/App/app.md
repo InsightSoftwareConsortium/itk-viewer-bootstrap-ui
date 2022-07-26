@@ -3,7 +3,7 @@
 
 ## JupyterLite
 
-<a href="./_static/lab/index.html">
+<a href="../../_static/lab/index.html">
 Try it!
 
 ![Jupyterlite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)
