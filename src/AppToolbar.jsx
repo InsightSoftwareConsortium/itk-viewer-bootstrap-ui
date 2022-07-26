@@ -1,6 +1,6 @@
 import React from 'react'
 import { toggleIconDataUri } from 'itk-viewer-icons'
-import Navbar from 'react-bootstrap/Navbar'
+// import Navbar from 'react-bootstrap/Navbar'
 import toggleUICollapsed from './toggleUICollapsed'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
@@ -16,7 +16,7 @@ function AppToolbar(props) {
   }
 
   return (
-    <Navbar className="appBar" bg="primary" variant="dark">
+    // <Navbar className="appBar" bg="primary" variant="dark">
       <Button
         color="inherit"
         className="navbar-button"
@@ -25,8 +25,8 @@ function AppToolbar(props) {
       >
         <Image src={toggleIconDataUri} alt="toggle" />
       </Button>
-      <Navbar.Brand className="navbarTitle">ITK Viewer</Navbar.Brand>
-    </Navbar>
+      // <Navbar.Brand className="navbarTitle">ITK Viewer</Navbar.Brand>
+    // </Navbar> 
   )
 }
 
