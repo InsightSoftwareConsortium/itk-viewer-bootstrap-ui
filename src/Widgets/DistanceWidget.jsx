@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor, useSelector } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
@@ -11,12 +11,12 @@ import '../style.css'
 import cn from 'classnames'
 
 function DistanceWidget({ service }) {
-  const [state, send] = useActor(service)
+  const send = service.send
   const distanceRulerRow = useRef(null)
   const distanceButtonInput = useRef(null)
   const distanceButtonLabel = useRef(null)
   const distanceLabel = useRef(null)
-  const viewMode = state.context.main.viewMode
+  const viewMode = useSelector(service, (state) => state.context.main.viewMode)
   const distanceEnabled = useSelector(
     service,
     (state) => state.context.widgets.distanceEnabled
