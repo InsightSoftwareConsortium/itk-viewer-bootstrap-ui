@@ -72,14 +72,37 @@ itkVtkViewer.createViewer(container,
  - Sphinx
  - MyST
  - Python and Docutils 0.17+
+ - Jupyterlite
+ - Sphinx-Jupyterlite
 
-For more details on version check the [requirements](https://github.com/InsightSoftwareConsortium/itk-viewer-bootstrap-ui/blob/main/docs/requirements.txt). 
+For latest version and versioning check the [requirements](https://github.com/InsightSoftwareConsortium/itk-viewer-bootstrap-ui/blob/main/docs/requirements.txt). 
 
-After installing python, you can install the dependencies by doing 
+We suggest you first create a dedicated environment, so what you do is reproducible
+
+```
+$ mamba create -n name-of-environment
+```
+and activate it
+```
+$ mamba activate name-of-environment
+```
+then you can install the dependencies by doing 
 ```
 $ cd docs/
-$ pip install requirements.txt
+$ pip install -r requirements.txt
 ```
+
+Once you make modifications to the documentation you can rebuild it by:
+```
+$ sh script_build.sh
+```
+
+For local visualization of your builds, you can run JupyterLite manually by:
+```
+$ cd jupyterlite
+$ jupyter lite serve --config ./jupyterlite_config.json
+```
+
 
 
 ## Resources 
