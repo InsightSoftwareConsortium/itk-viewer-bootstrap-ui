@@ -105,6 +105,13 @@ $ jupyter lite serve --config ./jupyterlite_config.json
 To test the behavior of your app, please make sure to visit the [local server](http://127.0.0.1:8000/index.html
 ). Clicking on the JupyterLite badge will probably not work locally even if you are serving it as above. 
 
+## Pull Request Preview
+
+With the built-in Read-the-docs PR Preview functionality, you can check if the behavior you have is expected. 
+
+>> ADD screenshot of preview from Github PR << 
+
+
 
 ## Resources 
  - [Sphinx](https://www.sphinx-doc.org/en/master/index.html)
