@@ -102,7 +102,8 @@ For local visualization of your builds, you can run JupyterLite manually by:
 $ cd jupyterlite
 $ jupyter lite serve --config ./jupyterlite_config.json
 ```
-
+To test the behavior of your app, please make sure to visit the [local server](http://127.0.0.1:8000/index.html
+). Clicking on the JupyterLite badge will probably not work locally even if you are serving it as above. 
 
 
 ## Resources 
