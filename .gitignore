@@ -4,7 +4,7 @@ dist
 dist-ssr
 *.local
 **/docs/build/
-docs/_*
+docs/_images
 docs/.cache
 docs/.jupyterlite.doit.db
 docs/jupyterlite/_output
