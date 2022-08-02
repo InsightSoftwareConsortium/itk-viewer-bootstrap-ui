@@ -6,6 +6,7 @@ import MainInterface from './Main/MainInterface'
 import LayersInterface from './Layers/LayersInterface'
 import ImagesInterface from './Images/ImagesInterface'
 import WidgetsInterface from './Widgets/WidgetsInterface'
+import PointSetInterface from './PointSetInterface'
 import AppToolbar from './AppToolbar'
 
 function createInterface(context) {
@@ -36,6 +37,7 @@ function createInterface(context) {
         <LayersInterface />
         <WidgetsInterface />
         <ImagesInterface />
+        <PointSetInterface />
       </Panel>
     </>,
     context.uiContainer
