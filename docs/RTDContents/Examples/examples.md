@@ -31,6 +31,7 @@ point_set = np.random.multivariate_normal(gaussian_mean, gaussian_cov, number_of
 
 view(point_sets=point_set)
 ```
+It is important to indicate the input file is `point_sets`, so itkwidgets recognizes it as a point cloud rather than an image. 
 
 >>>> SCREENSHOT HERE <<<
 
