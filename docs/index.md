@@ -1,7 +1,7 @@
 # ITK-VTK Bootstrap Viewer documentation page
 
 Welcome! This is a React-Bootstrap interface for ITK/VTK Viewer. 
-![image](itk_viewer_bootstrap_landing_screen.png)
+![Hello World](./images/HelloWorld.gif)
 
 ## Contents:
 ```{toctree}
