@@ -58,10 +58,48 @@ Pandas is a Python library that offers data structures and operations for manipu
 
 ## PCA with Scikit-Learn
 
+<img src="scikit_pca.png" alt="input">
 
 See the original example [here](https://scikit-learn.org/stable/auto_examples/decomposition/plot_pca_iris.html)
 
 ## Visualizing Scientific Images with SciKit-Image
 
+:::{figure-md} shepp_logan_phantom
+:class: myclass
+<img src="skimage_shepp_logan_phantom.png" alt="shepp_logan_phantom" class="center" width="300px">
+
+Shepp–Logan phantom
+:::
+
+:::{figure-md} cell
+:class: myclass
+
+<img src="skimage_cell.png" alt="cell" width="300px">
+
+Cell
+:::
 
 
+:::{figure-md} microaneurysms
+:class: myclass
+
+<img src="skimage_microaneurysms.png" alt="microaneurysms" width="300px">
+
+Microaneurysms
+:::
+
+:::{figure-md} immunohistochemistry
+:class: myclass
+
+<img src="skimage_immunohistochemistry.png" alt="immunohistochemistry" width="300px">
+
+Immunohistochemistry
+:::
+
+:::{figure-md} moon
+:class: myclass
+
+<img src="skimage_moon.png" alt="moon" width="300px">
+
+Moon
+:::
