@@ -17,7 +17,7 @@ Try running the examples below interactively using JupyterLite!
 For more information on how Jupyter lite works, please visit [JupyterLite documentation website](https://jupyterlite.readthedocs.io/en/latest/).
 
 
-## NumPy - Gaussian distribution
+## Gaussian distribution with NumPy
 NumPy is a Python library for multidimensional array containers with vector operations.    
 
 ```
@@ -36,13 +36,26 @@ It is important to indicate the input file is `point_sets`, so itkwidgets recogn
 >>>> SCREENSHOT HERE <<<
 
 
-## SciPy
+## Binary Closing with SciPy
 SciPy is a Python library that offers computational routines for technical and scientific computing. It offers modules for linear algebra, integration, interpolation, ODE solvers, optimization, etc.
 
-## Pandas
+In this example, we explore the `ndimage.binary_closing` which performs closing, a mathematical morphology operation. It shows that closing can close small holes and that closing is the erosion of the dilation of the input.  
+
+|    Input   |   output1   |   output2   |
+| ---------- | ----------- | ----------- |
+|<img src="binary_closing_input.png" alt="input" width="200px">|<img src="binary_closing_output1.png" alt="output1" width="200px">|<img src="binary_closing_output2.png" alt="output2" width="200px">|
+
+
+See the original example [here](https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.binary_closing.html).
+
+## Dealing with Missing Data with Pandas and NumPy
 Pandas is a Python library that offers data structures and operations for manipulating data types and data series. 
 
-## Pandas and SciKit Learn  - Logistic Regression
+## PCA with Scikit-Learn
 
-Using the data set [SAHeart](https://hastie.su.domains/ElemStatLearn/) (check data section). 
+
+
+## Visualizing Scientific Images with SciKit-Image
+
+
 
