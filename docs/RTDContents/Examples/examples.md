@@ -33,27 +33,33 @@ view(point_sets=point_set)
 ```
 It is important to indicate the input file is `point_sets`, so itkwidgets recognizes it as a point cloud rather than an image. 
 
->>>> SCREENSHOT HERE <<<
-
+<img src="gaussian.png" alt="input">
 
 ## Binary Closing with SciPy
 SciPy is a Python library that offers computational routines for technical and scientific computing. It offers modules for linear algebra, integration, interpolation, ODE solvers, optimization, etc.
 
 In this example, we explore the `ndimage.binary_closing` which performs closing, a mathematical morphology operation. It shows that closing can close small holes and that closing is the erosion of the dilation of the input.  
 
-|    Input   |   output1   |   output2   |
-| ---------- | ----------- | ----------- |
+|    Input   |   Output 1   |   Output 2   |
+| ---------- | ------------ | ------------ |
 |<img src="binary_closing_input.png" alt="input" width="200px">|<img src="binary_closing_output1.png" alt="output1" width="200px">|<img src="binary_closing_output2.png" alt="output2" width="200px">|
 
 
 See the original example [here](https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.binary_closing.html).
 
-## Dealing with Missing Data with Pandas and NumPy
+## Estimating Missing Data with Pandas and NumPy
 Pandas is a Python library that offers data structures and operations for manipulating data types and data series. 
+
+|    Input   |   Output    |
+| ---------- | ----------- |
+|<img src="missing_data_input.png" alt="input" width="300px">|<img src="missing_data_output.png" alt="output" width="300px">|
+
+
 
 ## PCA with Scikit-Learn
 
 
+See the original example [here](https://scikit-learn.org/stable/auto_examples/decomposition/plot_pca_iris.html)
 
 ## Visualizing Scientific Images with SciKit-Image
 
