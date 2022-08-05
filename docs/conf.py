@@ -57,6 +57,11 @@ extensions = [
 #    'githubRepo': ('https://github.com/InsightSoftwareConsortium/itk-viewer-bootstrap-ui/', None),
 #}
 
+#Myst extension
+myst_enable_extensions = [
+  "html_image", "colon_fence"
+]
+
 # JupyterLite content
 jupyterlite_contents=['App/test.ipynb']
 jupyterlite_dir = "."
