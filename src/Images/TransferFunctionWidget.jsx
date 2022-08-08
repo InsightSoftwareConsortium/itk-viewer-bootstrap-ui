@@ -202,11 +202,15 @@ function TransferFunctionWidget(props) {
 
   useEffect(() => {
     const lut = state.context.images.lookupTableProxies
-    if (lut && lut.size === 1) {
+    if (lut) {
       const componentIndex = actorContext.selectedComponent
       send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: componentIndex, colorMap: 'Grayscale' }
+        data: {
+          name,
+          component: componentIndex,
+          colorMap: actorContext.colorMaps.get(actorContext.selectedComponent)
+        }
       })
     }
   }, [state.context.images.lookupTableProxies])
