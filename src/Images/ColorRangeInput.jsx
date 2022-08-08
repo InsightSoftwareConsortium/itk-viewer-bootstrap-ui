@@ -54,6 +54,7 @@ function ColorRangeInput(props) {
   const actorContext = useSelector(service, (state) =>
     state.context.images.actorContext.get(name)
   )
+  const use2D = useSelector(service, (state) => state.context.use2D)
 
   const imageType = actorContext.image?.imageType.componentType
 
@@ -72,11 +73,21 @@ function ColorRangeInput(props) {
   const currentRangeMin = currentRange[0]
   const currentRangeMax = currentRange[1]
 
-  const [rangeMin, rangeMax] = actorContext.selectedComponent
-    ? actorContext.image.scaleInfo[actorContext.renderedScale].ranges[
+  let [rangeMin, rangeMax] = [0, 0]
+
+  if (!use2D && actorContext.selectedComponent) {
+    ;[rangeMin, rangeMax] =
+      actorContext.image.scaleInfo[actorContext.renderedScale].ranges[
         actorContext.selectedComponent
       ]
-    : [0, 0]
+  } else if (
+    use2D &&
+    actorContext.colorRangeBounds.get(actorContext.selectedComponent)
+  ) {
+    ;[rangeMin, rangeMax] = actorContext.colorRangeBounds.get(
+      actorContext.selectedComponent
+    )
+  }
   const step =
     imageType.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
   const [minIntent, setminIntent] = useState(currentRangeMin)
