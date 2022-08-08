@@ -50,9 +50,6 @@ function TransferFunctionWidget(props) {
       })
       transferFunctionWidget.setEnableRangeZoom(true)
       let iconSize = 20
-      if (state.context.use2D) {
-        iconSize = 0
-      }
       transferFunctionWidget.updateStyle({
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
         histogramColor: 'rgba(30, 30, 30, 0.6)',
