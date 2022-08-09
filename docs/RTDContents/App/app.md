@@ -1,11 +1,7 @@
 # App
 
-```{jupyterlite}
-  :width: 100%
-  :height: 600px
-```
 
-<iframe src='https://itk-viewer-bootstrap-ui.readthedocs.io/en/latest/_static/lab/index.html' title='whatever' width='600' height='600'></iframe>
+<iframe src='../../_static/lab/index.html' title='immersed-jupyterlite' width='800' height='600'></iframe>
 
 
 ## JupyterLite
