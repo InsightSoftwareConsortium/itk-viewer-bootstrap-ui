@@ -5,6 +5,9 @@
   :height: 600px
 ```
 
+<iframe src='https://itk-viewer-bootstrap-ui.readthedocs.io/en/latest/_static/lab/index.html' title='whatever' width='600' height='600'></iframe>
+
+
 ## JupyterLite
 
 <a href="../../_static/lab/index.html">
