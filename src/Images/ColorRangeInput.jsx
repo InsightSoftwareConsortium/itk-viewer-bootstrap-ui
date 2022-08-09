@@ -54,7 +54,6 @@ function ColorRangeInput(props) {
   const actorContext = useSelector(service, (state) =>
     state.context.images.actorContext.get(name)
   )
-  const use2D = useSelector(service, (state) => state.context.use2D)
 
   const imageType = actorContext.image?.imageType.componentType
 
@@ -75,13 +74,16 @@ function ColorRangeInput(props) {
 
   let [rangeMin, rangeMax] = [0, 0]
 
-  if (!use2D && actorContext.selectedComponent) {
+  if (
+    actorContext.componentVisibilities.length === 1 &&
+    actorContext.selectedComponent
+  ) {
     ;[rangeMin, rangeMax] =
       actorContext.image.scaleInfo[actorContext.renderedScale].ranges[
         actorContext.selectedComponent
       ]
   } else if (
-    use2D &&
+    actorContext.componentVisibilities.length > 1 &&
     actorContext.colorRangeBounds.get(actorContext.selectedComponent)
   ) {
     ;[rangeMin, rangeMax] = actorContext.colorRangeBounds.get(
