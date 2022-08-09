@@ -34,7 +34,6 @@ You can find the documentation for the User Interface Customization [here](https
 RTDContents/UserGuide/user_guide.md
 RTDContents/Examples/examples.md
 RTDContents/Contribute/contribute.md
-RTDContents/App/app.md
 ```
 
 
