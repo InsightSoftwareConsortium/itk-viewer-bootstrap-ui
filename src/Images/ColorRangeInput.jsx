@@ -72,10 +72,24 @@ function ColorRangeInput(props) {
   const currentRangeMin = currentRange[0]
   const currentRangeMax = currentRange[1]
 
-  const [rangeMin, rangeMax] =
-    actorContext.image.scaleInfo[actorContext.renderedScale].ranges[
+  let [rangeMin, rangeMax] = [0, 0]
+
+  if (
+    actorContext.componentVisibilities.length === 1 &&
+    actorContext.selectedComponent
+  ) {
+    ;[rangeMin, rangeMax] =
+      actorContext.image.scaleInfo[actorContext.renderedScale].ranges[
+        actorContext.selectedComponent
+      ]
+  } else if (
+    actorContext.componentVisibilities.length > 1 &&
+    actorContext.colorRangeBounds.get(actorContext.selectedComponent)
+  ) {
+    ;[rangeMin, rangeMax] = actorContext.colorRangeBounds.get(
       actorContext.selectedComponent
-    ]
+    )
+  }
   const step =
     imageType.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
   const [minIntent, setminIntent] = useState(currentRangeMin)

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { useActor } from '@xstate/react'
 
 import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
@@ -50,9 +50,6 @@ function TransferFunctionWidget(props) {
       })
       transferFunctionWidget.setEnableRangeZoom(true)
       let iconSize = 20
-      if (state.context.use2D) {
-        iconSize = 0
-      }
       transferFunctionWidget.updateStyle({
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
         histogramColor: 'rgba(30, 30, 30, 0.6)',
@@ -205,14 +202,18 @@ function TransferFunctionWidget(props) {
 
   useEffect(() => {
     const lut = state.context.images.lookupTableProxies
-    if (lut && lut.size === 1) {
+    if (lut) {
       const componentIndex = actorContext.selectedComponent
       send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: componentIndex, colorMap: 'Grayscale' }
+        data: {
+          name,
+          component: componentIndex,
+          colorMap: actorContext.colorMaps.get(actorContext.selectedComponent)
+        }
       })
     }
-  }, [state.context.images.lookupTableProxies])
+  }, [actorContext.selectedComponent, state.context.images.lookupTableProxies])
 
   // Manage update when opacity changes
   const onAnimationChange = (start) => {
