@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { useActor } from '@xstate/react'
 
 import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
@@ -213,7 +213,7 @@ function TransferFunctionWidget(props) {
         }
       })
     }
-  }, [state.context.images.lookupTableProxies])
+  }, [actorContext.selectedComponent, state.context.images.lookupTableProxies])
 
   // Manage update when opacity changes
   const onAnimationChange = (start) => {
