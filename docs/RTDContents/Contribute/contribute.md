@@ -96,8 +96,12 @@ Once you make modifications to the documentation you can rebuild it by:
 ```
 $ sh script_build.sh
 ```
+For local visualization of the ReadTheDocs documentation site:
+```
+$ google-chrome build/html/index.html
+```
 
-For local visualization of your builds, you can run JupyterLite manually by:
+For local visualization of your JupyterLite builds, you can run it manually by:
 ```
 $ cd jupyterlite
 $ jupyter lite serve --config ./jupyterlite_config.json
@@ -105,11 +109,12 @@ $ jupyter lite serve --config ./jupyterlite_config.json
 To test the behavior of your app, please make sure to visit the [local server](http://127.0.0.1:8000/index.html
 ). Clicking on the JupyterLite badge will probably not work locally even if you are serving it as above. 
 
+
+
 ## Pull Request Preview
 
 With the built-in Read-the-docs PR Preview functionality, you can check if the behavior you have is expected. 
 
->> ADD screenshot of preview from Github PR << 
 
 
 

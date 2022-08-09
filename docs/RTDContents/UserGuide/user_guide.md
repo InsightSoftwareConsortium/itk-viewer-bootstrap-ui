@@ -258,7 +258,7 @@ Below, there are some examples to test the behavior of the UI by changing `index
 ```
 </details>
 
-### 2D Image with different multiple color channels
+### 2D Image with multiple color channels
 You can introduce an extra argument to the `itkVtkViewer.createViewer` function to indicate your data set is bidimensional:
 
 <details>
@@ -312,3 +312,65 @@ You can introduce an extra argument to the `itkVtkViewer.createViewer` function 
 </html>
 ```
 </details>
+
+
+
+
+### 3D Image with multiple color channels
+
+<details>
+  <summary>Click to expand!</summary>
+
+```
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom itk-viewer Boostrap UI Demo</title>
+  </head>
+
+  <body>
+    <div
+      class="content"
+      style="
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        background: black;
+        margin: 0;
+        padding: 0;
+      "
+    ></div>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/itk-vtk-viewer@14/dist/itkVtkViewer.js"
+    ></script>
+    <script>
+      const container = document.querySelector('.content')
+      const image = new URL(
+        'http://localhost:8082/test-data/ome-ngff-prototypes/single_image/v0.4/tczyx.ome.zarr',
+        document.location.origin
+      )
+      const uiMachineOptions = {
+        href: new URL(
+          '/src/bootstrapUIMachineOptions.js',
+          document.location.origin
+        ).href
+      }
+      itkVtkViewer.createViewer(container, {
+        image,
+        rotate: false,
+        config: { uiMachineOptions }
+      })
+    </script>
+  </body>
+</html>
+
+```
+</details>
+
