@@ -18,15 +18,19 @@ function GradientOpacitySlider(props) {
   const gradientOpacitySlider = useRef(null)
   const gradientOpacityScaleSlider = useRef(null)
   const [vertSlider, setVertSlider] = useState(false)
-  const name = stateContext.images.selectedName
-  const actorContext = stateContext.images.actorContext.get(name)
-  const { gradientOpacityScale, gradientOpacity } = useSelector(
+
+  const gradientOpacityScale = useSelector(
     service,
     (state) =>
-      state.context.images.actorContext.get(state.context.images.selectedName),
-    (a, b) =>
-      a.gradientOpacityScale === b.gradientOpacityScale &&
-      a.gradientOpacity === b.gradientOpacity
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        ?.gradientOpacityScale
+  )
+
+  const gradientOpacity = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        ?.gradientOpacity
   )
 
   useEffect(() => {
