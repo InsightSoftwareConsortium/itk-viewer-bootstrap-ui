@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor, useSelector } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import ColorRangeInput from './ColorRangeInput'
 import ComponentSelector from './ComponentSelector'
 import LabelImageColorWidget from './LabelImageColorWidget'
@@ -10,7 +10,6 @@ import '../style.css'
 
 function ImagesInterface(props) {
   const { service } = props
-  const [state] = useActor(service)
   const name = useSelector(
     service,
     (state) => state.context.images.selectedName

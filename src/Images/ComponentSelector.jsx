@@ -19,22 +19,27 @@ function ComponentSelector({ service }) {
     (state) =>
       state.context.images.actorContext.get(name).image?.imageType.components
   )
-  // re-render when click on check-boxes
-  const componentVisibilities0 = useSelector(
+
+  //re-render when click on check-boxes
+  // ideally use shallowEqual as a third entry for useSelector for newer versions
+  const componentVisibilitiesLength = useSelector(
     service,
     (state) =>
-      state.context.images.actorContext.get(name).componentVisibilities[0]
+      state.context.images.actorContext.get(name).componentVisibilities.length
   )
-  const componentVisibilities1 = useSelector(
-    service,
-    (state) =>
-      state.context.images.actorContext.get(name).componentVisibilities[1]
-  )
-  const componentVisibilities2 = useSelector(
-    service,
-    (state) =>
-      state.context.images.actorContext.get(name).componentVisibilities[2]
-  )
+
+  const componentVisibilities = []
+
+  for (let i = 0; i < componentVisibilitiesLength; i++) {
+    componentVisibilities.push(
+      useSelector(
+        service,
+        (state) =>
+          state.context.images.actorContext.get(name).componentVisibilities[i]
+      )
+    )
+  }
+
   // re-render when click on tabs
   const selectedComponent = useSelector(
     service,
