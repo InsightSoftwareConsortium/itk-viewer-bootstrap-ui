@@ -91,7 +91,7 @@ function ColorRangeInput(props) {
     )
   }
   const step =
-    imageType.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
+    imageType?.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
   const [minIntent, setminIntent] = useState(currentRangeMin)
   const [maxIntent, setmaxIntent] = useState(currentRangeMax)
 
@@ -154,7 +154,7 @@ function ColorRangeInput(props) {
   }
 
   return (
-    colorRanges.size && (
+    colorRanges.size !== 0 && (
       <div
         ref={colorRangeInput}
         className="uiRow"
