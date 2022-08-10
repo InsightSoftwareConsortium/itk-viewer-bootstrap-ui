@@ -17,6 +17,12 @@ function VolumeRenderingInputs(props) {
   const actorContext = useSelector(service, (state) =>
     state.context.images.actorContext.get(name)
   )
+  const volumeMenu = useSelector(service, (state) =>
+    state.context.images.actorContext
+      .get(name)
+      .colorRanges.get(actorContext.selectedComponent)
+  )
+
   const use2D = useSelector(service, (state) => state.context.use2D)
 
   useEffect(() => {
@@ -25,8 +31,7 @@ function VolumeRenderingInputs(props) {
   }, [service.machine.context.images])
 
   return (
-    actorContext.colorRanges.get(actorContext.selectedComponent) !==
-      undefined &&
+    volumeMenu !== undefined &&
     !use2D && (
       <div>
         <div
