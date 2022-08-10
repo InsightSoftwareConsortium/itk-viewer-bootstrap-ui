@@ -18,6 +18,12 @@ function ImagesInterface(props) {
   const actorContext = useSelector(service, (state) =>
     state.context.images.actorContext.get(name)
   )
+
+  const labelImageName = useSelector(
+    service,
+    (state) => state.context.images.actorContext.get(name)?.labelImageName
+  )
+
   const layersContext = useSelector(service, (state) =>
     state.context.layers.actorContext.get(name)
   )
@@ -36,10 +42,7 @@ function ImagesInterface(props) {
 
   const showLabelWidgets = () => {
     const type = layersContext.type
-    if (
-      (type === 'image' && actorContext.labelImageName) ||
-      type === 'labelImage'
-    ) {
+    if ((type === 'image' && labelImageName) || type === 'labelImage') {
       return true
     }
     return false
