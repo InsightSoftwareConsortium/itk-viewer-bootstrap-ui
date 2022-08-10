@@ -3,3 +3,10 @@ node_modules
 dist
 dist-ssr
 *.local
+**/docs/build/
+docs/_images
+docs/.cache
+docs/.jupyterlite.doit.db
+docs/jupyterlite/_output
+docs/jupyterlite/.cache/*
+docs/jupyterlite/.jupyterlite.doit.db

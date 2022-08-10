@@ -1,5 +1,5 @@
 import { useSelector } from '@xstate/react'
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import AnnotationsButton from './AnnotationsButton'
 import AxesButton from './AxesButton'
 import BackgroundColorButton from './BackgroundColorButton'

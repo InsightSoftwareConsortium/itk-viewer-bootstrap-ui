@@ -72,6 +72,26 @@ function ColorRangeInput(props) {
   const currentRangeMin = currentRange[0]
   const currentRangeMax = currentRange[1]
 
+  let [rangeMin, rangeMax] = [0, 0]
+
+  if (
+    actorContext.componentVisibilities.length === 1 &&
+    actorContext.selectedComponent
+  ) {
+    ;[rangeMin, rangeMax] =
+      actorContext.image.scaleInfo[actorContext.renderedScale].ranges[
+        actorContext.selectedComponent
+      ]
+  } else if (
+    actorContext.componentVisibilities.length > 1 &&
+    actorContext.colorRangeBounds.get(actorContext.selectedComponent)
+  ) {
+    ;[rangeMin, rangeMax] = actorContext.colorRangeBounds.get(
+      actorContext.selectedComponent
+    )
+  }
+  const step =
+    imageType.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
   const [minIntent, setminIntent] = useState(currentRangeMin)
   const [maxIntent, setmaxIntent] = useState(currentRangeMax)
 
@@ -163,14 +183,11 @@ function ColorRangeInput(props) {
               invalidNumber: minIntent >= maxIntent
             })}
             type="number"
-            value={
-              imageType.slice(0, 5) === 'float'
-                ? Number.parseFloat(minIntent).toExponential(2)
-                : minIntent
-            }
+            value={minIntent}
             onChange={(e) => {
               rangeMinChanged(e.target.value)
             }}
+            step={step}
           />
         </OverlayTrigger>
         <ColorMapIconSelector {...props} />
@@ -180,14 +197,11 @@ function ColorRangeInput(props) {
               invalidNumber: maxIntent <= minIntent
             })}
             type="number"
-            value={
-              imageType.slice(0, 5) === 'float'
-                ? Number.parseFloat(maxIntent).toExponential(2)
-                : maxIntent
-            }
+            value={maxIntent}
             onChange={(e) => {
               rangeMaxChanged(e.target.value)
             }}
+            step={step}
           />
         </OverlayTrigger>
       </div>

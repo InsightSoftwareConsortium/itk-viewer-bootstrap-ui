@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom itk-viewer Bootstrap UI Demo</title>
+</head>
+
+<body>
+  <div class="content" style="
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        background: black;
+        margin: 0;
+        padding: 0;
+      "></div>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/itk-vtk-viewer@13.0.0/dist/itkVtkViewer.js"></script>
+  <script>
+    const container = document.querySelector('.content')
+    const ipfsImage = new URL(
+      './test-data/HeadMRVolume.nrrd',
+      document.location.origin
+    )
+    const labelImage = new URL(
+      './test-data/HeadMRVolumeLabels.nrrd',
+      document.location.origin
+    )
+
+    const uiMachineOptions = {
+      href: new URL(
+        './bootstrapUIMachineOptions.js.es.js',
+        document.location.origin
+      ).href
+    }
+    itkVtkViewer.createViewer(container, {
+      image: ipfsImage,
+      labelImage,
+      rotate: false,
+      config: { uiMachineOptions }
+    })
+  </script>
+</body>
+
+</html>
