@@ -11,6 +11,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, 'src', 'bootstrapUIMachineOptions.js'),
       name: 'bootstrapUIMachineOptions',
       formats: ['es'],
+      fileName: 'bootstrapUIMachineOptions.js'
     }
   },
   resolve: {
