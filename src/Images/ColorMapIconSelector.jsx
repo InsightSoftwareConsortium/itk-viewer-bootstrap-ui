@@ -32,6 +32,23 @@ function ColorMapIconSelector(props) {
     (state) => state.context.images.lookupTableProxies
   )
 
+  // hack to make overlayimage pick up on color change and change icon
+  // ideally use shallowEqual as a third entry for useSelector for newer versions
+  const colorMapsSize = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(selectedName).colorMaps.size
+  )
+  const colorMaps = []
+
+  for (let i = 0; i < colorMapsSize; i++) {
+    colorMaps.push(
+      useSelector(service, (state) =>
+        state.context.images.actorContext.get(selectedName).colorMaps.get(i)
+      )
+    )
+  }
+
   const currentColorMap = () => {
     if (selectedActorContext) {
       const component = selectedActorContext.selectedComponent

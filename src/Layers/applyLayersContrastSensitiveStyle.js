@@ -1,7 +1,7 @@
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
 function applyLayersContrastSensitiveStyle(context) {
-  context.layers.uiLayers.forEach((layerEntry) => {
+  context.layers.uiLayers?.forEach((layerEntry) => {
     applyContrastSensitiveStyleToElement(context, 'layerEntry', layerEntry)
     const visibleButton = layerEntry.children[0]
     const visibleLabel = visibleButton.children[1]

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useActor } from '@xstate/react'
+import { useSelector } from '@xstate/react'
 import ColorRangeInput from './ColorRangeInput'
 import ComponentSelector from './ComponentSelector'
 import LabelImageColorWidget from './LabelImageColorWidget'
@@ -10,15 +10,28 @@ import '../style.css'
 
 function ImagesInterface(props) {
   const { service } = props
-  const [state] = useActor(service)
-  const name = state.context.images.selectedName
-  const actorContext = state.context.images.actorContext.get(name)
-  const layersContext = state.context.layers.actorContext.get(name)
+  const name = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+
+  const actorContext = useSelector(service, (state) =>
+    state.context.images.actorContext.get(name)
+  )
+
+  const labelImageName = useSelector(
+    service,
+    (state) => state.context.images.actorContext.get(name)?.labelImageName
+  )
+
+  const layersContext = useSelector(service, (state) =>
+    state.context.layers.actorContext.get(name)
+  )
 
   const imagesUIGroup = useRef(null)
   useEffect(() => {
-    state.context.images.imagesUIGroup = imagesUIGroup.current
-  }, [])
+    service.machine.context.images.imagesUIGroup = imagesUIGroup.current
+  }, [service.machine.context.images])
 
   const visible = () => {
     if (layersContext) {
@@ -29,10 +42,7 @@ function ImagesInterface(props) {
 
   const showLabelWidgets = () => {
     const type = layersContext.type
-    if (
-      (type === 'image' && actorContext.labelImageName) ||
-      type === 'labelImage'
-    ) {
+    if ((type === 'image' && labelImageName) || type === 'labelImage') {
       return true
     }
     return false
