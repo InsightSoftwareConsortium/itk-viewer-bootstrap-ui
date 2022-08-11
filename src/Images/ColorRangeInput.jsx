@@ -9,6 +9,7 @@ import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
+import getSelectedImageContext from './getSelectedImageContext'
 
 function ColorRangeInput(props) {
   const { service } = props
@@ -52,7 +53,7 @@ function ColorRangeInput(props) {
   )
 
   const actorContext = useSelector(service, (state) =>
-    state.context.images.actorContext.get(name)
+    getSelectedImageContext(state)
   )
 
   const imageType = actorContext.image?.imageType.componentType

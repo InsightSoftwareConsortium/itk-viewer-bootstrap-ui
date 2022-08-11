@@ -5,22 +5,18 @@ import GradientOpacitySlider from './GradientOpacitySlider'
 import SampleDistanceSlider from './SampleDistanceSlider'
 import ShadowToggle from './ShadowToggle'
 import '../style.css'
+import getSelectedImageContext from './getSelectedImageContext'
 
 function VolumeRenderingInputs(props) {
   const { service } = props
   const volumeRow1 = useRef(null)
   const volumeRow2 = useRef(null)
-  const name = useSelector(
-    service,
-    (state) => state.context.images.selectedName
-  )
   const actorContext = useSelector(service, (state) =>
-    state.context.images.actorContext.get(name)
+    getSelectedImageContext(state)
   )
+
   const volumeMenu = useSelector(service, (state) =>
-    state.context.images.actorContext
-      .get(name)
-      .colorRanges.get(actorContext.selectedComponent)
+    actorContext.colorRanges.get(actorContext.selectedComponent)
   )
 
   const use2D = useSelector(service, (state) => state.context.use2D)
