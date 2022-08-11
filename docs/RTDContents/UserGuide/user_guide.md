@@ -1,7 +1,7 @@
 # User Guide
 
 ## Notebooks
-Since July 2022, ITK Viewer Boostrap UI is the default UI for ITKWidgets-1.0. However, you can control the UI by passing the `ui` argument to the view function:
+Since July 2022, ITK Viewer Bootstrap UI is the default UI for ITKWidgets-1.0. However, you can control the UI by passing the `ui` argument to the view function:
 
 For the reference UI:
 ```
@@ -74,7 +74,7 @@ Below, there are some examples to test the behavior of the UI by changing `index
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Custom itk-viewer Boostrap UI Demo</title>
+    <title>Custom itk-viewer Bootstrap UI Demo</title>
   </head>
 
   <body>
@@ -157,7 +157,7 @@ Below, there are some examples to test the behavior of the UI by changing `index
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Custom itk-viewer Boostrap UI Demo</title>
+  <title>Custom itk-viewer Bootstrap UI Demo</title>
 </head>
 
 <body>
@@ -212,7 +212,7 @@ Below, there are some examples to test the behavior of the UI by changing `index
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Custom itk-viewer Boostrap UI Demo</title>
+  <title>Custom itk-viewer Bootstrap UI Demo</title>
 </head>
 
 <body>
@@ -272,7 +272,7 @@ You can introduce an extra argument to the `itkVtkViewer.createViewer` function 
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Custom itk-viewer Boostrap UI Demo</title>
+  <title>Custom itk-viewer Bootstrap UI Demo</title>
 </head>
 
 <body>
@@ -328,7 +328,7 @@ You can introduce an extra argument to the `itkVtkViewer.createViewer` function 
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Custom itk-viewer Boostrap UI Demo</title>
+    <title>Custom itk-viewer Bootstrap UI Demo</title>
   </head>
 
   <body>
