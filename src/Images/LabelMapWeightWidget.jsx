@@ -3,6 +3,7 @@ import { useSelector } from '@xstate/react'
 import Form from 'react-bootstrap/Form'
 import MapWeightSelector from './MapWeightSelector'
 import '../style.css'
+import getSelectedImageContext from './getSelectedImageContext'
 
 function LabelMapWeightWidget({ service }) {
   const labelImageWeightUIGroup = useRef(null)
@@ -13,9 +14,11 @@ function LabelMapWeightWidget({ service }) {
     service,
     (state) => state.context.images.selectedName
   )
+
   const actorContext = useSelector(service, (state) =>
-    state.context.images.actorContext.get(state.context.images.selectedName)
+    getSelectedImageContext(state)
   )
+
   const labelImageWeights = useSelector(
     service,
     (state) =>

@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
+import getSelectedImageContext from './getSelectedImageContext'
 
 const colorMapIcons = Array.from(ColorMapPresetIcons).map(([name, icon]) => ({
   name,
@@ -24,9 +25,11 @@ function ColorMapIconSelector(props) {
     service,
     (state) => state.context.images.selectedName
   )
-  const selectedActorContext = useSelector(service, (state) =>
-    state.context.images.actorContext.get(selectedName)
+
+  const actorContext = useSelector(service, (state) =>
+    getSelectedImageContext(state)
   )
+
   const imagesLookupTableProxies = useSelector(
     service,
     (state) => state.context.images.lookupTableProxies
@@ -50,8 +53,8 @@ function ColorMapIconSelector(props) {
   }
 
   const currentColorMap = () => {
-    if (selectedActorContext) {
-      const component = selectedActorContext.selectedComponent
+    if (actorContext) {
+      const component = actorContext.selectedComponent
       const lookupTableProxies = imagesLookupTableProxies
       if (lookupTableProxies) {
         return lookupTableProxies.get(component).getPresetName()
@@ -67,7 +70,7 @@ function ColorMapIconSelector(props) {
 
   const handleChange = (colorMap) => {
     const name = selectedName
-    const componentIndex = selectedActorContext.selectedComponent
+    const componentIndex = actorContext.selectedComponent
     send({
       type: 'IMAGE_COLOR_MAP_CHANGED',
       data: { name, component: componentIndex, colorMap }
