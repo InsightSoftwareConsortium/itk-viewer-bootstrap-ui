@@ -304,7 +304,8 @@ You can introduce an extra argument to the `itkVtkViewer.createViewer` function 
     itkVtkViewer.createViewer(container, {
       image: ipfsImage,
       rotate: false,
-      config: { uiMachineOptions }
+      config: { uiMachineOptions },
+      use2D: true
     })
   </script>
 </body>
