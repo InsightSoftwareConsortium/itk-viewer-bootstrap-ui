@@ -18,14 +18,14 @@
   border: none !important;
 }
 
-@media only screen and (max-height: 500px) {
+@media only screen and (max-height: 580px) {
   .drawer {
     width: fit-content;
     position: fixed;
     top: 40px !important;
     background: none !important;
     border: none !important;
-    max-height: calc(100vh - 160px) !important;
+    max-height: calc(100vh - 50px) !important;
     overflow-y: scroll;
   }
 }

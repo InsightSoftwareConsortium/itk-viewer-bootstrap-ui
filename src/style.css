@@ -353,7 +353,7 @@ code.uiContainer {
   align-items: center;
   padding-right: 2px;
   height: 10px;
-  width: 50%;
+  width: calc(100% - 180px);
 }
 
 .labelBadge {
@@ -481,8 +481,8 @@ code.uiContainer {
   background: transparent;
   position: fixed;
   bottom: 0;
-  left: 7%;
-  width: calc(100% - 90px);
+  right: 6px;
+  width: calc(100% - 450px);
   margin: 3px 0;
 }
 
