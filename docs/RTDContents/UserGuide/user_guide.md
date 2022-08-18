@@ -18,7 +18,7 @@ For more information about ITKWidgets 1.0, please visit the [documentation websi
 ### Launch ITKWidgets 1.0 using Jupyter Notebook
 Install
 ```
-$ pip install 'itkwidgets[notebook]>=1.0a6'
+$ pip install 'itkwidgets[notebook]>=1.0a8'
 ```
 and then use it in your notebook:
 ```
@@ -28,7 +28,7 @@ from itkwidgets import view
 ### Launch ITKWidgets 1.0 using Jupyter Lab
 Install 
 ```
-$ pip install 'itkwidgets[lab]>=1.0a6'
+$ pip install 'itkwidgets[lab]>=1.0a8'
 ```
 and then use it in your notebook:
 ```
@@ -39,7 +39,7 @@ from itkwidgets import view
 
 ```
 import piplite
-piplite.install("itkwidgets==1.0a5")
+await piplite.install("itkwidgets==1.0a8")
 from itkwidgets import view
 ```
 
@@ -48,7 +48,7 @@ Install and use it in your notebook:
 ```
 import sys
 
-!{sys.executable} -m pip install -q "itkwidgets>=1.0a5" imageio
+!{sys.executable} -m pip install -q "itkwidgets>=1.0a8" imageio
 
 from itkwidgets import view
 ```
