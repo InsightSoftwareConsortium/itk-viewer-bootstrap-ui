@@ -1,3 +1,5 @@
+const MIN_WINDOW = 1e-8
+
 function applyColorRange(context, event) {
   const name = event.data.name
   const component = event.data.component
@@ -12,113 +14,59 @@ function applyColorRange(context, event) {
 
   const colorRange = event.data.range
 
-  const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
-  const newGaussians = gaussians.slice()
-
   let fullRange = colorRange
   if (actorContext.colorRangeBounds.has(component)) {
     fullRange = actorContext.colorRangeBounds.get(component)
   }
   const diff = fullRange[1] - fullRange[0]
 
-  if (context.images.transferFunctionManipulator) {
-    context.images.transferFunctionManipulator.windowMotionScale = diff
-    context.images.transferFunctionManipulator.levelMotionScale = diff
-    const {
-      rangeManipulator,
-      windowMotionScale,
-      windowGet,
-      windowSet,
-      levelGet,
-      levelSet
-    } = context.images.transferFunctionManipulator
-    rangeManipulator.setVerticalListener(
-      0,
-      windowMotionScale,
-      diff / 100.0,
-      windowGet,
-      windowSet
-    )
-    rangeManipulator.setHorizontalListener(
-      fullRange[0],
-      fullRange[1],
-      diff / 100.0,
-      levelGet,
-      levelSet
-    )
+  const colorRangeNormalized = [
+    (colorRange[0] - fullRange[0]) / diff,
+    (colorRange[1] - fullRange[0]) / diff
+  ]
+  const normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
+
+  const { rangeManipulator, windowGet, windowSet, levelGet, levelSet } =
+    context.images.transferFunctionManipulator
+
+  // level
+  rangeManipulator.setHorizontalListener(
+    colorRangeNormalized[0],
+    colorRangeNormalized[1],
+    normDelta / 100.0,
+    levelGet,
+    levelSet
+  )
+
+  // window
+  rangeManipulator.setVerticalListener(
+    MIN_WINDOW,
+    normDelta,
+    normDelta / 100.0,
+    windowGet,
+    windowSet
+  )
+
+  const { transferFunctionWidget } = context.images
+  transferFunctionWidget.setRangeZoom(colorRangeNormalized)
+
+  const oldPoints = actorContext.piecewiseFunctionPoints?.get(component)
+  if (!event.data.dontUpdatePoints && oldPoints) {
+    const xValues = oldPoints.map(([x]) => x)
+    // if 1 point, assume whole range
+    const maxOldPoints = xValues.length > 1 ? Math.max(...xValues) : 1
+    const minOldPoints = xValues.length > 1 ? Math.min(...xValues) : 0
+    const rangeOldPoints = maxOldPoints - minOldPoints
+    const points = oldPoints
+      // find normalized position of old points
+      .map(([x, y]) => [(x - minOldPoints) / rangeOldPoints, y])
+      // rescale to new range
+      .map(([x, y]) => {
+        return [x * normDelta + colorRangeNormalized[0], y]
+      })
+
+    transferFunctionWidget.setPoints(points)
   }
-
-  const colorRangeNormalized = new Array(2)
-  colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff
-  colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff
-
-  const transferFunctionWidget = context.images.transferFunctionWidget
-  if (transferFunctionWidget) {
-    transferFunctionWidget.setRangeZoom(colorRangeNormalized)
-  }
-
-  let minValue = Infinity
-  let maxValue = -Infinity
-
-  let count = gaussians.length
-  while (count--) {
-    let { position, width, xBias, yBias } = newGaussians[count]
-    if (position - width < colorRangeNormalized[0]) {
-      position = colorRangeNormalized[0] + width
-      newGaussians[count].position = position
-      if (position + width > colorRangeNormalized[1]) {
-        const newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-        position = colorRangeNormalized[0] + newWidth
-        newGaussians[count].position = position
-        newGaussians[count].width = newWidth
-        if (!context.use2D) {
-          newGaussians[count].xBias = (newWidth / width) * xBias
-          newGaussians[count].yBias = (newWidth / width) * yBias
-        }
-      }
-    }
-    if (position + width > colorRangeNormalized[1]) {
-      position = colorRangeNormalized[1] - width
-      newGaussians[count].position = position
-      if (position - width < colorRangeNormalized[0]) {
-        const newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-        position = colorRangeNormalized[0] + newWidth
-        newGaussians[count].position = position
-        newGaussians[count].width = newWidth
-        if (!context.use2D) {
-          newGaussians[count].xBias = (newWidth / width) * xBias
-          newGaussians[count].yBias = (newWidth / width) * yBias
-        }
-      }
-    }
-    minValue = Math.min(minValue, position - width)
-    maxValue = Math.max(maxValue, position + width)
-  }
-  if (
-    colorRangeNormalized[0] < minValue ||
-    colorRangeNormalized[1] > maxValue
-  ) {
-    const newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-    const position = colorRangeNormalized[0] + newWidth
-    newGaussians[0].position = position
-    if (!context.use2D) {
-      newGaussians[0].xBias =
-        (newWidth / newGaussians[0].width) * newGaussians[0].xBias
-      newGaussians[0].yBias =
-        (newWidth / newGaussians[0].width) * newGaussians[0].yBias
-    }
-    newGaussians[0].width = newWidth
-  }
-
-  if (transferFunctionWidget) {
-    context.images.transferFunctionWidget.setDataRange(colorRange)
-    context.images.transferFunctionWidget.render()
-  }
-
-  context.service.send({
-    type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-    data: { name, component, gaussians: newGaussians }
-  })
 }
 
 export default applyColorRange

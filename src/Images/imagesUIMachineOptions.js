@@ -5,6 +5,8 @@ import applyHistogram from './applyHistogram'
 import ImagesInterface from './ImagesInterface'
 import updateImageInterface from './updateImageInterface'
 import updateRenderedImageInterface from './updateRenderedImageInterface'
+import selectImageComponent from './selectImageComponent'
+import { applyPiecewiseFunctionPointsToEditor } from './transferFunctionWidgetUtils'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -16,7 +18,9 @@ const imagesUIMachineOptions = {
     applyColorMap,
     applyPiecewiseFunctionGaussians,
 
-    applyHistogram
+    applyHistogram,
+    applyPiecewiseFunctionPointsToEditor,
+    selectImageComponent
   }
 }
 
