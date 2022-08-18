@@ -5,6 +5,15 @@ import MapWeightSelector from './MapWeightSelector'
 import '../style.css'
 import getSelectedImageContext from './getSelectedImageContext'
 
+const selectSelectedLabelImageWeight = (state) => {
+  const actorContext = getSelectedImageContext(state)
+  const { labelImageToggleWeight, labelImageWeights, selectedLabel } =
+    actorContext
+  return actorContext.selectedLabel === 'all'
+    ? labelImageToggleWeight
+    : labelImageWeights.get(selectedLabel) ?? 1
+}
+
 function LabelMapWeightWidget({ service }) {
   const labelImageWeightUIGroup = useRef(null)
   const weightSlider = useRef(null)
@@ -32,6 +41,11 @@ function LabelMapWeightWidget({ service }) {
         .selectedLabel
   )
 
+  const selectedLabelImageWeight = useSelector(
+    service,
+    selectSelectedLabelImageWeight
+  )
+
   useEffect(() => {
     service.machine.context.images.labelImageWeightUIGroup =
       labelImageWeightUIGroup.current
@@ -53,11 +67,6 @@ function LabelMapWeightWidget({ service }) {
       data: { name, labelImageWeights }
     })
   }
-
-  const selectedLabelImageWeight =
-    actorContext.selectedLabel === 'all'
-      ? actorContext.labelImageToggleWeight
-      : labelImageWeights.get(selectedLabel) ?? 1
 
   return (
     <div ref={labelImageWeightUIGroup} className="uiGroup">

@@ -7,6 +7,10 @@ import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import '../style.css'
+import getSelectedImageContext from './getSelectedImageContext'
+
+const selectLabelImageBlend = (state) =>
+  getSelectedImageContext(state).labelImageBlend
 
 function LabelImageColorWidget(props) {
   const { service } = props
@@ -19,9 +23,7 @@ function LabelImageColorWidget(props) {
     service,
     (state) => state.context.images.selectedName
   )
-  const actorContext = useSelector(service, (state) =>
-    state.context.images.actorContext.get(name)
-  )
+  const labelImageBlend = useSelector(service, selectLabelImageBlend)
 
   useEffect(() => {
     service.machine.context.images.labelImageColorUIGroup =
@@ -54,7 +56,7 @@ function LabelImageColorWidget(props) {
           className="slider"
           min={0}
           max={1}
-          value={actorContext.labelImageBlend}
+          value={labelImageBlend}
           step={0.01}
           onChange={(_e) => {
             blendChanged(_e.target.value)
