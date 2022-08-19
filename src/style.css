@@ -484,7 +484,7 @@ code.uiContainer {
   margin: 3px 0;
 }
 
-@media only screen and (max-height: 655px) {
+@media only screen and (max-height: 700px) {
   .uiSlidersGroup {
     width: calc(100% - 450px);
   }

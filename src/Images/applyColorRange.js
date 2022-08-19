@@ -7,7 +7,8 @@ function applyColorRange(context, event) {
 
   if (
     name !== context.images.selectedName ||
-    component !== actorContext.selectedComponent
+    component !== actorContext.selectedComponent ||
+    !context.images.transferFunctionManipulator
   ) {
     return
   }
