@@ -50,18 +50,28 @@ const updateContextPiecewiseFunction = (context, dataRange, points) => {
 }
 
 const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
-  let dataRange = [0, 255]
+  const getDataRange = () => {
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = actorContext.selectedComponent
+    const dataRange = actorContext.colorRangeBounds.get(component)
+    return dataRange ?? [0, 255]
+  }
 
   const update = () =>
-    updateContextPiecewiseFunction(context, dataRange, tfEditor.getPoints())
+    updateContextPiecewiseFunction(
+      context,
+      getDataRange(),
+      tfEditor.getPoints()
+    )
 
   const throttledUpdate = throttle(update, PIECEWISE_UPDATE_DELAY)
   tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
 
-  const getOpacityNodes = (range = dataRange) =>
+  const getOpacityNodes = (range = getDataRange()) =>
     getNodes(range, tfEditor.getPoints())
 
-  const getOpacityRange = (range = dataRange) =>
+  const getOpacityRange = (range = getDataRange()) =>
     getRange(range, getOpacityNodes(range))
 
   return {
@@ -71,7 +81,7 @@ const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
 
     setPoints(points) {
       tfEditor.setPoints(points)
-      updateContextPiecewiseFunction(context, dataRange, points)
+      updateContextPiecewiseFunction(context, getDataRange(), points)
     },
 
     getPoints() {
@@ -82,9 +92,7 @@ const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
       tfEditor.setViewBox(...newRange)
     },
 
-    setDataRange: (newRange) => {
-      dataRange = [...newRange]
-    },
+    setDataRange: () => undefined,
 
     getOpacityNodes,
     getOpacityRange,

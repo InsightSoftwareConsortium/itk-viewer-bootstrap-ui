@@ -1,3 +1,4 @@
+import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
 import applyHistogram from './applyHistogram'
 
@@ -7,6 +8,18 @@ function selectImageComponent(context, event) {
   const component = event.data.component
 
   const transferFunctionWidget = context.images.transferFunctionWidget
+
+  if (actorContext.colorRanges.has(component)) {
+    const range = actorContext.colorRanges.get(component)
+    applyColorRange(context, {
+      data: {
+        name,
+        component,
+        range,
+        dontUpdatePoints: true
+      }
+    })
+  }
 
   const piecewiseFunctionPoints =
     actorContext.piecewiseFunctionPoints.get(component)
