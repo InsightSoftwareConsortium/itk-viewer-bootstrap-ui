@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useSelector } from '@xstate/react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -80,14 +80,14 @@ function ComponentSelector({ service }) {
         <Button
           key={value}
           className={cn('componentTabs', {
-            checked: actorContext.selectedComponent === idx
+            checked: selectedComponent === idx
           })}
           onClick={() => {
             changeComponentVisibility(idx)
           }}
           variant="secondary"
         >
-          <Form.Group key={value} controlId="formBasicCheckbox">
+          <Form.Group key={value}>
             <Form.Check
               type="checkbox"
               label={idx + 1}
