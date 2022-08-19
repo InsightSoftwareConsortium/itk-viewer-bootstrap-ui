@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useSelector } from '@xstate/react'
 import {
   visibleIconDataUri,
@@ -15,17 +15,10 @@ import cn from 'classnames'
 import Badge from 'react-bootstrap/Badge'
 import '../style.css'
 
-function PlaneSliders(props) {
-  const { service } = props
-  const collapseUIButton = useSelector(
-    service,
-    (state) => state.context.main.collapseUIButton
-  )
-  const stateBackgroundColorEnabled = useSelector(
-    service,
-    (state) => state.context.main.selectedBackgroundColor
-  )
-  const send = service.send
+const planes = ['x', 'y', 'z']
+
+function PlaneSliders({ service }) {
+  const { send } = service
   const xVisibility = useRef(null)
   const yVisibility = useRef(null)
   const zVisibility = useRef(null)
@@ -33,28 +26,18 @@ function PlaneSliders(props) {
   const yScroll = useRef(null)
   const zScroll = useRef(null)
   const planeSliders = useRef(null)
-  const planes = ['x', 'y', 'z']
   const visRefs = [xVisibility, yVisibility, zVisibility]
   const scrollRefs = [xScroll, yScroll, zScroll]
   const slicingPlanes = useSelector(
     service,
     (state) => state.context.main.slicingPlanes
   )
-  const [slidersClass, setClass] = useState(0)
 
-  const stateContextUiDrawer = useSelector(
-    service,
-    (state) => state.context.uiDrawer
-  )
   const stateContextUiCollapsed = useSelector(
     service,
     (state) => state.context.uiCollapsed
   )
   const stateContextUse2D = useSelector(service, (state) => state.context.use2D)
-  const stateContextContainerClientHeight = useSelector(
-    service,
-    (state) => state.context.container.clientHeight
-  )
 
   // Force re-render so sliders disappear in 2D mode
   const viewMode = useSelector(service, (state) => state.context.main.viewMode)
@@ -73,37 +56,14 @@ function PlaneSliders(props) {
   )
 
   // Force re-render for play/pause button
-  const slicingPlanesScroll = planes.map((plane) =>
-    useSelector(
-      service,
-      (state) => state.context.main.slicingPlanes[`${plane}`].scroll
-    )
+  const slicingPlanesScroll = useSelector(
+    service,
+    (state) =>
+      planes.map(
+        (plane) => state.context.main.slicingPlanes[`${plane}`].scroll
+      ),
+    (a, b) => a.length === b.length && a.every((x, i) => x === b[i])
   )
-
-  useEffect(() => {
-    const onResize = () => getClass()
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener(onResize)
-  }, [])
-
-  useEffect(() => {
-    getClass()
-  }, [stateContextUiDrawer?.clientHeight])
-
-  const getClass = () => {
-    if (stateContextUiCollapsed) {
-      setClass('hiddenSlider')
-    }
-    const containerHeight = stateContextContainerClientHeight
-    const panelHeight = stateContextUiDrawer?.clientHeight || 0
-    const slidersHeight = planeSliders.current?.clientHeight || 0
-    const panel_offset = collapseUIButton?.parentNode?.clientHeight || 0
-    if (containerHeight - (panelHeight + panel_offset) < slidersHeight) {
-      setClass('uiSlidersGroupCondensed')
-    } else {
-      setClass('uiSlidersGroup')
-    }
-  }
 
   const toggleVisibility = (plane) => {
     slicingPlanes[plane].visible = !slicingPlanes[plane].visible
@@ -133,6 +93,10 @@ function PlaneSliders(props) {
     }
     return ''
   }
+
+  const slidersClass = cn('uiSlidersGroup', {
+    hiddenSlider: stateContextUiCollapsed
+  })
 
   return (
     <div ref={planeSliders} className={slidersClass}>

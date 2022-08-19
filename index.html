@@ -24,12 +24,12 @@
     ></div>
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/itk-vtk-viewer@14.9/dist/itkVtkViewer.js"
+      src="https://cdn.jsdelivr.net/npm/itk-vtk-viewer@14/dist/itkVtkViewer.js"
     ></script>
     <script>
       const container = document.querySelector('.content')
       const image = new URL(
-        'http://localhost:8082/test-data/ome-ngff-prototypes/single_image/v0.4/tczyx.ome.zarr',
+        './test-data/HeadMRVolume.nrrd',
         document.location.origin
       )
       const labelImage = new URL(
@@ -45,7 +45,7 @@
       }
       itkVtkViewer.createViewer(container, {
         image,
-        // labelImage,
+        labelImage,
         rotate: false,
         config: { uiMachineOptions }
       })
