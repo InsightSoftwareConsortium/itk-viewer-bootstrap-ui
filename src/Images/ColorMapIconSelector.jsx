@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useSelector } from '@xstate/react'
 import ColorMapPresetIcons from '../ColorMapPresetIcons'
 import '../style.css'
@@ -55,10 +55,7 @@ function ColorMapIconSelector(props) {
   const currentColorMap = () => {
     if (actorContext) {
       const component = actorContext.selectedComponent
-      const lookupTableProxies = imagesLookupTableProxies
-      if (lookupTableProxies) {
-        return lookupTableProxies.get(component).getPresetName()
-      }
+      return imagesLookupTableProxies?.get(component)?.getPresetName() ?? ''
     }
     return ''
   }

@@ -8,16 +8,19 @@ function applyColorMap(context, event) {
 
   if (
     name !== context.images.selectedName ||
-    component !== actorContext.selectedComponent
+    component !== actorContext.selectedComponent ||
+    !context.images.lookupTableProxies
   ) {
     return
   }
 
-  if (!!!context.images.lookupTableProxies) {
-    return
+  let lookupTableProxy = null
+  if (context.images.lookupTableProxies.has(component)) {
+    lookupTableProxy = context.images.lookupTableProxies.get(component)
+  } else {
+    lookupTableProxy = vtkLookupTableProxy.newInstance()
+    context.images.lookupTableProxies.set(component, lookupTableProxy)
   }
-
-  const lookupTableProxy = context.images.lookupTableProxies.get(component)
   const currentColorMap = lookupTableProxy.getPresetName()
   if (currentColorMap !== colorMap) {
     lookupTableProxy.setPresetName(colorMap)
@@ -28,13 +31,6 @@ function applyColorMap(context, event) {
       colorTransferFunction.setMappingRange(range[0], range[1])
       colorTransferFunction.updateRange()
     }
-  }
-  const transferFunctionWidget = context.images.transferFunctionWidget
-  if (transferFunctionWidget) {
-    transferFunctionWidget.setColorTransferFunction(
-      lookupTableProxy.getLookupTable()
-    )
-    transferFunctionWidget.render()
   }
 }
 
