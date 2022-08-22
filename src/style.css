@@ -178,6 +178,13 @@ code.uiContainer {
   background-color: transparent !important;
 }
 
+.icon {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  margin-right: 10px;
+  width: 1.2rem;
+}
+
 .iconWithSlider {
   width: 100%;
   display: flex;

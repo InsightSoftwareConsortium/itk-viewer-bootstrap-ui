@@ -73,7 +73,7 @@ function ComponentSelector({ service }) {
 
   return (
     <div
-      className={`uiRow ${showSelector()} uiSelector`}
+      className={`${showSelector()} uiSelector`}
       style={{ marginBottom: '0px' }}
     >
       {[...Array(components).keys()].map((value, idx) => (
