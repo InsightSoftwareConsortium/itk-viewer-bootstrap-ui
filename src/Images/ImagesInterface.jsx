@@ -7,6 +7,7 @@ import LabelMapWeightWidget from './LabelMapWeightWidget'
 import TransferFunctionWidget from './TransferFunctionWidget'
 import VolumeRenderingInputs from './VolumeRenderingInputs'
 import '../style.css'
+import ScaleSelector from './ScaleSelector'
 
 function ImagesInterface(props) {
   const { service } = props
@@ -48,13 +49,21 @@ function ImagesInterface(props) {
     return false
   }
 
-  const isLabelOnly = () => {
-    const type = layersContext.type
-    if (type === 'labelImage') {
-      return true
-    }
-    return false
-  }
+  const isLabelOnly = layersContext?.type === 'labelImage'
+
+  const components = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(name)?.image?.imageType.components
+  )
+
+  const showComponentSelector =
+    components > 1 && actorContext.independentComponents
+
+  const image = actorContext?.image ?? actorContext?.labelImage
+  const scaleCount = image?.scaleInfo.length
+  const showScaleSelector = scaleCount > 1
+  const needScaleComponentRow = showScaleSelector || showComponentSelector
 
   return (
     <div className={visible() ? '' : 'hidden'}>
@@ -62,8 +71,14 @@ function ImagesInterface(props) {
         <div>
           <div ref={imagesUIGroup} className="uiGroup uiImages">
             <ColorRangeInput {...props} />
-            <ComponentSelector {...props} />
-            {!isLabelOnly() && (
+            {needScaleComponentRow && (
+              <div className="uiRow">
+                <ComponentSelector {...props} />
+                {showScaleSelector && <ScaleSelector {...props} />}
+              </div>
+            )}
+
+            {!isLabelOnly && (
               <div>
                 <TransferFunctionWidget {...props} />
                 <VolumeRenderingInputs {...props} />

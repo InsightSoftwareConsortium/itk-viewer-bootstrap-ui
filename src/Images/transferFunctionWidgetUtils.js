@@ -91,8 +91,8 @@ export const setup = (context, container) => {
     transferFunctionWidget.setPoints(newPoints)
   }
   // max as 1.01 not 1.0 to allow for squishing of low function points if a point is already at 1
-  pwfRangeManipulator.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
-  pwfRangeManipulatorShift.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
+  pwfRangeManipulator.setVerticalListener(0, 1.1, 0.01, pwfGet, pwfSet)
+  pwfRangeManipulatorShift.setVerticalListener(0, 1.1, 0.01, pwfGet, pwfSet)
   ;[rangeManipulator, pwfRangeManipulator, pwfRangeManipulatorShift].forEach(
     (m) => {
       context.itkVtkView.getInteractorStyle2D().addMouseManipulator(m)
