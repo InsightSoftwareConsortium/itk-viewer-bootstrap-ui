@@ -61,7 +61,6 @@ function ScaleSelector({ service }) {
         style={{
           display: 'flex',
           alignSelf: 'center',
-          height: '25px',
           marginRight: '5px'
         }}
       >
