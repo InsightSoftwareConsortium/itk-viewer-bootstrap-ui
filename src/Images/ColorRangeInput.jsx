@@ -80,7 +80,7 @@ function ColorRangeInput(props) {
     actorContext.selectedComponent
   ) {
     ;[rangeMin, rangeMax] =
-      actorContext.image.scaleInfo[actorContext.renderedScale].ranges[
+      actorContext.image.scaleInfo[actorContext.loadedScale].ranges[
         actorContext.selectedComponent
       ]
   } else if (

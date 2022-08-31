@@ -13,15 +13,14 @@ const selectScaleCount = (state) => {
   return loadedImage.scaleInfo.length
 }
 
-const selectRenderedScale = (state) => {
-  return getSelectedImageContext(state)?.renderedScale
+const selectLoadedScale = (state) => {
+  return getSelectedImageContext(state)?.loadedScale
 }
 
 function ScaleSelector({ service }) {
   const scaleCount = useSelector(service, selectScaleCount)
-  const renderedScale = useSelector(service, selectRenderedScale)
-  // const isAdjustingScale = useSelector(service, adjustingScaleSelector)
-  const [lastUserSelection, setLastUserSelection] = useState(undefined)
+  const loadedScale = useSelector(service, selectLoadedScale)
+  const [lastUserSelection, setLastUserSelection] = useState('Framerate-pick')
 
   const handleSelection = (event) => {
     const context = service.state.context
@@ -32,7 +31,7 @@ function ScaleSelector({ service }) {
       imageActor.send('ADJUST_SCALE_FOR_FRAMERATE')
     } else {
       imageActor.send('SET_IMAGE_SCALE', {
-        renderedScale: parseInt(event.target.value)
+        targetScale: parseInt(event.target.value)
       })
     }
     setLastUserSelection(event.target.value)
@@ -50,7 +49,7 @@ function ScaleSelector({ service }) {
   }, [service])
 
   // use lastUserSelection until image update event
-  const selectedScale = lastUserSelection ?? renderedScale
+  const selectedScale = lastUserSelection ?? loadedScale
   return (
     <OverlayTrigger
       transition={false}
