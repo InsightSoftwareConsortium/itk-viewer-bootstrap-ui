@@ -1,8 +1,8 @@
-import { throttle } from '@kitware/vtk.js/macros'
 import {
   TransferFunctionEditor,
   windowPointsForSort
 } from 'itk-viewer-transfer-function-editor'
+import { throttle } from './throttle'
 
 const PIECEWISE_UPDATE_DELAY = 100
 
