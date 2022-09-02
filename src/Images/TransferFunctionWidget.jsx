@@ -34,8 +34,9 @@ function TransferFunctionWidget({ service }) {
   )
   useEffect(() => {
     if (transferFunctionWidget.current && lookupTable) {
-      const tfWidget = transferFunctionWidget.current
-      tfWidget.setColorTransferFunction(lookupTable.getLookupTable())
+      transferFunctionWidget.current.setColorTransferFunction(
+        lookupTable.getLookupTable()
+      )
     }
   }, [transferFunctionWidget, presetNameToTriggerUpdate, lookupTable])
 

@@ -14,8 +14,7 @@ function selectImageComponent(context, event) {
       data: {
         name,
         component,
-        range,
-        dontUpdatePoints: true
+        range
       }
     })
   }
