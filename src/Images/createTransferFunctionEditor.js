@@ -1,27 +1,9 @@
-import {
-  TransferFunctionEditor,
-  windowPointsForSort
-} from 'itk-viewer-transfer-function-editor'
+import { TransferFunctionEditor } from 'itk-viewer-transfer-function-editor'
 import { throttle } from './throttle'
 
 const PIECEWISE_UPDATE_DELAY = 100
 
-export const getNodes = (range, points) => {
-  const delta = range[1] - range[0]
-  const windowedPoints = windowPointsForSort(points)
-  return windowedPoints.map(([x, y]) => ({
-    x: range[0] + delta * x,
-    y,
-    midpoint: 0.5,
-    sharpness: 0
-  }))
-}
-
-// grab head and tail or fallback to data range if 1 or less points
-const getRange = (dataRange, nodes) =>
-  nodes.length > 1 ? [nodes[0].x, nodes[nodes.length - 1].x] : dataRange
-
-const updateContextPiecewiseFunction = (context, dataRange, points) => {
+const updateContextPiecewiseFunction = (context, points) => {
   if (!context.images.piecewiseFunctions) return // not ready yet
 
   const name = context.images.selectedName
@@ -35,44 +17,14 @@ const updateContextPiecewiseFunction = (context, dataRange, points) => {
       points
     }
   })
-
-  const nodes = getNodes(dataRange, points)
-  const range = getRange(dataRange, nodes)
-  context.service.send({
-    type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
-    data: {
-      name,
-      component,
-      range,
-      nodes
-    }
-  })
 }
 
 const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
-  const getDataRange = () => {
-    const name = context.images.selectedName
-    const actorContext = context.images.actorContext.get(name)
-    const component = actorContext.selectedComponent
-    const dataRange = actorContext.colorRangeBounds.get(component)
-    return dataRange ?? [0, 255]
-  }
-
   const update = () =>
-    updateContextPiecewiseFunction(
-      context,
-      getDataRange(),
-      tfEditor.getPoints()
-    )
+    updateContextPiecewiseFunction(context, tfEditor.getPoints())
 
   const throttledUpdate = throttle(update, PIECEWISE_UPDATE_DELAY)
   tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
-
-  const getOpacityNodes = (range = getDataRange()) =>
-    getNodes(range, tfEditor.getPoints())
-
-  const getOpacityRange = (range = getDataRange()) =>
-    getRange(range, getOpacityNodes(range))
 
   return {
     setColorTransferFunction: (tf) => {
@@ -80,8 +32,16 @@ const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
     },
 
     setPoints(points) {
-      tfEditor.setPoints(points)
-      updateContextPiecewiseFunction(context, getDataRange(), points)
+      // tfEditor.setPoints recreates them and they loose their "grabbed" state
+      // so ignore events coming down triggered by user dragging points
+      const currentPoints = tfEditor.getPoints()
+      const arePointsModified =
+        points.length !== currentPoints.length ||
+        points.some(([newX, newY], idx) => {
+          const [oldX, oldY] = currentPoints[idx]
+          return newX !== oldX || newY !== oldY
+        })
+      if (arePointsModified) tfEditor.setPoints(points)
     },
 
     getPoints() {
@@ -92,10 +52,6 @@ const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
       tfEditor.setViewBox(...newRange)
     },
 
-    setDataRange: () => undefined,
-
-    getOpacityNodes,
-    getOpacityRange,
     setHistogram: (h) => tfEditor.setHistogram(h),
     render: () => undefined,
 
