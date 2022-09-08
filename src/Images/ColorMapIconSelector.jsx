@@ -50,7 +50,7 @@ function ColorMapIconSelector({ service }) {
     const name = selectedName
     const componentIndex = actorContext.selectedComponent
     send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
+      type: 'IMAGE_COLOR_MAP_SELECTED',
       data: { name, component: componentIndex, colorMap }
     })
   }
