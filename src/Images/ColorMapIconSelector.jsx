@@ -17,10 +17,21 @@ const colorMapIcons = Array.from(ColorMapPresetIcons).map(([name, icon]) => ({
   icon
 }))
 
-function ColorMapIconSelector(props) {
-  const { service } = props
-  const iconSelector = useRef(null)
-  const send = service.send
+const selectColorMap = (state) => {
+  const actorContext = getSelectedImageContext(state)
+  if (actorContext) {
+    const component = actorContext.selectedComponent
+    return (
+      state.context.images.lookupTableProxies
+        ?.get(component)
+        ?.getPresetName() ?? ''
+    )
+  }
+  return ''
+}
+
+function ColorMapIconSelector({ service }) {
+  const { send } = service
   const selectedName = useSelector(
     service,
     (state) => state.context.images.selectedName
@@ -30,59 +41,25 @@ function ColorMapIconSelector(props) {
     getSelectedImageContext(state)
   )
 
-  const imagesLookupTableProxies = useSelector(
-    service,
-    (state) => state.context.images.lookupTableProxies
-  )
+  const colorMap = useSelector(service, selectColorMap)
 
-  // hack to make overlayimage pick up on color change and change icon
-  // ideally use shallowEqual as a third entry for useSelector for newer versions
-  const colorMapsSize = useSelector(
-    service,
-    (state) =>
-      state.context.images.actorContext.get(selectedName).colorMaps.size
-  )
-  const colorMaps = []
-
-  for (let i = 0; i < colorMapsSize; i++) {
-    colorMaps.push(
-      useSelector(service, (state) =>
-        state.context.images.actorContext.get(selectedName).colorMaps.get(i)
-      )
-    )
-  }
-
-  const currentColorMap = () => {
-    if (actorContext) {
-      const component = actorContext.selectedComponent
-      return imagesLookupTableProxies?.get(component)?.getPresetName() ?? ''
-    }
-    return ''
-  }
-
-  const name = currentColorMap()
   const { icon } =
-    colorMapIcons.find(({ name: mapName }) => name === mapName) ??
-    colorMapIcons[0]
+    colorMapIcons.find(({ name }) => colorMap === name) ?? colorMapIcons[0]
 
   const handleChange = (colorMap) => {
     const name = selectedName
     const componentIndex = actorContext.selectedComponent
     send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
+      type: 'IMAGE_COLOR_MAP_SELECTED',
       data: { name, component: componentIndex, colorMap }
     })
   }
 
   return (
-    <OverlayTrigger
-      transition={false}
-      overlay={<Tooltip>{currentColorMap()}</Tooltip>}
-    >
+    <OverlayTrigger transition={false} overlay={<Tooltip>{colorMap}</Tooltip>}>
       <Navbar
         bg="light"
         variant="light"
-        ref={iconSelector}
         className="categoricalMenuForm"
         style={{ width: 'auto', margin: '0 5px' }}
       >

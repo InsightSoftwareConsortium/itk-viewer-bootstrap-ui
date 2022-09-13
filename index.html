@@ -43,12 +43,16 @@
           document.location.origin
         ).href
       }
-      itkVtkViewer.createViewer(container, {
-        image,
-        labelImage,
-        rotate: false,
-        config: { uiMachineOptions }
-      })
+      itkVtkViewer
+        .createViewer(container, {
+          image,
+          labelImage,
+          rotate: false,
+          config: { uiMachineOptions }
+        })
+        .then((viewer) => {
+          window.viewer = viewer
+        })
     </script>
   </body>
 </html>

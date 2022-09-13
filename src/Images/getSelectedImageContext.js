@@ -1,7 +1,4 @@
-function getSelectedImageContext(state) {
-  return state.context.images.actorContext.get(
-    state.context.images.selectedName
-  )
-}
+export const getSelectedImageContext = (state) =>
+  state.context.images.actorContext.get(state.context.images.selectedName)
 
 export default getSelectedImageContext

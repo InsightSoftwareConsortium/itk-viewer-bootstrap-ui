@@ -1,8 +1,6 @@
-import applyColorRange from './applyColorRange'
-import applyColorMap from './applyColorMap'
 import applyHistogram from './applyHistogram'
+import applyColorRange from './applyColorRange'
 import ImagesInterface from './ImagesInterface'
-import updateImageInterface from './updateImageInterface'
 import updateRenderedImageInterface from './updateRenderedImageInterface'
 import selectImageComponent from './selectImageComponent'
 import { applyPiecewiseFunctionPointsToEditor } from './transferFunctionWidgetUtils'
@@ -10,11 +8,9 @@ import { applyPiecewiseFunctionPointsToEditor } from './transferFunctionWidgetUt
 const imagesUIMachineOptions = {
   actions: {
     ImagesInterface,
-    updateImageInterface,
     updateRenderedImageInterface,
 
     applyColorRange,
-    applyColorMap,
 
     applyHistogram,
     applyPiecewiseFunctionPointsToEditor,
