@@ -3,10 +3,7 @@ function updateRenderedImageInterface(context, event) {
   const actorContext = context.images.actorContext.get(name)
   const { transferFunctionWidget } = context.images
 
-  if (!transferFunctionWidget) {
-    console.warn('No transfer function widget')
-    return
-  }
+  if (!transferFunctionWidget) return // no widget if just label image loaded
 
   const points = actorContext.piecewiseFunctionPoints.get(
     actorContext.selectedComponent
