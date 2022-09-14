@@ -22,7 +22,7 @@ function applyColorRange(context, event) {
     (colorRange[0] - fullRange[0]) / diff,
     (colorRange[1] - fullRange[0]) / diff
   ]
-  context.images.transferFunctionWidget.setRangeZoom(colorRangeNormalized)
+  context.images?.transferFunctionWidget.setRangeZoom(colorRangeNormalized)
 }
 
 export default applyColorRange
