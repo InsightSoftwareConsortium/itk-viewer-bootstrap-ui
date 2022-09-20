@@ -10,6 +10,8 @@ import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
 import ViewModeButtons from './ViewModeButtons'
 import ViewPlanesToggle from './ViewPlanesToggle'
+import CroppingPlanesToggle from './CroppingPlanesToggle'
+import CroppingPlanesReset from './CroppingPlanesReset'
 import '../style.css'
 
 const STYLE = { width: '20%' }
@@ -32,11 +34,16 @@ function MainInterface(props) {
           {!use2D && <ViewPlanesToggle {...props} />}
           <BackgroundColorButton {...props} />
           {use2D && <ResetCameraButton {...props} />}
+          {use2D && <CroppingPlanesToggle {...props} />}
+          {use2D && <CroppingPlanesReset {...props} />}
         </div>
+
         {!use2D && (
           <div className="mainUIRow">
             <ViewModeButtons {...props} />
             <ResetCameraButton style={STYLE} {...props} />
+            <CroppingPlanesToggle {...props} />
+            <CroppingPlanesReset {...props} />
           </div>
         )}
       </div>
