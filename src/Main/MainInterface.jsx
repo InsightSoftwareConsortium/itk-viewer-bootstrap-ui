@@ -14,8 +14,6 @@ import CroppingPlanesToggle from './CroppingPlanesToggle'
 import CroppingPlanesReset from './CroppingPlanesReset'
 import '../style.css'
 
-const STYLE = { width: '20%' }
-
 function MainInterface(props) {
   const { service } = props
   const mainUIGroup = useRef(null)
@@ -41,9 +39,9 @@ function MainInterface(props) {
         {!use2D && (
           <div className="mainUIRow">
             <ViewModeButtons {...props} />
-            <ResetCameraButton style={STYLE} {...props} />
             <CroppingPlanesToggle {...props} />
             <CroppingPlanesReset {...props} />
+            <ResetCameraButton {...props} />
           </div>
         )}
       </div>
