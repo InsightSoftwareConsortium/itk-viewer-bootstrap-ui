@@ -4,7 +4,6 @@ import AnnotationsButton from './AnnotationsButton'
 import AxesButton from './AxesButton'
 import BackgroundColorButton from './BackgroundColorButton'
 import FullscreenButton from './FullscreenButton'
-import PlaneSliders from './PlaneSliders'
 import ResetCameraButton from './ResetCameraButton'
 import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
@@ -45,7 +44,6 @@ function MainInterface(props) {
           </div>
         )}
       </div>
-      <PlaneSliders {...props} />
     </div>
   )
 }
