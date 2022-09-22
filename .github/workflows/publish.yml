@@ -30,6 +30,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm run prettier
     - name: Release
+      if: github.ref == 'refs/heads/main' && '${{ matrix.node-version }}' == '18.x' && '${{ matrix.os }}' == 'ubuntu-latest'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
