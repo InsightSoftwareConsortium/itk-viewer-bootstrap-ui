@@ -94,7 +94,7 @@ function PlaneSliders({ service }) {
     return ''
   }
 
-  const slidersClass = cn('uiSlidersGroup', {
+  const slidersClass = cn({
     hiddenSlider: stateContextUiCollapsed
   })
 

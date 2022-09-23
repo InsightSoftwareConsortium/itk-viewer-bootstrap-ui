@@ -433,32 +433,47 @@ code.uiContainer {
   opacity: 0.45;
 }
 
-/* .tooltipButtonBrightBG::before {
-} */
-
 .tooltipButtonDarkBG::before {
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }
 
 .uiContainer {
-  display: flex;
-  align-items: stretch;
-  flex-direction: column;
-  justify-content: space-between;
-  position: absolute;
+  height: 100%;
+}
+
+.sidePanel {
+  position: relative;
   top: 5px;
   left: 5px;
   padding: 2px;
-  border: 0px;
-  box-sizing: border-box;
   z-index: 1000;
+
+  width: fit-content;
+  height: 100%;
+  overflow: auto;
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+
+.footer {
+  background: transparent;
+  position: fixed;
+  bottom: 0;
+  right: 6px;
+  width: calc(100% - 90px);
+  margin: 3px 0;
+}
+
+@media only screen and (max-height: 700px) {
+  .footer {
+    width: calc(100% - 450px);
+  }
 }
 
 .uiGroup {
@@ -480,21 +495,6 @@ code.uiContainer {
 
 .uiSelector {
   justify-content: left;
-}
-
-.uiSlidersGroup {
-  background: transparent;
-  position: fixed;
-  bottom: 0;
-  right: 6px;
-  width: calc(100% - 90px);
-  margin: 3px 0;
-}
-
-@media only screen and (max-height: 700px) {
-  .uiSlidersGroup {
-    width: calc(100% - 450px);
-  }
 }
 
 .viewContainer {

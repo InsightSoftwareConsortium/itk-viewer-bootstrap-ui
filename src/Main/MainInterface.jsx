@@ -4,7 +4,6 @@ import AnnotationsButton from './AnnotationsButton'
 import AxesButton from './AxesButton'
 import BackgroundColorButton from './BackgroundColorButton'
 import FullscreenButton from './FullscreenButton'
-import PlaneSliders from './PlaneSliders'
 import ResetCameraButton from './ResetCameraButton'
 import RotateButton from './RotateButton'
 import ScreenshotButton from './ScreenshotButton'
@@ -13,8 +12,6 @@ import ViewPlanesToggle from './ViewPlanesToggle'
 import CroppingPlanesToggle from './CroppingPlanesToggle'
 import CroppingPlanesReset from './CroppingPlanesReset'
 import '../style.css'
-
-const STYLE = { width: '20%' }
 
 function MainInterface(props) {
   const { service } = props
@@ -41,13 +38,12 @@ function MainInterface(props) {
         {!use2D && (
           <div className="mainUIRow">
             <ViewModeButtons {...props} />
-            <ResetCameraButton style={STYLE} {...props} />
             <CroppingPlanesToggle {...props} />
             <CroppingPlanesReset {...props} />
+            <ResetCameraButton {...props} />
           </div>
         )}
       </div>
-      <PlaneSliders {...props} />
     </div>
   )
 }
