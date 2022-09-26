@@ -12,14 +12,16 @@ function App({ service }) {
   return (
     <>
       <div className="sidePanel">
-        <AppToolbar service={service} />
-        <Panel service={service}>
-          <MainInterface />
-          <LayersInterface />
-          <WidgetsInterface />
-          <ImagesInterface />
-          <PointSetInterface />
-        </Panel>
+        <div className="interactive-root">
+          <AppToolbar service={service} />
+          <Panel service={service}>
+            <MainInterface />
+            <LayersInterface />
+            <WidgetsInterface />
+            <ImagesInterface />
+            <PointSetInterface />
+          </Panel>
+        </div>
       </div>
 
       <div className="footer">
