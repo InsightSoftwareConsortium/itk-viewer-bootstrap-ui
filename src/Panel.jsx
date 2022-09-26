@@ -17,7 +17,7 @@ function Panel(props) {
   }, [uiPanel, uiDrawer, service.state.context])
 
   return (
-    <div ref={uiPanel} className="root">
+    <div ref={uiPanel}>
       <Collapse in={!uiCollapsed}>
         <Container fluid>
           <Row>

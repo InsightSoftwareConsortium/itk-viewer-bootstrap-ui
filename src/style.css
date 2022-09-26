@@ -447,7 +447,6 @@ code.uiContainer {
   top: 5px;
   left: 5px;
   padding: 2px;
-  z-index: 1000;
 
   width: fit-content;
   height: 100%;
@@ -462,12 +461,17 @@ code.uiContainer {
 
 
 .footer {
-  background: transparent;
   position: fixed;
   bottom: 0;
   right: 6px;
   width: calc(100% - 90px);
   margin: 3px 0;
+  z-index: 101;
+}
+
+.interactive-root {
+  position: relative;
+  z-index: 101;
 }
 
 @media only screen and (max-height: 700px) {
