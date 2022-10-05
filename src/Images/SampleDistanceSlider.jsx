@@ -13,9 +13,7 @@ function SampleDistanceSlider(props) {
   const spacingDiv = useRef(null)
   const spacingElement = useRef(null)
   const stateContext = useSelector(service, (state) => state.context)
-  const send = service.send
-  const name = stateContext.images.selectedName
-  const actorContext = stateContext.images.actorContext.get(name)
+  const { send } = service
   const volumeSampleDistance = useSelector(
     service,
     (state) =>
