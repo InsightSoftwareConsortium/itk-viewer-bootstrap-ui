@@ -457,6 +457,7 @@ code.uiContainer {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  z-index: 100;
 }
 
 
