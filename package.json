@@ -25,7 +25,7 @@
     "classnames": "^2.3.1",
     "husky": "^7.0.4",
     "itk-viewer-icons": "^11.12.0",
-    "itk-viewer-transfer-function-editor": "^1.1.4",
+    "itk-viewer-transfer-function-editor": "^1.2.0",
     "prettier": "^2.5.0",
     "pydata_sphinx_theme": "github:pydata/pydata-sphinx-theme#2d9c495",
     "react": "^17.0.0",
