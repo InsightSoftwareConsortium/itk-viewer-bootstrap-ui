@@ -2,6 +2,8 @@ import React from 'react'
 import { useSelector } from '@xstate/react'
 import getSelectedImageContext from './getSelectedImageContext'
 import Form from 'react-bootstrap/Form'
+import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { volumeScatteringIconDataUri } from 'itk-viewer-icons'
 
 function CinematicParameters({ service }) {
   const scatteringBlend = useSelector(service, (state) => {
@@ -26,7 +28,14 @@ function CinematicParameters({ service }) {
 
   return (
     <div className="iconWithSlider">
-      <span style={{ marginRight: '4px' }}>Volumetric Scattering</span>
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Volume Scattering</Tooltip>}
+      >
+        <div className="icon-image">
+          <Image src={volumeScatteringIconDataUri}></Image>
+        </div>
+      </OverlayTrigger>
       <Form.Control
         type="range"
         custom
