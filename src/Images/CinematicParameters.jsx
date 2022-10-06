@@ -26,11 +26,16 @@ function CinematicParameters({ service }) {
     })
   }
 
+  const disabledReason = isCinematicPossible
+    ? ''
+    : ' only supported for 1 component images'
+  const tooltipMessage = 'Volume Scattering' + disabledReason
+
   return (
     <div className="iconWithSlider">
       <OverlayTrigger
         transition={false}
-        overlay={<Tooltip>Volume Scattering</Tooltip>}
+        overlay={<Tooltip>{tooltipMessage}</Tooltip>}
       >
         <div className="icon-image">
           <Image src={volumeScatteringIconDataUri}></Image>
