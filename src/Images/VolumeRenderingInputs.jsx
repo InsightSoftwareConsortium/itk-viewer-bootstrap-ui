@@ -9,7 +9,7 @@ import '../style.css'
 import getSelectedImageContext from './getSelectedImageContext'
 
 function VolumeRenderingInputs(props) {
-  const { service } = props
+  const { service, advancedInputs } = props
 
   const volumeMenu = useSelector(service, (state) => {
     const actorContext = getSelectedImageContext(state)
@@ -17,6 +17,13 @@ function VolumeRenderingInputs(props) {
   })
 
   const use2D = useSelector(service, (state) => state.context.use2D)
+
+  const advancedInputContent = (
+    <div className="uiRow">
+      <SampleDistanceSlider {...props} />
+      <BlendModeSelector {...props} />
+    </div>
+  )
 
   return (
     volumeMenu !== undefined &&
@@ -26,10 +33,7 @@ function VolumeRenderingInputs(props) {
           <ShadowToggle {...props} />
           <GradientOpacitySlider {...props} />
         </div>
-        <div className="uiRow">
-          <SampleDistanceSlider {...props} />
-          <BlendModeSelector {...props} />
-        </div>
+        {advancedInputs && advancedInputContent}
         <div className="uiRow">
           <CinematicParameters {...props} />
         </div>
