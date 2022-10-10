@@ -18,7 +18,7 @@ function App({ service }) {
             <MainInterface />
             <LayersInterface />
             <WidgetsInterface />
-            <ImagesInterface />
+            <ImagesInterface advancedInputs={false} />
             <PointSetInterface />
           </Panel>
         </div>
