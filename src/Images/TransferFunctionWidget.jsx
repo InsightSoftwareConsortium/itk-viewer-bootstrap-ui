@@ -13,7 +13,8 @@ const selectColorMap = (state) => {
   return [colorTransferFunction, colorMap]
 }
 
-const colorMapCompare = ([, oldName], [, newName]) => oldName === newName
+const colorMapCompare = ([oldColorTF, oldName], [newColorTF, newName]) =>
+  oldColorTF === newColorTF && oldName === newName
 
 const selectColorRangeNormalized = (state) => {
   const { selectedComponent, colorRanges, colorRangeBounds } =
