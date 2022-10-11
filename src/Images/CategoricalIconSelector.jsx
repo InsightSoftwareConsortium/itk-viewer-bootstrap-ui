@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from '@xstate/react'
-import CategoricalPresetIcons from '../CategoricalPresetIcons'
+import { CategoricalColorIcons } from 'itk-viewer-color-maps'
 import '../style.css'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
@@ -28,7 +28,7 @@ function CategoricalIconSelector(props) {
     (state) => state.context.images.selectedName
   )
   let categoricalPresetIcons = []
-  CategoricalPresetIcons.forEach((value, key) => {
+  CategoricalColorIcons.forEach((value, key) => {
     categoricalPresetIcons.push({
       name: key,
       icon: value

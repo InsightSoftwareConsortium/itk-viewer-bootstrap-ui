@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useSelector } from '@xstate/react'
-import ColorMapPresetIcons from '../ColorMapPresetIcons'
+import { ColorMapIcons } from 'itk-viewer-color-maps'
 import '../style.css'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
@@ -12,7 +12,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import getSelectedImageContext from './getSelectedImageContext'
 
-const colorMapIcons = Array.from(ColorMapPresetIcons).map(([name, icon]) => ({
+const colorMapIcons = Array.from(ColorMapIcons).map(([name, icon]) => ({
   name,
   icon
 }))
@@ -22,9 +22,8 @@ const selectColorMap = (state) => {
   if (actorContext) {
     const component = actorContext.selectedComponent
     return (
-      state.context.images.lookupTableProxies
-        ?.get(component)
-        ?.getPresetName() ?? ''
+      actorContext.colorMaps
+        ?.get(component) ?? ''
     )
   }
   return ''
@@ -50,7 +49,7 @@ function ColorMapIconSelector({ service }) {
     const name = selectedName
     const componentIndex = actorContext.selectedComponent
     send({
-      type: 'IMAGE_COLOR_MAP_SELECTED',
+      type: 'IMAGE_COLOR_MAP_CHANGED',
       data: { name, component: componentIndex, colorMap }
     })
   }
