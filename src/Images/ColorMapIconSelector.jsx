@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { useSelector } from '@xstate/react'
 import { ColorMapIcons } from 'itk-viewer-color-maps'
 import '../style.css'
@@ -6,7 +6,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Image from 'react-bootstrap/Image'
-import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
@@ -21,10 +20,7 @@ const selectColorMap = (state) => {
   const actorContext = getSelectedImageContext(state)
   if (actorContext) {
     const component = actorContext.selectedComponent
-    return (
-      actorContext.colorMaps
-        ?.get(component) ?? ''
-    )
+    return actorContext.colorMaps?.get(component) ?? ''
   }
   return ''
 }
@@ -56,34 +52,27 @@ function ColorMapIconSelector({ service }) {
 
   return (
     <OverlayTrigger transition={false} overlay={<Tooltip>{colorMap}</Tooltip>}>
-      <Navbar
-        bg="light"
-        variant="light"
-        className="categoricalMenuForm"
-        style={{ width: 'auto', margin: '0 5px' }}
-      >
+      <Navbar bg="light" variant="light" className="categoricalMenuForm">
         <NavDropdown
           title=""
-          id="basic-nav-dropdown"
-          className="form-control categoricalDropDown"
-          style={{ height: '40px' }}
+          className="form-control categoricalDropDown base-color-map-selector"
         >
-          <Container>
-            <Row xs={4} md={4}>
-              {colorMapIcons.map((preset, name) => (
-                <Container key={name} className="categoricalColContainer">
-                  <Col className="categoricalCol">
-                    <NavDropdown.Item
-                      style={{ minWidth: '100%' }}
-                      onClick={() => handleChange(preset.name, preset.icon)}
-                      className="navItem"
-                    >
-                      <Image src={preset.icon} className="colorMapIcon" />
-                    </NavDropdown.Item>
-                  </Col>
-                </Container>
-              ))}
-            </Row>
+          <Container className="categoricalColContainer">
+            {colorMapIcons.map((preset) => (
+              <Col xs={3} className="categoricalCol" key={preset.name}>
+                <NavDropdown.Item
+                  onClick={() => handleChange(preset.name, preset.icon)}
+                  className="colorMapGradientItem"
+                >
+                  <OverlayTrigger
+                    transition={false}
+                    overlay={<Tooltip>{preset.name}</Tooltip>}
+                  >
+                    <Image src={preset.icon} />
+                  </OverlayTrigger>
+                </NavDropdown.Item>
+              </Col>
+            ))}
           </Container>
         </NavDropdown>
         <Image src={icon} className="overlayImage"></Image>

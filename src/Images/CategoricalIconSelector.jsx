@@ -6,7 +6,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Image from 'react-bootstrap/Image'
-import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
@@ -70,26 +69,25 @@ function CategoricalIconSelector(props) {
       >
         <NavDropdown
           title=""
-          id="basic-nav-dropdown"
           className="form-control categoricalDropDown"
           value={currentCategoricalPreset()}
         >
-          <Container>
-            <Row xs={4} md={2}>
-              {categoricalPresetIcons.map((preset, idx) => (
-                <Container key={idx} className="categoricalColContainer">
-                  <Col className="categoricalCol">
-                    <NavDropdown.Item
-                      key={idx}
-                      style={{ minWidth: '100%' }}
-                      onClick={() => handleChange(preset)}
-                    >
-                      <Image src={preset.icon} className="colorMapIcon" />
-                    </NavDropdown.Item>
-                  </Col>
-                </Container>
-              ))}
-            </Row>
+          <Container className="categoricalColContainer">
+            {categoricalPresetIcons.map((preset) => (
+              <Col xs={3} className="categoricalCol" key={preset.name}>
+                <NavDropdown.Item
+                  onClick={() => handleChange(preset)}
+                  className="colorMapGradientItem"
+                >
+                  <OverlayTrigger
+                    transition={false}
+                    overlay={<Tooltip>{preset.name}</Tooltip>}
+                  >
+                    <Image src={preset.icon} />
+                  </OverlayTrigger>
+                </NavDropdown.Item>
+              </Col>
+            ))}
           </Container>
         </NavDropdown>
         <Image src={icon} className="overlayImage"></Image>
