@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from '@xstate/react'
-import { ColorMapIcons } from 'itk-viewer-color-maps'
+import { ColorMapIcons, CategoricalColorIcons } from 'itk-viewer-color-maps'
 import '../style.css'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
@@ -11,10 +11,16 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import getSelectedImageContext from './getSelectedImageContext'
 
-const colorMapIcons = Array.from(ColorMapIcons).map(([name, icon]) => ({
-  name,
-  icon
-}))
+const colorMapIcons = Array.from(ColorMapIcons)
+  .concat(
+    Array.from(CategoricalColorIcons).filter(
+      ([name]) => !name.startsWith('modulate')
+    )
+  )
+  .map(([name, icon]) => ({
+    name,
+    icon
+  }))
 
 const selectColorMap = (state) => {
   const actorContext = getSelectedImageContext(state)
