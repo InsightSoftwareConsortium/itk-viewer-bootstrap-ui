@@ -1,15 +1,21 @@
-import LayerInterface from './LayerInterface'
-import LayersInterface from './LayersInterface'
-import selectLayer from './selectLayer'
+import { assign } from 'xstate'
 
 const layersUIMachineOptions = {
   layerUIActor: {
-    LayerInterface,
-
-    selectLayer
-  },
-  actions: {
-    LayersInterface
+    actions: {
+      startDataUpdate: assign({
+        actorContext: ({ actorContext }) => {
+          actorContext.isDataUpdating = true
+          return actorContext
+        }
+      }),
+      finishDataUpdate: assign({
+        actorContext: ({ actorContext }) => {
+          actorContext.isDataUpdating = false
+          return actorContext
+        }
+      })
+    }
   }
 }
 
