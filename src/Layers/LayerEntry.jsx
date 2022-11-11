@@ -15,6 +15,26 @@ import '../style.css'
 import { Button } from 'react-bootstrap'
 import cn from 'classnames'
 
+function Spinner({ name, service }) {
+  const isDataUpdating = useSelector(
+    service,
+    (state) => state.context.layers.actorContext.get(name).isDataUpdating
+  )
+  return (
+    <div
+      className={cn('ldsRing', {
+        'visibility-hidden': !isDataUpdating
+      })}
+      style={{ paddingTop: '6px', marginRight: '6px' }}
+    >
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  )
+}
+
 function LayerEntry(props) {
   const { service } = props
   const send = service.send
@@ -75,7 +95,7 @@ function LayerEntry(props) {
     return visible && selection
   }
 
-  const useColumnSize = (idx) => {
+  const getColumnSize = (idx) => {
     if (idx % 2 === 0 && idx + 1 === allLayers.length) {
       return 12
     }
@@ -87,7 +107,7 @@ function LayerEntry(props) {
       return (
         <Col
           key={idx}
-          xs={useColumnSize(idx)}
+          xs={getColumnSize(idx)}
           ref={layerEntry}
           className={`layerEntryCommon ${layerVisible(layer.name)}`}
           onClick={() => {
@@ -116,6 +136,7 @@ function LayerEntry(props) {
           </OverlayTrigger>
           <div className="layerLabelCommon"> {layer.name} </div>
           <div className={`icon-image`}>
+            <Spinner name={layer.name} service={service} />
             {layerType(layer.name) === 'image' ? (
               <Image src={imageIconDataUri} />
             ) : (
