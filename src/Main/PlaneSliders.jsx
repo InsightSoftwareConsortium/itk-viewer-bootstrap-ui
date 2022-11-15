@@ -95,7 +95,7 @@ function PlaneSliders({ service }) {
   }
 
   const slidersClass = cn({
-    hiddenSlider: stateContextUiCollapsed
+    hiddenSlider: stateContextUiCollapsed  && viewMode === 'Volume'
   })
 
   return (
