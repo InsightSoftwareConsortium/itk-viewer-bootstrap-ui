@@ -94,12 +94,8 @@ function PlaneSliders({ service }) {
     return ''
   }
 
-  const slidersClass = cn({
-    hiddenSlider: stateContextUiCollapsed  && viewMode === 'Volume'
-  })
-
   return (
-    <div ref={planeSliders} className={slidersClass}>
+    <div ref={planeSliders}>
       {planes.map((plane, idx) => {
         return (
           planeSlice2D[idx] !== null &&
