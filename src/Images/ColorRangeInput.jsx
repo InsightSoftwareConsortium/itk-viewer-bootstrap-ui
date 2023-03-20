@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from '@xstate/react'
 import { interpolationIconDataUri } from 'itk-viewer-icons'
 import ColorMapIconSelector from './ColorMapIconSelector'
+import WindowLevelReset from './WindowLevelReset'
 import '../style.css'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -205,6 +206,7 @@ function ColorRangeInput(props) {
             step={step}
           />
         </OverlayTrigger>
+        <WindowLevelReset {...props} />
       </div>
     )
   )
