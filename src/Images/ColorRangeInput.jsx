@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from '@xstate/react'
 import { interpolationIconDataUri } from 'itk-viewer-icons'
 import ColorMapIconSelector from './ColorMapIconSelector'
+import WindowLevelReset from './WindowLevelReset'
 import '../style.css'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -15,6 +16,8 @@ function ColorRangeInput(props) {
   const { service } = props
   const colorRangeInput = useRef(null)
   const interpolationButton = useRef(null)
+  const [input1Tooltip, setInput1Tooltip] = useState('Color range min')
+  const [input2Tooltip, setInput2Tooltip] = useState('Color range max')
   const send = service.send
   const name = useSelector(
     service,
@@ -26,6 +29,7 @@ function ColorRangeInput(props) {
       state.context.images.actorContext.get(state.context.images.selectedName)
         .interpolationEnabled
   )
+
   const colorRanges = useSelector(
     service,
     (state) =>
@@ -33,11 +37,25 @@ function ColorRangeInput(props) {
         .colorRanges
   )
 
+  const colorRangeBounds = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .colorRangeBounds
+  )
+
   const selectedComponent = useSelector(
     service,
     (state) =>
       state.context.images.actorContext.get(state.context.images.selectedName)
         .selectedComponent
+  )
+
+  const windowLevelEnabled = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(state.context.images.selectedName)
+        .windowLevelEnabled
   )
 
   const colorRangesSelected = useSelector(service, (state) =>
@@ -62,6 +80,11 @@ function ColorRangeInput(props) {
     service.machine.context.images.colorRangeInputRow = colorRangeInput.current
   }, [service.machine.context.images])
 
+  useEffect(() => {
+    setInput1Tooltip(windowLevelEnabled ? 'Window width' : 'Color range min')
+    setInput2Tooltip(windowLevelEnabled ? 'Window level' : 'Color range max')
+  }, [windowLevelEnabled])
+
   const toggleInterpolate = () => {
     send({
       type: 'TOGGLE_IMAGE_INTERPOLATION',
@@ -72,6 +95,9 @@ function ColorRangeInput(props) {
   const currentRange = colorRanges.size ? colorRangesSelected : [0, 1]
   const currentRangeMin = currentRange[0]
   const currentRangeMax = currentRange[1]
+  const currentBounds = colorRangeBounds.size ? boundsSelected : [0, 1]
+  const currentWidth = currentBounds[1] - currentBounds[0]
+  const currentLevel = (currentBounds[1] + currentBounds[0]) / 2
 
   let [rangeMin, rangeMax] = [0, 0]
 
@@ -91,10 +117,13 @@ function ColorRangeInput(props) {
       actorContext.selectedComponent
     )
   }
-  const step =
+  const rangeStep =
     imageType?.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
+  const windowingStep = 10 ** Math.ceil(Math.log((currentBounds[1] - currentBounds[0]) / 1000))
   const [minIntent, setminIntent] = useState(currentRangeMin)
   const [maxIntent, setmaxIntent] = useState(currentRangeMax)
+  const [width, setWidth] = useState(currentWidth)
+  const [level, setLevel] = useState(currentLevel)
 
   // update the initialized state for minIntent and maxIntent
   useEffect(() => {
@@ -103,55 +132,76 @@ function ColorRangeInput(props) {
   useEffect(() => {
     setmaxIntent(currentRangeMax)
   }, [currentRangeMax])
+  useEffect(() => {
+    setWidth(currentWidth)
+  }, [currentWidth])
+  useEffect(() => {
+    setLevel(currentLevel)
+  }, [currentLevel])
+  useEffect(() => {
+    const [min, max] = currentRange
+    setWidth(max - min)
+    setLevel((max + min) / 2)
+  }, [currentRange])
 
-  const isValidBounds = (minVal, maxVal) => {
-    if (minVal < maxVal) {
-      return true
-    } else {
+  const isValidBounds = (input1, input2) => {
+    if (isNaN(input1) || isNaN(input2)) {
       return false
     }
+    return isValidInput(input1, input2)
   }
 
-  const rangeChanged = (minVal, maxVal) => {
-    const bounds = boundsSelected
+  const isValidInput = () => {
+    if (windowLevelEnabled) {
+      return width > 0
+    } else {
+      return minIntent <= maxIntent
+    }
+  }
 
-    if (!isNaN(minVal) && !isNaN(maxVal)) {
-      let rangeMax = maxVal >= bounds[1] ? bounds[1] : maxVal
-      let rangeMin = minVal <= bounds[0] ? bounds[0] : minVal
-
-      if (isValidBounds(rangeMin, rangeMax)) {
+  const inputChanged = (input1, input2) => {
+    if (isValidBounds(input1, input2)) {
+      let rangeMin = minIntent
+      let rangeMax = maxIntent
+      if (windowLevelEnabled) {
+        rangeMin = input2 - input1 / 2
+        rangeMax = input2 + input1 / 2
+        setWidth(input1)
+        setLevel(input2)
+      } else {
+        const bounds = boundsSelected
+        rangeMax = input2 >= bounds[1] ? bounds[1] : input2
+        rangeMin = input1 <= bounds[0] ? bounds[0] : input1
         setmaxIntent(rangeMax)
         setminIntent(rangeMin)
-        send({
-          type: 'IMAGE_COLOR_RANGE_CHANGED',
-          data: {
-            name,
-            component: selectedComponent,
-            range: [rangeMin, rangeMax]
-          }
-        })
-      } else {
-        setmaxIntent(maxVal)
-        setminIntent(minVal)
       }
+      send({
+        type: 'IMAGE_COLOR_RANGE_CHANGED',
+        data: {
+          name,
+          component: selectedComponent,
+          range: [rangeMin, rangeMax]
+        }
+      })
     } else {
-      if (isNaN(minVal)) {
-        setminIntent('')
-      }
-      if (isNaN(maxVal)) {
-        setmaxIntent('')
+      if (windowLevelEnabled) {
+        setWidth(input1)
+        setLevel(input2)
+      } else {
+        setmaxIntent(input1)
+        setminIntent(input2)
       }
     }
   }
 
-  const rangeMinChanged = (val) => {
-    const maxVal = currentRangeMax
-    rangeChanged(parseFloat(val), maxVal)
+  const input1Changed = (val) => {
+    let input2 = windowLevelEnabled ? level : currentRangeMax
+    inputChanged(parseFloat(val), input2)
   }
 
-  const rangeMaxChanged = (val) => {
-    const minVal = currentRangeMin
-    rangeChanged(minVal, parseFloat(val))
+  const input2Changed = (val) => {
+    let input1 = windowLevelEnabled ? width : currentRangeMin
+    inputChanged(input1, parseFloat(val))
   }
 
   return (
@@ -178,33 +228,34 @@ function ColorRangeInput(props) {
             <Image src={interpolationIconDataUri}></Image>
           </Button>
         </OverlayTrigger>
-        <OverlayTrigger transition={false} overlay={<Tooltip>Min</Tooltip>}>
+        <OverlayTrigger transition={false} overlay={<Tooltip>{input1Tooltip}</Tooltip>}>
           <Form.Control
             className={cn('numberInput', {
-              invalidNumber: minIntent >= maxIntent
+              invalidNumber: !isValidInput()
             })}
             type="number"
-            value={minIntent}
+            value={windowLevelEnabled ? width : minIntent}
             onChange={(e) => {
-              rangeMinChanged(e.target.value)
+              input1Changed(e.target.value)
             }}
-            step={step}
+            step={windowLevelEnabled ? windowingStep : rangeStep}
           />
         </OverlayTrigger>
         <ColorMapIconSelector {...props} />
-        <OverlayTrigger transition={false} overlay={<Tooltip>Max</Tooltip>}>
+        <OverlayTrigger transition={false} overlay={<Tooltip>{input2Tooltip}</Tooltip>}>
           <Form.Control
             className={cn('numberInput', {
-              invalidNumber: maxIntent <= minIntent
+              invalidNumber: !isValidInput()
             })}
             type="number"
-            value={maxIntent}
+            value={windowLevelEnabled ? level : maxIntent}
             onChange={(e) => {
-              rangeMaxChanged(e.target.value)
+              input2Changed(e.target.value)
             }}
-            step={step}
+            step={windowLevelEnabled ? windowingStep : rangeStep}
           />
         </OverlayTrigger>
+        <WindowLevelReset {...props} />
       </div>
     )
   )

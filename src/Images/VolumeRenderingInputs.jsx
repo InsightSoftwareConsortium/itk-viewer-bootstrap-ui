@@ -4,6 +4,7 @@ import BlendModeSelector from './BlendModeSelector'
 import GradientOpacitySlider from './GradientOpacitySlider'
 import SampleDistanceSlider from './SampleDistanceSlider'
 import ShadowToggle from './ShadowToggle'
+import WindowingLevelToggle from './WindowLevelToggle'
 import CinematicParameters from './CinematicParameters'
 import '../style.css'
 import getSelectedImageContext from './getSelectedImageContext'
@@ -32,6 +33,7 @@ function VolumeRenderingInputs(props) {
         <div className="uiRow" style={{ whiteSpace: 'nowrap' }}>
           <ShadowToggle {...props} />
           <GradientOpacitySlider {...props} />
+          <WindowingLevelToggle {...props} />
         </div>
         {advancedInputs && advancedInputContent}
         <div className="uiRow">
