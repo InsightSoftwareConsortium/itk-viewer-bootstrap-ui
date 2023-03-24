@@ -24,7 +24,7 @@ function Spinner({ name, service }) {
       className={cn('ldsRing', {
         'visibility-hidden': !isDataUpdating
       })}
-      style={{ paddingTop: '6px', marginRight: '6px' }}
+      style={{ paddingTop: '2px' }}
     >
       <div></div>
       <div></div>
@@ -37,19 +37,11 @@ function Spinner({ name, service }) {
 function LayerEntry(props) {
   const { service, name, actor } = props
   const send = service.send
-  const actorContext = useSelector(
-    service,
-    (state) => state.context.layers.actorContext
-  )
   const uiLayers = useSelector(
     service,
     (state) => state.context.layers.uiLayers
   )
   const layerEntry = useRef(null)
-  const lastAddedData = useSelector(
-    service,
-    (state) => state.context.layers.lastAddedData
-  )
 
   useEffect(() => {
     if (uiLayers) {
@@ -64,22 +56,18 @@ function LayerEntry(props) {
     return ''
   }
 
-  const layerType = (name) => {
-    if (actorContext && lastAddedData) {
-      return actorContext.get(name).type
-    }
-    return ''
-  }
-
   const layerSelected = (selection) => {
     const visible = layerVisible(selection)
     return visible && selection
   }
 
+  const icon = actor.type === 'image' ? imageIconDataUri : labelsIconDataUri
+
   return (
     <Col
       ref={layerEntry}
       className={`layerEntryCommon ${layerVisible(name)}`}
+      xs={6}
       onClick={() => {
         layerSelected(name)
       }}
@@ -105,13 +93,9 @@ function LayerEntry(props) {
         </Button>
       </OverlayTrigger>
       <div className="layerLabelCommon"> {name} </div>
-      <div className={`icon-image`}>
+      <div className="layerIconGroup">
         <Spinner name={name} service={service} />
-        {layerType(name) === 'image' ? (
-          <Image src={imageIconDataUri} />
-        ) : (
-          layerType(name) === 'labelImage' && <Image src={labelsIconDataUri} />
-        )}
+        <Image src={icon} className="layerTypeIcon" />
       </div>
     </Col>
   )

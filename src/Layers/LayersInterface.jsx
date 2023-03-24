@@ -1,5 +1,7 @@
 import { useSelector } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import { arraysEqual } from '../utils'
 import LayerEntry from './LayerEntry'
 
@@ -23,16 +25,18 @@ function LayersInterface(props) {
   )
 
   return (
-    <div className="layersUIGroup" ref={layersUIGroup}>
-      {layers.map(([name, actor]) => (
-        <LayerEntry
-          name={name}
-          actor={actor}
-          service={service}
-          key={name}
-        ></LayerEntry>
-      ))}
-    </div>
+    <Col className="layersUIGroup">
+      <Row ref={layersUIGroup}>
+        {layers.map(([name, actor]) => (
+          <LayerEntry
+            name={name}
+            actor={actor}
+            service={service}
+            key={name}
+          ></LayerEntry>
+        ))}
+      </Row>
+    </Col>
   )
 }
 
