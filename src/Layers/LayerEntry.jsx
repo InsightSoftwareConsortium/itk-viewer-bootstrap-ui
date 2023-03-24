@@ -12,7 +12,7 @@ import {
   toggleIconDataUri
 } from 'itk-viewer-icons'
 import '../style.css'
-import { Button } from 'react-bootstrap'
+import { Button, Dropdown } from 'react-bootstrap'
 import cn from 'classnames'
 import { arraysEqual } from '../utils'
 
@@ -53,6 +53,26 @@ function LayerIcon({ name, actor, service }) {
     arraysEqual
   )
 
+  const compareWith = (fixedImageName) =>
+    service.send({
+      type: 'COMPARE_IMAGES',
+      data: {
+        name,
+        fixedImageName,
+        options: { method: 'checkerboard' }
+      }
+    })
+
+  const stopComparing = () => {
+    service.send({
+      type: 'COMPARE_IMAGES',
+      data: {
+        name,
+        options: { method: 'disabled' }
+      }
+    })
+  }
+
   const getIcon = () => {
     if (actor.type === 'image') {
       if (name === selectedName && otherImages && otherImages.length > 0)
@@ -65,6 +85,33 @@ function LayerIcon({ name, actor, service }) {
   }
 
   const { icon, alt } = getIcon()
+
+  if (alt === 'settings') {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle className={'icon-button'} variant="light">
+          <Image src={icon}></Image>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          {otherImages.map((fixedImageName) => (
+            <Dropdown.Item
+              onClick={() => {
+                compareWith(fixedImageName)
+              }}
+              key={fixedImageName}
+            >
+              {`Checkerboard compare with ${fixedImageName}`}
+            </Dropdown.Item>
+          ))}
+          <Dropdown.Item onClick={stopComparing} key={'stop'}>
+            {`Stop comparing`}
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    )
+  }
+
   return <Image src={icon} alt={alt} className="layerTypeIcon" />
 }
 
