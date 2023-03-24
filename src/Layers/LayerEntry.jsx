@@ -8,11 +8,13 @@ import {
   visibleIconDataUri,
   invisibleIconDataUri,
   imageIconDataUri,
-  labelsIconDataUri
+  labelsIconDataUri,
+  toggleIconDataUri
 } from 'itk-viewer-icons'
 import '../style.css'
 import { Button } from 'react-bootstrap'
 import cn from 'classnames'
+import { arraysEqual } from '../utils'
 
 function Spinner({ name, service }) {
   const isDataUpdating = useSelector(
@@ -32,6 +34,38 @@ function Spinner({ name, service }) {
       <div></div>
     </div>
   )
+}
+
+function LayerIcon({ name, actor, service }) {
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+
+  const otherImages = useSelector(
+    service,
+    (state) =>
+      [...state.context.layers.actorContext.keys()].filter(
+        (key) =>
+          key !== name &&
+          state.context.images.actorContext.get(name)?.labelImage?.name !== key
+      ),
+    arraysEqual
+  )
+
+  const getIcon = () => {
+    if (actor.type === 'image') {
+      if (name === selectedName && otherImages && otherImages.length > 0)
+        return { icon: toggleIconDataUri, alt: 'settings' }
+      return { icon: imageIconDataUri, alt: 'image' }
+    }
+    if (actor.type === 'labelImage')
+      return { icon: labelsIconDataUri, alt: 'labels' }
+    throw new Error(`Unsupported layer type: ${actor.type}`)
+  }
+
+  const { icon, alt } = getIcon()
+  return <Image src={icon} alt={alt} className="layerTypeIcon" />
 }
 
 function LayerEntry(props) {
@@ -60,8 +94,6 @@ function LayerEntry(props) {
     const visible = layerVisible(selection)
     return visible && selection
   }
-
-  const icon = actor.type === 'image' ? imageIconDataUri : labelsIconDataUri
 
   return (
     <Col
@@ -95,7 +127,7 @@ function LayerEntry(props) {
       <div className="layerLabelCommon"> {name} </div>
       <div className="layerIconGroup">
         <Spinner name={name} service={service} />
-        <Image src={icon} className="layerTypeIcon" />
+        <LayerIcon name={name} actor={actor} service={service}></LayerIcon>
       </div>
     </Col>
   )
