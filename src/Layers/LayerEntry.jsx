@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector } from '@xstate/react'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
@@ -10,7 +10,6 @@ import {
   imageIconDataUri,
   labelsIconDataUri
 } from 'itk-viewer-icons'
-import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
 import { Button } from 'react-bootstrap'
 import cn from 'classnames'
@@ -36,9 +35,12 @@ function Spinner({ name, service }) {
 }
 
 function LayerEntry(props) {
-  const { service } = props
+  const { service, name, actor } = props
   const send = service.send
-  const stateContext = useSelector(service, (state) => state.context)
+  const actorContext = useSelector(
+    service,
+    (state) => state.context.layers.actorContext
+  )
   const uiLayers = useSelector(
     service,
     (state) => state.context.layers.uiLayers
@@ -48,37 +50,16 @@ function LayerEntry(props) {
     service,
     (state) => state.context.layers.lastAddedData
   )
-  const actorContext = stateContext.layers.actorContext
-  const [allLayers, updateLayers] = useState([])
 
   useEffect(() => {
-    applyContrastSensitiveStyleToElement(
-      stateContext,
-      'layerEntry',
-      layerEntry.current
-    )
-  }, [])
-
-  useEffect(() => {
-    if (uiLayers && lastAddedData) {
-      service.machine.context.layers.uiLayers.set(
-        lastAddedData.name,
-        layerEntry.current
-      )
+    if (uiLayers) {
+      uiLayers.set(name, layerEntry.current)
     }
-  })
+  }, [uiLayers, name, layerEntry])
 
-  useEffect(() => {
-    if (lastAddedData) {
-      updateLayers([...allLayers, lastAddedData])
-    }
-  }, [lastAddedData])
-
-  const layerVisible = (name) => {
-    if (actorContext && lastAddedData) {
-      if (actorContext.get(name).visible) {
-        return 'selectedLayer'
-      }
+  const layerVisible = () => {
+    if (actor.visible) {
+      return 'selectedLayer'
     }
     return ''
   }
@@ -95,61 +76,44 @@ function LayerEntry(props) {
     return visible && selection
   }
 
-  const getColumnSize = (idx) => {
-    if (idx % 2 === 0 && idx + 1 === allLayers.length) {
-      return 12
-    }
-    return 6
-  }
-
-  return actorContext && allLayers.length ? (
-    allLayers.map((layer, idx) => {
-      return (
-        <Col
-          key={idx}
-          xs={getColumnSize(idx)}
-          ref={layerEntry}
-          className={`layerEntryCommon ${layerVisible(layer.name)}`}
+  return (
+    <Col
+      ref={layerEntry}
+      className={`layerEntryCommon ${layerVisible(name)}`}
+      onClick={() => {
+        layerSelected(name)
+      }}
+    >
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Data visibility</Tooltip>}
+      >
+        <Button
           onClick={() => {
-            layerSelected(layer.name)
+            send({ type: 'TOGGLE_LAYER_VISIBILITY', data: name })
           }}
+          variant="secondary"
+          className={cn(`icon-button`, {
+            checked: actor.visible
+          })}
         >
-          <OverlayTrigger
-            transition={false}
-            overlay={<Tooltip>Data visibility</Tooltip>}
-          >
-            <Button
-              onClick={() => {
-                send({ type: 'TOGGLE_LAYER_VISIBILITY', data: layer.name })
-              }}
-              variant="secondary"
-              className={cn(`icon-button`, {
-                checked: layerVisible(layer.name)
-              })}
-            >
-              {layerVisible(layer.name) ? (
-                <Image src={visibleIconDataUri}></Image>
-              ) : (
-                <Image src={invisibleIconDataUri}></Image>
-              )}
-            </Button>
-          </OverlayTrigger>
-          <div className="layerLabelCommon"> {layer.name} </div>
-          <div className={`icon-image`}>
-            <Spinner name={layer.name} service={service} />
-            {layerType(layer.name) === 'image' ? (
-              <Image src={imageIconDataUri} />
-            ) : (
-              layerType(layer.name) === 'labelImage' && (
-                <Image src={labelsIconDataUri} />
-              )
-            )}
-          </div>
-        </Col>
-      )
-    })
-  ) : (
-    <div />
+          {layerVisible(name) ? (
+            <Image src={visibleIconDataUri}></Image>
+          ) : (
+            <Image src={invisibleIconDataUri}></Image>
+          )}
+        </Button>
+      </OverlayTrigger>
+      <div className="layerLabelCommon"> {name} </div>
+      <div className={`icon-image`}>
+        <Spinner name={name} service={service} />
+        {layerType(name) === 'image' ? (
+          <Image src={imageIconDataUri} />
+        ) : (
+          layerType(name) === 'labelImage' && <Image src={labelsIconDataUri} />
+        )}
+      </div>
+    </Col>
   )
 }
 

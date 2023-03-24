@@ -1,5 +1,7 @@
+import { useSelector } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
-import LayerInterface from './LayerInterface'
+import { arraysEqual } from '../utils'
+import LayerEntry from './LayerEntry'
 
 function LayersInterface(props) {
   const { service } = props
@@ -8,11 +10,28 @@ function LayersInterface(props) {
   useEffect(() => {
     service.machine.context.layers.uiLayers = new Map()
     service.machine.context.layers.layersUIGroup = layersUIGroup.current
-  }, [])
+  }, [layersUIGroup, service.machine.context.layers])
+
+  const layers = useSelector(
+    service,
+    (state) => [...state.context.layers.actorContext.entries()],
+    (a, b) =>
+      arraysEqual(
+        a?.map(([key]) => key),
+        b?.map(([key]) => key)
+      )
+  )
 
   return (
     <div className="layersUIGroup" ref={layersUIGroup}>
-      <LayerInterface className="layersUIRow" {...props} />
+      {layers.map(([name, actor]) => (
+        <LayerEntry
+          name={name}
+          actor={actor}
+          service={service}
+          key={name}
+        ></LayerEntry>
+      ))}
     </div>
   )
 }
