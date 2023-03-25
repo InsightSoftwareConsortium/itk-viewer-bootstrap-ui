@@ -335,6 +335,14 @@
   max-width: 100px;
 }
 
+.compareRow {
+  align-items: center;
+}
+
+.compareRow > .numberInput {
+  max-width: 60px;
+}
+
 .overlayImage {
   position: absolute;
   padding: 5px 7px;
