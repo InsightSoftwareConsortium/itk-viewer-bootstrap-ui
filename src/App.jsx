@@ -2,6 +2,7 @@ import React from 'react'
 import Panel from './Panel'
 import MainInterface from './Main/MainInterface'
 import LayersInterface from './Layers/LayersInterface'
+import CompareControls from './Layers/CompareControls'
 import ImagesInterface from './Images/ImagesInterface'
 import WidgetsInterface from './Widgets/WidgetsInterface'
 import PointSetInterface from './PointSetInterface'
@@ -17,6 +18,7 @@ function App({ service }) {
           <Panel service={service}>
             <MainInterface />
             <LayersInterface />
+            <CompareControls />
             <WidgetsInterface />
             <ImagesInterface advancedInputs={false} />
             <PointSetInterface />

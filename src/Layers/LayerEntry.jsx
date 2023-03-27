@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector } from '@xstate/react'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
@@ -8,12 +8,13 @@ import {
   visibleIconDataUri,
   invisibleIconDataUri,
   imageIconDataUri,
-  labelsIconDataUri
+  labelsIconDataUri,
+  toggleIconDataUri
 } from 'itk-viewer-icons'
-import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
-import { Button } from 'react-bootstrap'
+import { Button, Dropdown } from 'react-bootstrap'
 import cn from 'classnames'
+import { arraysEqual } from '../utils'
 
 function Spinner({ name, service }) {
   const isDataUpdating = useSelector(
@@ -25,7 +26,7 @@ function Spinner({ name, service }) {
       className={cn('ldsRing', {
         'visibility-hidden': !isDataUpdating
       })}
-      style={{ paddingTop: '6px', marginRight: '6px' }}
+      style={{ paddingTop: '2px' }}
     >
       <div></div>
       <div></div>
@@ -35,57 +36,103 @@ function Spinner({ name, service }) {
   )
 }
 
+function LayerIcon({ name, actor, service }) {
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+
+  const otherImages = useSelector(
+    service,
+    (state) =>
+      [...state.context.layers.actorContext.keys()].filter(
+        (key) =>
+          key !== name &&
+          state.context.images.actorContext.get(name)?.labelImage?.name !== key
+      ),
+    arraysEqual
+  )
+
+  const compareWith = (fixedImageName) =>
+    service.send({
+      type: 'COMPARE_IMAGES',
+      data: {
+        name,
+        fixedImageName,
+        options: { method: 'checkerboard' }
+      }
+    })
+
+  const stopComparing = () => {
+    service.send({
+      type: 'COMPARE_IMAGES',
+      data: {
+        name,
+        options: { method: 'disabled' }
+      }
+    })
+  }
+
+  const getIcon = () => {
+    if (actor.type === 'image') {
+      if (name === selectedName && otherImages && otherImages.length > 0)
+        return { icon: toggleIconDataUri, alt: 'settings' }
+      return { icon: imageIconDataUri, alt: 'image' }
+    }
+    if (actor.type === 'labelImage')
+      return { icon: labelsIconDataUri, alt: 'labels' }
+    throw new Error(`Unsupported layer type: ${actor.type}`)
+  }
+
+  const { icon, alt } = getIcon()
+
+  if (alt === 'settings') {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle className={'icon-button'} variant="light">
+          <Image src={icon}></Image>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          {otherImages.map((fixedImageName) => (
+            <Dropdown.Item
+              onClick={() => {
+                compareWith(fixedImageName)
+              }}
+              key={fixedImageName}
+            >
+              {`Checkerboard compare with ${fixedImageName}`}
+            </Dropdown.Item>
+          ))}
+          <Dropdown.Item onClick={stopComparing} key={'stop'}>
+            {`Stop comparing`}
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    )
+  }
+
+  return <Image src={icon} alt={alt} className="layerTypeIcon" />
+}
+
 function LayerEntry(props) {
-  const { service } = props
+  const { service, name, actor } = props
   const send = service.send
-  const stateContext = useSelector(service, (state) => state.context)
   const uiLayers = useSelector(
     service,
     (state) => state.context.layers.uiLayers
   )
   const layerEntry = useRef(null)
-  const lastAddedData = useSelector(
-    service,
-    (state) => state.context.layers.lastAddedData
-  )
-  const actorContext = stateContext.layers.actorContext
-  const [allLayers, updateLayers] = useState([])
 
   useEffect(() => {
-    applyContrastSensitiveStyleToElement(
-      stateContext,
-      'layerEntry',
-      layerEntry.current
-    )
-  }, [])
-
-  useEffect(() => {
-    if (uiLayers && lastAddedData) {
-      service.machine.context.layers.uiLayers.set(
-        lastAddedData.name,
-        layerEntry.current
-      )
+    if (uiLayers) {
+      uiLayers.set(name, layerEntry.current)
     }
-  })
+  }, [uiLayers, name, layerEntry])
 
-  useEffect(() => {
-    if (lastAddedData) {
-      updateLayers([...allLayers, lastAddedData])
-    }
-  }, [lastAddedData])
-
-  const layerVisible = (name) => {
-    if (actorContext && lastAddedData) {
-      if (actorContext.get(name).visible) {
-        return 'selectedLayer'
-      }
-    }
-    return ''
-  }
-
-  const layerType = (name) => {
-    if (actorContext && lastAddedData) {
-      return actorContext.get(name).type
+  const layerVisible = () => {
+    if (actor.visible) {
+      return 'selectedLayer'
     }
     return ''
   }
@@ -95,61 +142,41 @@ function LayerEntry(props) {
     return visible && selection
   }
 
-  const getColumnSize = (idx) => {
-    if (idx % 2 === 0 && idx + 1 === allLayers.length) {
-      return 12
-    }
-    return 6
-  }
-
-  return actorContext && allLayers.length ? (
-    allLayers.map((layer, idx) => {
-      return (
-        <Col
-          key={idx}
-          xs={getColumnSize(idx)}
-          ref={layerEntry}
-          className={`layerEntryCommon ${layerVisible(layer.name)}`}
+  return (
+    <Col
+      ref={layerEntry}
+      className={`layerEntryCommon ${layerVisible(name)}`}
+      xs={6}
+      onClick={() => {
+        layerSelected(name)
+      }}
+    >
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Data visibility</Tooltip>}
+      >
+        <Button
           onClick={() => {
-            layerSelected(layer.name)
+            send({ type: 'TOGGLE_LAYER_VISIBILITY', data: name })
           }}
+          variant="secondary"
+          className={cn(`icon-button`, {
+            checked: actor.visible
+          })}
         >
-          <OverlayTrigger
-            transition={false}
-            overlay={<Tooltip>Data visibility</Tooltip>}
-          >
-            <Button
-              onClick={() => {
-                send({ type: 'TOGGLE_LAYER_VISIBILITY', data: layer.name })
-              }}
-              variant="secondary"
-              className={cn(`icon-button`, {
-                checked: layerVisible(layer.name)
-              })}
-            >
-              {layerVisible(layer.name) ? (
-                <Image src={visibleIconDataUri}></Image>
-              ) : (
-                <Image src={invisibleIconDataUri}></Image>
-              )}
-            </Button>
-          </OverlayTrigger>
-          <div className="layerLabelCommon"> {layer.name} </div>
-          <div className={`icon-image`}>
-            <Spinner name={layer.name} service={service} />
-            {layerType(layer.name) === 'image' ? (
-              <Image src={imageIconDataUri} />
-            ) : (
-              layerType(layer.name) === 'labelImage' && (
-                <Image src={labelsIconDataUri} />
-              )
-            )}
-          </div>
-        </Col>
-      )
-    })
-  ) : (
-    <div />
+          {layerVisible(name) ? (
+            <Image src={visibleIconDataUri}></Image>
+          ) : (
+            <Image src={invisibleIconDataUri}></Image>
+          )}
+        </Button>
+      </OverlayTrigger>
+      <div className="layerLabelCommon"> {name} </div>
+      <div className="layerIconGroup">
+        <Spinner name={name} service={service} />
+        <LayerIcon name={name} actor={actor} service={service}></LayerIcon>
+      </div>
+    </Col>
   )
 }
 

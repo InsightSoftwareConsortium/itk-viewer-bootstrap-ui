@@ -22,7 +22,7 @@ function Panel(props) {
         <Container fluid>
           <Row>
             <Nav onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}>
-              <Nav.Item ref={uiDrawer}>
+              <Nav.Item ref={uiDrawer} className="uiDrawer">
                 {React.Children.map(children, (child) => {
                   return React.cloneElement(child, { service })
                 })}

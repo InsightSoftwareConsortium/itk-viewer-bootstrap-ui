@@ -210,6 +210,10 @@
   -webkit-filter: invert(100%);
 }
 
+.uiDrawer {
+  max-width: 420px;
+}
+
 .layerEntryCommon {
   display: flex;
   justify-content: space-between;
@@ -217,8 +221,14 @@
   border-width: 2px !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
   border: solid;
-  max-width: 100% !important;
   border-width: 3px !important;
+
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.layerEntryCommon > * {
+  flex: 0 0;
 }
 
 .layerEntryBrightBG {
@@ -229,20 +239,25 @@
   border-color: #aaa;
 }
 
-.layerIcon {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 8px;
-  padding-right: 6px;
-  height: fit-content !important;
+.layerIconGroup {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 4px;
+}
+
+.layerTypeIcon {
+  width: 20px;
 }
 
 .layerLabelCommon {
+  flex: 1 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   border: none;
   background: transparent;
   font-size: 1.2em;
-  margin-right: 10px;
-  z-index: 1000;
+  margin-left: 4px;
 }
 
 .layerLabelBrightBG {
@@ -320,6 +335,14 @@
   max-width: 100px;
 }
 
+.compareRow {
+  align-items: center;
+}
+
+.compareRow > .numberInput {
+  max-width: 60px;
+}
+
 .overlayImage {
   position: absolute;
   padding: 5px 7px;
@@ -376,7 +399,6 @@
   border: solid;
   border-color: rgba(255, 255, 255, 0.3);
   border-width: 3px !important;
-  max-width: 100% !important;
 }
 
 .selector {
