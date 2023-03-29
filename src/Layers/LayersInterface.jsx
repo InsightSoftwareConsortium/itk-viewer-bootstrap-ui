@@ -27,12 +27,14 @@ function LayersInterface(props) {
   return (
     <Col className="layersUIGroup">
       <Row ref={layersUIGroup}>
-        {layers.map(([name, actor]) => (
+        {layers.map(([name, actor], idx) => (
           <LayerEntry
             name={name}
             actor={actor}
             service={service}
             key={name}
+            // fill row if last layer and odd number of layers
+            fillRow={idx === layers.length - 1 && layers.length % 2 === 1}
           ></LayerEntry>
         ))}
       </Row>
