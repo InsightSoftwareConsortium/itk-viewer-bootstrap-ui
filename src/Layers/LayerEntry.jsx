@@ -115,8 +115,7 @@ function LayerIcon({ name, actor, service }) {
   return <Image src={icon} alt={alt} className="layerTypeIcon" />
 }
 
-function LayerEntry(props) {
-  const { service, name, actor } = props
+function LayerEntry({ service, name, actor, fillRow }) {
   const send = service.send
   const uiLayers = useSelector(
     service,
@@ -142,11 +141,12 @@ function LayerEntry(props) {
     return visible && selection
   }
 
+  const unitWidth = fillRow ? 12 : 6
   return (
     <Col
       ref={layerEntry}
       className={`layerEntryCommon ${layerVisible(name)}`}
-      xs={6}
+      xs={unitWidth}
       onClick={() => {
         layerSelected(name)
       }}

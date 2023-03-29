@@ -252,6 +252,7 @@
 .layerLabelCommon {
   flex: 1 1;
   text-overflow: ellipsis;
+  text-align: center;
   overflow: hidden;
   white-space: nowrap;
   border: none;
