@@ -12,7 +12,7 @@ function CheckerboardControls({ compare, updateCompare }) {
 
   return (
     <>
-      <span style={{ marginRight: '6px' }}>Checkerboard Pattern:</span>
+      <span style={{ marginRight: '6px' }}>Checkerboard Pattern</span>
       {compare.pattern.map((value, idx) => (
         <OverlayTrigger
           transition={false}
@@ -50,6 +50,24 @@ function CheckerboardControls({ compare, updateCompare }) {
   )
 }
 
+function ImageMix({ compare, updateCompare }) {
+  return (
+    <>
+      <span style={{ marginRight: '6px' }}>Image Mix</span>
+      <Form.Control
+        type="range"
+        custom
+        className="slider"
+        min={0}
+        max={1}
+        value={compare.imageMix}
+        step={0.01}
+        onChange={(e) => updateCompare({ imageMix: e.target.value })}
+      />
+    </>
+  )
+}
+
 function CompareControls({ service }) {
   const selectedName = useSelector(
     service,
@@ -76,7 +94,14 @@ function CompareControls({ service }) {
   return (
     <Col>
       <Row className="compareRow">
-        <CheckerboardControls compare={compare} updateCompare={updateCompare} />
+        {compare.method === 'checkerboard' ? (
+          <CheckerboardControls
+            compare={compare}
+            updateCompare={updateCompare}
+          />
+        ) : (
+          <ImageMix compare={compare} updateCompare={updateCompare} />
+        )}
       </Row>
     </Col>
   )
