@@ -51,14 +51,14 @@ function ImagesInterface(props) {
 
   const isLabelOnly = layersContext?.type === 'labelImage'
 
-  const components = useSelector(
+  const componentCount = useSelector(
     service,
     (state) =>
-      state.context.images.actorContext.get(name)?.image?.imageType.components
+      state.context.images.actorContext.get(name)?.componentVisibilities?.length
   )
 
   const showComponentSelector =
-    components > 1 && actorContext.independentComponents
+    componentCount > 1 && actorContext.independentComponents
 
   const image = actorContext?.image ?? actorContext?.labelImage
   const scaleCount = image?.scaleInfo.length
