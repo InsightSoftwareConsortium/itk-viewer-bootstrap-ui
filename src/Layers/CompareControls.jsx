@@ -7,6 +7,49 @@ import { rotateIconDataUri } from 'itk-viewer-icons'
 
 const xyz = ['X', 'Y', 'Z']
 
+function CheckerboardControls({ compare, updateCompare }) {
+  const parsePattern = (value) => Math.max(1, parseInt(value))
+
+  return (
+    <>
+      <span style={{ marginRight: '6px' }}>Checkerboard Pattern:</span>
+      {compare.pattern.map((value, idx) => (
+        <OverlayTrigger
+          transition={false}
+          overlay={<Tooltip>{`${xyz[idx]} checker count`}</Tooltip>}
+          key={xyz[idx]}
+        >
+          <Form.Control
+            className="numberInput"
+            type="number"
+            value={value}
+            onChange={(e) => {
+              const newPattern = [...compare.pattern]
+              newPattern[idx] = parsePattern(e.target.value)
+              updateCompare({ pattern: newPattern })
+            }}
+            step={1}
+          />
+        </OverlayTrigger>
+      ))}
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Swap Image Order</Tooltip>}
+      >
+        <Button
+          className={'icon-button'}
+          onClick={() => {
+            updateCompare({ swapImageOrder: !compare.swapImageOrder })
+          }}
+          variant="secondary"
+        >
+          <Image src={rotateIconDataUri}></Image>
+        </Button>
+      </OverlayTrigger>
+    </>
+  )
+}
+
 function CompareControls({ service }) {
   const selectedName = useSelector(
     service,
@@ -30,45 +73,10 @@ function CompareControls({ service }) {
     })
   }
 
-  const parsePattern = (value) => Math.max(1, parseInt(value))
-
   return (
     <Col>
       <Row className="compareRow">
-        <span style={{ marginRight: '6px' }}>Checkerboard Pattern:</span>
-        {compare.pattern.map((value, idx) => (
-          <OverlayTrigger
-            transition={false}
-            overlay={<Tooltip>{`${xyz[idx]} checker count`}</Tooltip>}
-            key={xyz[idx]}
-          >
-            <Form.Control
-              className="numberInput"
-              type="number"
-              value={value}
-              onChange={(e) => {
-                const newPattern = [...compare.pattern]
-                newPattern[idx] = parsePattern(e.target.value)
-                updateCompare({ pattern: newPattern })
-              }}
-              step={1}
-            />
-          </OverlayTrigger>
-        ))}
-        <OverlayTrigger
-          transition={false}
-          overlay={<Tooltip>Swap Image Order</Tooltip>}
-        >
-          <Button
-            className={'icon-button'}
-            onClick={() => {
-              updateCompare({ swapImageOrder: !compare.swapImageOrder })
-            }}
-            variant="secondary"
-          >
-            <Image src={rotateIconDataUri}></Image>
-          </Button>
-        </OverlayTrigger>
+        <CheckerboardControls compare={compare} updateCompare={updateCompare} />
       </Row>
     </Col>
   )

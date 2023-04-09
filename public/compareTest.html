@@ -22,7 +22,7 @@
         padding: 0;
       "
     ></div>
-    <!-- Need to set itk-vtk-viewer webpack's publicPath to http://localhost:8082/ for itk-wasm to find pipeline.worker -->
+    <!-- Need to set itk-vtk-viewer webpack's output: { publicPath: 'http://localhost:8082/' } to http://localhost:8082/ for itk-wasm to find pipeline.worker -->
     <script
       type="text/javascript"
       src="http://localhost:8082/itkVtkViewer.js"
@@ -51,7 +51,7 @@
           image,
           imageName: 'A Long Name For You',
           fixedImage,
-          compare: { method: 'checkerboard' },
+          compare: { method: 'cyan-magenta' },
           labelImage: image,
           rotate: false,
           config: { uiMachineOptions }
