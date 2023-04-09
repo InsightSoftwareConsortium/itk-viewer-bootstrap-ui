@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import { useSelector } from '@xstate/react'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
@@ -53,13 +53,13 @@ function LayerIcon({ name, actor, service }) {
     arraysEqual
   )
 
-  const compareWith = (fixedImageName) =>
+  const compareWith = (fixedImageName, method) =>
     service.send({
       type: 'COMPARE_IMAGES',
       data: {
         name,
         fixedImageName,
-        options: { method: 'checkerboard' }
+        options: { method }
       }
     })
 
@@ -95,15 +95,31 @@ function LayerIcon({ name, actor, service }) {
 
         <Dropdown.Menu>
           {otherImages.map((fixedImageName) => (
-            <Dropdown.Item
-              onClick={() => {
-                compareWith(fixedImageName)
-              }}
-              key={fixedImageName}
-            >
-              {`Checkerboard compare with ${fixedImageName}`}
-            </Dropdown.Item>
+            <Fragment key={fixedImageName}>
+              <Dropdown.Item
+                onClick={() => {
+                  compareWith(fixedImageName, 'checkerboard')
+                }}
+              >
+                {`Checkerboard compare with ${fixedImageName}`}
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  compareWith(fixedImageName, 'cyan-magenta')
+                }}
+              >
+                {`Cyan-Magenta compare with ${fixedImageName}`}
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  compareWith(fixedImageName, 'blend')
+                }}
+              >
+                {`Blend compare with ${fixedImageName}`}
+              </Dropdown.Item>
+            </Fragment>
           ))}
+
           <Dropdown.Item onClick={stopComparing} key={'stop'}>
             {`Stop comparing`}
           </Dropdown.Item>
