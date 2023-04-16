@@ -86,22 +86,23 @@ function CompareControls({ service }) {
       data: {
         name: selectedName,
         fixedImageName: compare.fixedImageName,
-        options: { ...compare, ...options }
+        options
       }
     })
   }
 
   return (
     <Col>
-      <Row className="compareRow">
-        {compare.method === 'checkerboard' ? (
+      {compare.checkerboard && (
+        <Row className="compareRow">
           <CheckerboardControls
             compare={compare}
             updateCompare={updateCompare}
           />
-        ) : (
-          <ImageMix compare={compare} updateCompare={updateCompare} />
-        )}
+        </Row>
+      )}
+      <Row className="compareRow">
+        <ImageMix compare={compare} updateCompare={updateCompare} />
       </Row>
     </Col>
   )
