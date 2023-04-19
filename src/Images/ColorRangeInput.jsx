@@ -92,7 +92,8 @@ function ColorRangeInput(props) {
     })
   }
 
-  const currentRange = colorRanges.size ? colorRangesSelected : [0, 1]
+  const currentRange =
+    colorRanges.size && colorRangesSelected ? colorRangesSelected : [0, 1]
   const currentRangeMin = currentRange[0]
   const currentRangeMax = currentRange[1]
   const currentBounds = colorRangeBounds.size ? boundsSelected : [0, 1]
@@ -119,7 +120,8 @@ function ColorRangeInput(props) {
   }
   const rangeStep =
     imageType?.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
-  const windowingStep = 10 ** Math.ceil(Math.log((currentBounds[1] - currentBounds[0]) / 1000))
+  const windowingStep =
+    10 ** Math.ceil(Math.log((currentBounds[1] - currentBounds[0]) / 1000))
   const [minIntent, setminIntent] = useState(currentRangeMin)
   const [maxIntent, setmaxIntent] = useState(currentRangeMax)
   const [width, setWidth] = useState(currentWidth)
@@ -228,7 +230,10 @@ function ColorRangeInput(props) {
             <Image src={interpolationIconDataUri}></Image>
           </Button>
         </OverlayTrigger>
-        <OverlayTrigger transition={false} overlay={<Tooltip>{input1Tooltip}</Tooltip>}>
+        <OverlayTrigger
+          transition={false}
+          overlay={<Tooltip>{input1Tooltip}</Tooltip>}
+        >
           <Form.Control
             className={cn('numberInput', {
               invalidNumber: !isValidInput()
@@ -242,7 +247,10 @@ function ColorRangeInput(props) {
           />
         </OverlayTrigger>
         <ColorMapIconSelector {...props} />
-        <OverlayTrigger transition={false} overlay={<Tooltip>{input2Tooltip}</Tooltip>}>
+        <OverlayTrigger
+          transition={false}
+          overlay={<Tooltip>{input2Tooltip}</Tooltip>}
+        >
           <Form.Control
             className={cn('numberInput', {
               invalidNumber: !isValidInput()
