@@ -22,11 +22,13 @@
         padding: 0;
       "
     ></div>
-    <!-- Need to set itk-vtk-viewer webpack's output: { publicPath: 'http://localhost:8082/' } for itk-wasm to find pipeline.worker -->
+
+    <!-- for src="http://localhost:8082/itkVtkViewer.js" need to set itk-vtk-viewer webpack's output: { publicPath: 'http://localhost:8082/' } for itk-wasm to find pipeline.worker -->
     <script
       type="text/javascript"
-      src="http://localhost:8082/itkVtkViewer.js"
+      src="https://cdn.jsdelivr.net/npm/itk-vtk-viewer@14.37.0/dist/itkVtkViewerCDN.js"
     ></script>
+
     <script>
       const container = document.querySelector('.content')
 
@@ -49,18 +51,21 @@
       itkVtkViewer
         .createViewer(container, {
           image,
-          imageName: 'A Long Name For You',
+          // imageName: 'A Long Name For You',
           fixedImage,
           compare: {
-            method: 'cyan-magenta',
-            imageMix: 0.2,
-            checkerboard: true
+            method: 'checkerboard',
+            imageMix: 0.2
+            // checkerboard: true
           },
-          labelImage: image,
+          // labelImage: image,
           rotate: false,
           config: { uiMachineOptions }
         })
         .then((viewer) => {
+          // viewer.setCompareImages('Fixed', 'A Long Name For You', {
+          //   method: 'checkerboard'
+          // })
           window.viewer = viewer
         })
     </script>
