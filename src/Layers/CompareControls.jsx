@@ -32,20 +32,6 @@ function CheckerboardControls({ compare, updateCompare }) {
           />
         </OverlayTrigger>
       ))}
-      <OverlayTrigger
-        transition={false}
-        overlay={<Tooltip>Swap Image Order</Tooltip>}
-      >
-        <Button
-          className={'icon-button'}
-          onClick={() => {
-            updateCompare({ swapImageOrder: !compare.swapImageOrder })
-          }}
-          variant="secondary"
-        >
-          <Image src={rotateIconDataUri}></Image>
-        </Button>
-      </OverlayTrigger>
     </>
   )
 }
@@ -64,6 +50,21 @@ function ImageMix({ compare, updateCompare }) {
         step={0.01}
         onChange={(e) => updateCompare({ imageMix: e.target.value })}
       />
+
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Swap Image</Tooltip>}
+      >
+        <Button
+          className={'icon-button'}
+          onClick={() => {
+            updateCompare({ swapImageOrder: !compare.swapImageOrder })
+          }}
+          variant="secondary"
+        >
+          <Image src={rotateIconDataUri}></Image>
+        </Button>
+      </OverlayTrigger>
     </>
   )
 }
