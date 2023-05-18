@@ -3,7 +3,11 @@ import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Button, Form, Image, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { rotateIconDataUri } from 'itk-viewer-icons'
+import {
+  rotateIconDataUri,
+  playIconDataUri,
+  pauseIconDataUri
+} from 'itk-viewer-icons'
 
 const xyz = ['X', 'Y', 'Z']
 
@@ -36,10 +40,40 @@ function CheckerboardControls({ compare, updateCompare }) {
   )
 }
 
-function ImageMix({ compare, updateCompare }) {
+function ImageMix({ compare, updateCompare, service, selectedName }) {
+  const imageMixAnimation = useSelector(
+    service,
+    (state) =>
+      state.context.images.actorContext.get(selectedName)?.imageMixAnimation
+  )
+
+  const animationIcon = imageMixAnimation ? pauseIconDataUri : playIconDataUri
+  const animateHandler = () =>
+    service.send({
+      type: 'ANIMATE_IMAGE_MIX',
+      data: {
+        name: selectedName,
+        play: !imageMixAnimation
+      }
+    })
+
   return (
     <>
-      <span style={{ marginRight: '6px' }}>Image Mix</span>
+      <span>Image Mix</span>
+
+      <OverlayTrigger
+        transition={false}
+        overlay={<Tooltip>Swap Image</Tooltip>}
+      >
+        <Button
+          className={'icon-button'}
+          onClick={animateHandler}
+          variant="secondary"
+        >
+          <Image src={animationIcon}></Image>
+        </Button>
+      </OverlayTrigger>
+
       <Form.Control
         type="range"
         custom
@@ -103,7 +137,12 @@ function CompareControls({ service }) {
         </Row>
       )}
       <Row className="compareRow">
-        <ImageMix compare={compare} updateCompare={updateCompare} />
+        <ImageMix
+          compare={compare}
+          updateCompare={updateCompare}
+          service={service}
+          selectedName={selectedName}
+        />
       </Row>
     </Col>
   )
