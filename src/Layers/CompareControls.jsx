@@ -57,6 +57,7 @@ function ImageMix({ compare, updateCompare, service, selectedName }) {
       }
     })
 
+  const imageMix = compare.imageMix ?? 0.5 // fallback to keep a controlled component
   return (
     <>
       <span>Image Mix</span>
@@ -80,7 +81,7 @@ function ImageMix({ compare, updateCompare, service, selectedName }) {
         className="slider"
         min={0}
         max={1}
-        value={compare.imageMix}
+        value={imageMix}
         step={0.01}
         onChange={(e) => updateCompare({ imageMix: e.target.value })}
       />
