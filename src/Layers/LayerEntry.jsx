@@ -9,7 +9,8 @@ import {
   invisibleIconDataUri,
   imageIconDataUri,
   labelsIconDataUri,
-  toggleIconDataUri
+  toggleIconDataUri,
+  boundingBoxIconDataUri
 } from 'itk-viewer-icons'
 import '../style.css'
 import { Button, Dropdown } from 'react-bootstrap'
@@ -137,6 +138,13 @@ function LayerEntry({ service, name, actor, fillRow }) {
     service,
     (state) => state.context.layers.uiLayers
   )
+  const actorContext = useSelector(service, (state) =>
+    state.context.layers.actorContext.get(name)
+  )
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
   const layerEntry = useRef(null)
 
   useEffect(() => {
@@ -190,6 +198,28 @@ function LayerEntry({ service, name, actor, fillRow }) {
       <div className="layerLabelCommon"> {name} </div>
       <div className="layerIconGroup">
         <Spinner name={name} service={service} />
+        <OverlayTrigger
+          transition={false}
+          overlay={<Tooltip>Data visibility</Tooltip>}
+        >
+          <Button
+            onClick={() => {
+              send({
+                type: 'TOGGLE_LAYER_BBOX',
+                data: {
+                  name: selectedName,
+                  layerName: name
+                }
+              })
+            }}
+            variant="secondary"
+            className={cn(`icon-button`, {
+              checked: actorContext.bbox
+            })}
+          >
+            <Image src={boundingBoxIconDataUri}></Image>
+          </Button>
+        </OverlayTrigger>
         <LayerIcon name={name} actor={actor} service={service}></LayerIcon>
       </div>
     </Col>
