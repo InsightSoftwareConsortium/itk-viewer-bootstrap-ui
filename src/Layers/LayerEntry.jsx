@@ -99,10 +99,17 @@ function LayerIcon({ name, actor, service }) {
             <Fragment key={fixedImageName}>
               <Dropdown.Item
                 onClick={() => {
-                  compareWith(fixedImageName, 'checkerboard')
+                  compareWith(fixedImageName, 'green-magenta')
                 }}
               >
-                {`Checkerboard compare with ${fixedImageName}`}
+                {`Green-Magenta compare with ${fixedImageName}`}
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  compareWith(fixedImageName, 'cyan-red')
+                }}
+              >
+                {`Cyan-Red compare with ${fixedImageName}`}
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -117,6 +124,13 @@ function LayerIcon({ name, actor, service }) {
                 }}
               >
                 {`Blend compare with ${fixedImageName}`}
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  compareWith(fixedImageName, 'checkerboard')
+                }}
+              >
+                {`Checkerboard compare with ${fixedImageName}`}
               </Dropdown.Item>
             </Fragment>
           ))}
