@@ -12,14 +12,6 @@ function ViewPlanesToggle(props) {
   const send = service.send
   const { slicingPlanes } = stateSlicingPlanes
 
-  const planesVisible = () => {
-    return (
-      slicingPlanes.x.visible ||
-      slicingPlanes.y.visible ||
-      slicingPlanes.z.visible
-    )
-  }
-
   const toggleSlicingPlanes = () => {
     if (
       !slicingPlanes.x.visibile &&
