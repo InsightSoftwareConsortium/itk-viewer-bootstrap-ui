@@ -17,6 +17,8 @@ import { Button, Dropdown } from 'react-bootstrap'
 import cn from 'classnames'
 import { arraysEqual } from '../utils'
 
+const BOUNDING_BOX_TEXT = 'Bounding Box'
+
 function Spinner({ name, service }) {
   const isDataUpdating = useSelector(
     service,
@@ -191,7 +193,7 @@ function LayerEntry({ service, name, actor, fillRow }) {
     >
       <OverlayTrigger
         transition={false}
-        overlay={<Tooltip>Data visibility</Tooltip>}
+        overlay={<Tooltip>{BOUNDING_BOX_TEXT}</Tooltip>}
       >
         <Button
           onClick={() => {
@@ -214,7 +216,7 @@ function LayerEntry({ service, name, actor, fillRow }) {
         <Spinner name={name} service={service} />
         <OverlayTrigger
           transition={false}
-          overlay={<Tooltip>Data visibility</Tooltip>}
+          overlay={<Tooltip>{BOUNDING_BOX_TEXT}</Tooltip>}
         >
           <Button
             onClick={() => {
