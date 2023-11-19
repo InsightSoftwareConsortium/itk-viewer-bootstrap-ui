@@ -16,6 +16,7 @@ import Badge from 'react-bootstrap/Badge'
 import '../style.css'
 
 const planes = ['x', 'y', 'z']
+const PLANE_VIEW_MODES = ['XPlane', 'YPlane', 'ZPlane']
 
 function PlaneSliders({ service }) {
   const { send } = service
@@ -25,7 +26,6 @@ function PlaneSliders({ service }) {
   const xScroll = useRef(null)
   const yScroll = useRef(null)
   const zScroll = useRef(null)
-  const planeSliders = useRef(null)
   const visRefs = [xVisibility, yVisibility, zVisibility]
   const scrollRefs = [xScroll, yScroll, zScroll]
   const slicingPlanes = useSelector(
@@ -33,10 +33,22 @@ function PlaneSliders({ service }) {
     (state) => state.context.main.slicingPlanes
   )
 
-  const stateContextUiCollapsed = useSelector(
-    service,
-    (state) => state.context.uiCollapsed
-  )
+  const hidden = useSelector(service, (state) => {
+    // Changing view mode does not change slicingPlanes visible prop
+    const planeModeOn = PLANE_VIEW_MODES.some((mode) => {
+      return mode === state.context.main.viewMode
+    })
+
+    // slicingPlanes visible prop only changed on 3D "View Planes" button
+    // This detects if 3D View Planes is on
+    const { slicingPlanes } = state.context.main
+    const isPlaneVisible =
+      slicingPlanes.x.visible ||
+      slicingPlanes.y.visible ||
+      slicingPlanes.z.visible
+
+    return state.context.uiCollapsed || (!planeModeOn && !isPlaneVisible)
+  })
   const stateContextUse2D = useSelector(service, (state) => state.context.use2D)
 
   // Force re-render so sliders disappear in 2D mode
@@ -95,7 +107,7 @@ function PlaneSliders({ service }) {
   }
 
   return (
-    <div ref={planeSliders}>
+    <div hidden={hidden}>
       {planes.map((plane, idx) => {
         return (
           planeSlice2D[idx] !== null &&

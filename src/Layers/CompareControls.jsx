@@ -114,7 +114,7 @@ function CompareControls({ service }) {
     (state) => state.context.images.actorContext.get(selectedName)?.compare
   )
 
-  if (!compare || compare.method === 'disabled') return null
+  if (!compare || !compare.method || compare.method === 'disabled') return null
 
   const updateCompare = (options) => {
     service.send({
