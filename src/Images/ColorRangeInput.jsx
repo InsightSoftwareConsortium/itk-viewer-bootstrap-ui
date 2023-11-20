@@ -96,9 +96,11 @@ function ColorRangeInput(props) {
     colorRanges.size && colorRangesSelected ? colorRangesSelected : [0, 1]
   const currentRangeMin = currentRange[0]
   const currentRangeMax = currentRange[1]
+
+  const currentWidth = currentRange[1] - currentRange[0]
+  const currentLevel = (currentRange[1] + currentRange[0]) / 2
+
   const currentBounds = colorRangeBounds.size ? boundsSelected : [0, 1]
-  const currentWidth = currentBounds[1] - currentBounds[0]
-  const currentLevel = (currentBounds[1] + currentBounds[0]) / 2
 
   let [rangeMin, rangeMax] = [0, 0]
 
@@ -122,89 +124,75 @@ function ColorRangeInput(props) {
     imageType?.slice(0, 5) === 'float' ? (rangeMax - rangeMin) / 200 : 1
   const windowingStep =
     10 ** Math.ceil(Math.log((currentBounds[1] - currentBounds[0]) / 1000))
-  const [minIntent, setminIntent] = useState(currentRangeMin)
-  const [maxIntent, setmaxIntent] = useState(currentRangeMax)
-  const [width, setWidth] = useState(currentWidth)
-  const [level, setLevel] = useState(currentLevel)
 
-  // update the initialized state for minIntent and maxIntent
+  const [in1, setIn1] = useState('')
+  const [in2, setIn2] = useState('')
+
+  // update input box after machine changes
   useEffect(() => {
-    setminIntent(currentRangeMin)
-  }, [currentRangeMin])
+    if (!windowLevelEnabled) setIn1(currentRangeMin)
+  }, [currentRangeMin, windowLevelEnabled])
   useEffect(() => {
-    setmaxIntent(currentRangeMax)
-  }, [currentRangeMax])
+    if (!windowLevelEnabled) setIn2(currentRangeMax)
+  }, [currentRangeMax, windowLevelEnabled])
+
   useEffect(() => {
-    setWidth(currentWidth)
-  }, [currentWidth])
+    if (windowLevelEnabled) setIn1(currentWidth)
+  }, [currentWidth, windowLevelEnabled])
   useEffect(() => {
-    setLevel(currentLevel)
-  }, [currentLevel])
-  useEffect(() => {
-    const [min, max] = currentRange
-    setWidth(max - min)
-    setLevel((max + min) / 2)
-  }, [currentRange])
+    if (windowLevelEnabled) setIn2(currentLevel)
+  }, [currentLevel, windowLevelEnabled])
 
   const isValidBounds = (input1, input2) => {
     if (isNaN(input1) || isNaN(input2)) {
       return false
     }
-    return isValidInput(input1, input2)
-  }
-
-  const isValidInput = () => {
     if (windowLevelEnabled) {
-      return width > 0
-    } else {
-      return minIntent <= maxIntent
+      return input1 > 0
     }
+    return input1 < input2
   }
 
   const inputChanged = (input1, input2) => {
-    if (isValidBounds(input1, input2)) {
-      let rangeMin = minIntent
-      let rangeMax = maxIntent
-      if (windowLevelEnabled) {
-        rangeMin = input2 - input1 / 2
-        rangeMax = input2 + input1 / 2
-        setWidth(input1)
-        setLevel(input2)
-      } else {
-        const bounds = boundsSelected
-        rangeMax = input2 >= bounds[1] ? bounds[1] : input2
-        rangeMin = input1 <= bounds[0] ? bounds[0] : input1
-        setmaxIntent(rangeMax)
-        setminIntent(rangeMin)
-      }
-      send({
-        type: 'IMAGE_COLOR_RANGE_CHANGED',
-        data: {
-          name,
-          component: selectedComponent,
-          range: [rangeMin, rangeMax]
-        }
-      })
+    let rangeMin
+    let rangeMax
+    if (windowLevelEnabled) {
+      rangeMin = input2 - input1 / 2
+      rangeMax = input2 + input1 / 2
     } else {
-      if (windowLevelEnabled) {
-        setWidth(input1)
-        setLevel(input2)
-      } else {
-        setmaxIntent(input1)
-        setminIntent(input2)
-      }
+      const bounds = boundsSelected
+      rangeMax = input2 >= bounds[1] ? bounds[1] : input2
+      rangeMin = input1 <= bounds[0] ? bounds[0] : input1
     }
+    send({
+      type: 'IMAGE_COLOR_RANGE_CHANGED',
+      data: {
+        name,
+        component: selectedComponent,
+        range: [rangeMin, rangeMax]
+      }
+    })
   }
 
   const input1Changed = (val) => {
-    let input2 = windowLevelEnabled ? level : currentRangeMax
-    inputChanged(parseFloat(val), input2)
+    setIn1(val)
+    let input1 = parseFloat(val)
+    let input2 = windowLevelEnabled ? currentLevel : currentRangeMax
+    if (isValidBounds(input1, input2)) {
+      inputChanged(input1, input2)
+    }
   }
 
   const input2Changed = (val) => {
-    let input1 = windowLevelEnabled ? width : currentRangeMin
-    inputChanged(input1, parseFloat(val))
+    setIn2(val)
+    let input1 = windowLevelEnabled ? currentWidth : currentRangeMin
+    let input2 = parseFloat(val)
+    if (isValidBounds(input1, input2)) {
+      inputChanged(input1, input2)
+    }
   }
+
+  const invalidNumber = !isValidBounds(in1, in2)
 
   return (
     colorRanges.size !== 0 && (
@@ -236,10 +224,10 @@ function ColorRangeInput(props) {
         >
           <Form.Control
             className={cn('numberInput', {
-              invalidNumber: !isValidInput()
+              invalidNumber
             })}
             type="number"
-            value={windowLevelEnabled ? width : minIntent}
+            value={in1}
             onChange={(e) => {
               input1Changed(e.target.value)
             }}
@@ -253,10 +241,10 @@ function ColorRangeInput(props) {
         >
           <Form.Control
             className={cn('numberInput', {
-              invalidNumber: !isValidInput()
+              invalidNumber
             })}
             type="number"
-            value={windowLevelEnabled ? level : maxIntent}
+            value={in2}
             onChange={(e) => {
               input2Changed(e.target.value)
             }}
