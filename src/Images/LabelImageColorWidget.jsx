@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from '@xstate/react'
 import CategoricalIconSelector from './CategoricalIconSelector'
-import { opacityIconDataUri } from 'itk-viewer-icons'
+import { opacityIconDataUri } from '@itk-viewer/icons'
 import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'

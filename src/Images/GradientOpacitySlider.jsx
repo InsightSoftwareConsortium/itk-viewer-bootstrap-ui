@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from '@xstate/react'
-import { gradientIconDataUri } from 'itk-viewer-icons'
+import { gradientIconDataUri } from '@itk-viewer/icons'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'

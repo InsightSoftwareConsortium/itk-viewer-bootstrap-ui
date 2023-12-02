@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-import { resetImageIconDataUri } from 'itk-viewer-icons'
+import { resetImageIconDataUri } from '@itk-viewer/icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
 
@@ -27,8 +27,8 @@ function WindowLevelReset(props) {
     send({
       type: 'IMAGE_COLOR_RANGE_RESET',
       data: {
-        name: stateContext.images.selectedName,
-      },
+        name: stateContext.images.selectedName
+      }
     })
   }
 

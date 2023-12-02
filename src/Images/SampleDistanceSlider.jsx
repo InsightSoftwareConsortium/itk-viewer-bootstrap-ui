@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from '@xstate/react'
-import { sampleDistanceIconDataUri } from 'itk-viewer-icons'
+import { sampleDistanceIconDataUri } from '@itk-viewer/icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
 import Form from 'react-bootstrap/Form'

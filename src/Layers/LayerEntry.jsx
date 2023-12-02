@@ -10,8 +10,9 @@ import {
   imageIconDataUri,
   labelsIconDataUri,
   toggleIconDataUri,
-  boundingBoxIconDataUri
-} from 'itk-viewer-icons'
+  boundingBoxIconDataUri,
+  downloadIconDataUri
+} from '@itk-viewer/icons'
 import '../style.css'
 import { Button, Dropdown } from 'react-bootstrap'
 import cn from 'classnames'
@@ -241,7 +242,7 @@ function LayerEntry({ service, name, actor, fillRow }) {
                 checked: actorContext.bbox
               })}
             >
-              <Image src={boundingBoxIconDataUri}></Image>
+              <Image src={downloadIconDataUri}></Image>
             </Button>
           </OverlayTrigger>
         )}

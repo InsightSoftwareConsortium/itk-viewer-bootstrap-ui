@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from '@xstate/react'
-import { interpolationIconDataUri } from 'itk-viewer-icons'
+import { interpolationIconDataUri } from '@itk-viewer/icons'
 import ColorMapIconSelector from './ColorMapIconSelector'
 import WindowLevelReset from './WindowLevelReset'
 import '../style.css'

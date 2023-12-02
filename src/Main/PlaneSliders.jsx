@@ -5,7 +5,7 @@ import {
   invisibleIconDataUri,
   pauseIconDataUri,
   playIconDataUri
-} from 'itk-viewer-icons'
+} from '@itk-viewer/icons'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'

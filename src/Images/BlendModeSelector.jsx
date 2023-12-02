@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from '@xstate/react'
-import { blendModeIconDataUri } from 'itk-viewer-icons'
+import { blendModeIconDataUri } from '@itk-viewer/icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
