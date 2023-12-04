@@ -7,7 +7,7 @@ import {
   rotateIconDataUri,
   playIconDataUri,
   pauseIconDataUri
-} from 'itk-viewer-icons'
+} from '@itk-viewer/icons'
 
 const xyz = ['X', 'Y', 'Z']
 

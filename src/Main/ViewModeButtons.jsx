@@ -5,7 +5,7 @@ import {
   redPlaneIconDataUri,
   yellowPlaneIconDataUri,
   greenPlaneIconDataUri
-} from 'itk-viewer-icons'
+} from '@itk-viewer/icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'

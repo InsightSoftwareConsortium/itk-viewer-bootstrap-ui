@@ -10,8 +10,9 @@ import {
   imageIconDataUri,
   labelsIconDataUri,
   toggleIconDataUri,
-  boundingBoxIconDataUri
-} from 'itk-viewer-icons'
+  boundingBoxIconDataUri,
+  downloadIconDataUri
+} from '@itk-viewer/icons'
 import '../style.css'
 import { Button, Dropdown } from 'react-bootstrap'
 import cn from 'classnames'
@@ -161,6 +162,11 @@ function LayerEntry({ service, name, actor, fillRow }) {
     service,
     (state) => state.context.images.selectedName
   )
+  const showSaveRoiButton = useSelector(
+    service,
+    (state) => state.context.layers.showSaveRoiButton
+  )
+
   const layerEntry = useRef(null)
 
   useEffect(() => {
@@ -212,8 +218,35 @@ function LayerEntry({ service, name, actor, fillRow }) {
         </Button>
       </OverlayTrigger>
       <div className="layerLabelCommon"> {name} </div>
+
       <div className="layerIconGroup">
         <Spinner name={name} service={service} />
+
+        {showSaveRoiButton && (
+          <OverlayTrigger
+            transition={false}
+            overlay={<Tooltip>{'Save Image'}</Tooltip>}
+          >
+            <Button
+              onClick={() => {
+                send({
+                  type: 'DOWNLOAD_IMAGE',
+                  data: {
+                    name: selectedName,
+                    layerName: name
+                  }
+                })
+              }}
+              variant="secondary"
+              className={cn(`icon-button`, {
+                checked: actorContext.bbox
+              })}
+            >
+              <Image src={downloadIconDataUri}></Image>
+            </Button>
+          </OverlayTrigger>
+        )}
+
         <OverlayTrigger
           transition={false}
           overlay={<Tooltip>{BOUNDING_BOX_TEXT}</Tooltip>}

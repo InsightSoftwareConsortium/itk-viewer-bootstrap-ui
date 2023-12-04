@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from '@xstate/react'
-import { rotateIconDataUri } from 'itk-viewer-icons'
+import { rotateIconDataUri } from '@itk-viewer/icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'

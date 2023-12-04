@@ -3,7 +3,7 @@ import { useSelector } from '@xstate/react'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import Image from 'react-bootstrap/Image'
-import { scaleSelectIconDataUri } from 'itk-viewer-icons'
+import { scaleSelectIconDataUri } from '@itk-viewer/icons'
 import { Form } from 'react-bootstrap'
 import getSelectedImageContext from './getSelectedImageContext'
 

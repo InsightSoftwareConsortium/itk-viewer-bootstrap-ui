@@ -5,7 +5,7 @@ import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import cn from 'classnames'
-import { windowingIconDataUri } from 'itk-viewer-icons'
+import { windowingIconDataUri } from '@itk-viewer/icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import '../style.css'
 import getSelectedImageContext from './getSelectedImageContext'
@@ -34,7 +34,8 @@ function WindowLevelToggle(props) {
       'invertibleButton',
       toggleWindowingButton.current
     )
-    stateContext.images.toggleWindowingButtonInput = toggleWindowingButton.current
+    stateContext.images.toggleWindowingButtonInput =
+      toggleWindowingButton.current
   }, [])
 
   const toggleWindowing = () => {
@@ -42,8 +43,8 @@ function WindowLevelToggle(props) {
       type: 'WINDOW_LEVEL_TOGGLED',
       data: {
         name,
-        component: actorContext.selectedComponent,
-      },
+        component: actorContext.selectedComponent
+      }
     })
   }
 

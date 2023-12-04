@@ -1,5 +1,5 @@
 import React from 'react'
-import { resetCropIconDataUri } from 'itk-viewer-icons'
+import { resetCropIconDataUri } from '@itk-viewer/icons'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'

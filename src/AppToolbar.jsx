@@ -1,5 +1,5 @@
 import React from 'react'
-import { toggleIconDataUri } from 'itk-viewer-icons'
+import { toggleIconDataUri } from '@itk-viewer/icons'
 import toggleUICollapsed from './toggleUICollapsed'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'

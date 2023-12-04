@@ -3,7 +3,7 @@ import { useSelector } from '@xstate/react'
 import getSelectedImageContext from './getSelectedImageContext'
 import Form from 'react-bootstrap/Form'
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { volumeScatteringIconDataUri } from 'itk-viewer-icons'
+import { volumeScatteringIconDataUri } from '@itk-viewer/icons'
 
 function CinematicParameters({ service }) {
   const scatteringBlend = useSelector(service, (state) => {
