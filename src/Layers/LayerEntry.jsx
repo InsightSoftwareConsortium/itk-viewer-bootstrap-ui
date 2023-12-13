@@ -20,6 +20,62 @@ import { arraysEqual } from '../utils'
 
 const BOUNDING_BOX_TEXT = 'Bounding Box'
 
+const downloadExtensions = [
+  'hdf5',
+  'nrrd',
+  'nii',
+  'nii.gz',
+  'tif',
+  'mha',
+  'vtk',
+  'iwi.cbor'
+]
+
+function DownloadMenu({ name, service }) {
+  const selectedName = useSelector(
+    service,
+    (state) => state.context.images.selectedName
+  )
+  if (selectedName !== name) {
+    return null
+  }
+  const download = (format) =>
+    service.send({
+      type: 'DOWNLOAD_IMAGE',
+      data: {
+        name,
+        layerName: name,
+        format
+      }
+    })
+
+  return (
+    <OverlayTrigger
+      transition={false}
+      overlay={<Tooltip>{'Save Image'}</Tooltip>}
+    >
+      <Dropdown>
+        <Dropdown.Toggle className={'icon-button'} variant="light">
+          <Image src={downloadIconDataUri}></Image>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          {downloadExtensions.map((ext) => (
+            <Dropdown.Item
+              key={ext}
+              onClick={() => {
+                download(ext)
+              }}
+            >
+              {`Download as ${ext}`}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    </OverlayTrigger>
+  )
+}
+
 function Spinner({ name, service }) {
   const isDataUpdating = useSelector(
     service,
@@ -30,7 +86,7 @@ function Spinner({ name, service }) {
       className={cn('ldsRing', {
         'visibility-hidden': !isDataUpdating
       })}
-      style={{ paddingTop: '2px' }}
+      style={{ paddingTop: '8px' }}
     >
       <div></div>
       <div></div>
@@ -149,7 +205,7 @@ function LayerIcon({ name, actor, service }) {
   return <Image src={icon} alt={alt} className="layerTypeIcon" />
 }
 
-function LayerEntry({ service, name, actor, fillRow }) {
+function LayerEntry({ service, name, actor }) {
   const send = service.send
   const uiLayers = useSelector(
     service,
@@ -161,10 +217,6 @@ function LayerEntry({ service, name, actor, fillRow }) {
   const selectedName = useSelector(
     service,
     (state) => state.context.images.selectedName
-  )
-  const showSaveRoiButton = useSelector(
-    service,
-    (state) => state.context.layers.showSaveRoiButton
   )
 
   const layerEntry = useRef(null)
@@ -187,19 +239,18 @@ function LayerEntry({ service, name, actor, fillRow }) {
     return visible && selection
   }
 
-  const unitWidth = fillRow ? 12 : 6
   return (
     <Col
       ref={layerEntry}
       className={`layerEntryCommon ${layerVisible(name)}`}
-      xs={unitWidth}
+      xs={12}
       onClick={() => {
         layerSelected(name)
       }}
     >
       <OverlayTrigger
         transition={false}
-        overlay={<Tooltip>{BOUNDING_BOX_TEXT}</Tooltip>}
+        overlay={<Tooltip>{'Toggle Visibility'}</Tooltip>}
       >
         <Button
           onClick={() => {
@@ -217,36 +268,12 @@ function LayerEntry({ service, name, actor, fillRow }) {
           )}
         </Button>
       </OverlayTrigger>
-      <div className="layerLabelCommon"> {name} </div>
-
+      <OverlayTrigger transition={false} overlay={<Tooltip>{name}</Tooltip>}>
+        <div className="layerLabelCommon"> {name} </div>
+      </OverlayTrigger>
       <div className="layerIconGroup">
-        <Spinner name={name} service={service} />
-
-        {showSaveRoiButton && (
-          <OverlayTrigger
-            transition={false}
-            overlay={<Tooltip>{'Save Image'}</Tooltip>}
-          >
-            <Button
-              onClick={() => {
-                send({
-                  type: 'DOWNLOAD_IMAGE',
-                  data: {
-                    name: selectedName,
-                    layerName: name
-                  }
-                })
-              }}
-              variant="secondary"
-              className={cn(`icon-button`, {
-                checked: actorContext.bbox
-              })}
-            >
-              <Image src={downloadIconDataUri}></Image>
-            </Button>
-          </OverlayTrigger>
-        )}
-
+        <Spinner name={name} service={service} style={{ paddingTop: '4px' }} />
+        <DownloadMenu name={name} service={service} />
         <OverlayTrigger
           transition={false}
           overlay={<Tooltip>{BOUNDING_BOX_TEXT}</Tooltip>}
