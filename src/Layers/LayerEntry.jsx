@@ -20,6 +20,17 @@ import { arraysEqual } from '../utils'
 
 const BOUNDING_BOX_TEXT = 'Bounding Box'
 
+const downloadExtensions = [
+  'hdf5',
+  'nrrd',
+  'nii',
+  'nii.gz',
+  'tif',
+  'mha',
+  'vtk',
+  'iwi.cbor'
+]
+
 function DownloadMenu({ name, service }) {
   const selectedName = useSelector(
     service,
@@ -28,28 +39,39 @@ function DownloadMenu({ name, service }) {
   if (selectedName !== name) {
     return null
   }
+  const download = (format) =>
+    service.send({
+      type: 'DOWNLOAD_IMAGE',
+      data: {
+        name,
+        layerName: name,
+        format
+      }
+    })
 
   return (
     <OverlayTrigger
       transition={false}
       overlay={<Tooltip>{'Save Image'}</Tooltip>}
     >
-      <Button
-        onClick={() => {
-          service.send({
-            type: 'DOWNLOAD_IMAGE',
-            data: {
-              name,
-              layerName: name,
-              format: 'nrrd'
-            }
-          })
-        }}
-        variant="secondary"
-        className={cn(`icon-button`)}
-      >
-        <Image src={downloadIconDataUri}></Image>
-      </Button>
+      <Dropdown>
+        <Dropdown.Toggle className={'icon-button'} variant="light">
+          <Image src={downloadIconDataUri}></Image>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          {downloadExtensions.map((ext) => (
+            <Dropdown.Item
+              key={ext}
+              onClick={() => {
+                download(ext)
+              }}
+            >
+              {`Download as ${ext}`}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
     </OverlayTrigger>
   )
 }
