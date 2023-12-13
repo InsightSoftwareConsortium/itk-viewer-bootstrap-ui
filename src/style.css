@@ -242,17 +242,18 @@
 .layerIconGroup {
   display: flex;
   justify-content: space-between;
-  padding-right: 4px;
 }
 
 .layerTypeIcon {
   width: 20px;
+  margin-right: 8px;
+  margin-left: 8px;
 }
 
 .layerLabelCommon {
   flex: 1 1;
   text-overflow: ellipsis;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
   white-space: nowrap;
   border: none;
