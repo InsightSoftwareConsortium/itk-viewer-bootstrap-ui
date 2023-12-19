@@ -69,7 +69,7 @@ function TransferFunctionWidget({ service }) {
     areArraysEqual
   )
   useEffect(() => {
-    transferFunctionWidget.current.setRangeZoom(colorRangeNormalized)
+    transferFunctionWidget.current.setColorRange(colorRangeNormalized)
   }, [colorRangeNormalized, transferFunctionWidget])
 
   const histogram = useSelector(service, selectHistogram)
