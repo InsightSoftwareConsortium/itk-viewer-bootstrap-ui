@@ -1,7 +1,7 @@
-import { TransferFunctionEditor } from 'itk-viewer-transfer-function-editor'
 import { throttle } from './throttle'
+import { TransferFunctionEditor } from 'itk-viewer-transfer-function-editor'
 
-const PIECEWISE_UPDATE_DELAY = 100
+const PIECEWISE_UPDATE_DELAY = 200
 
 const updateContextPiecewiseFunction = (context, points) => {
   if (!context.images.piecewiseFunctions) return // not ready yet
@@ -14,17 +14,41 @@ const updateContextPiecewiseFunction = (context, points) => {
     data: {
       name,
       component,
+      points,
+      keepAutoAdjusting: false
+    }
+  })
+}
+
+const updateContextColorRange = (context, points) => {
+  if (!context.images.piecewiseFunctions) return // not ready yet
+
+  const name = context.images.selectedName
+  const actorContext = context.images.actorContext.get(name)
+  const component = actorContext.selectedComponent
+
+  context.service.send({
+    type: 'IMAGE_COLOR_RANGE_POINTS_CHANGED',
+    data: {
+      name,
+      component,
       points
     }
   })
 }
 
 const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
-  const update = () =>
-    updateContextPiecewiseFunction(context, tfEditor.getPoints())
-
-  const throttledUpdate = throttle(update, PIECEWISE_UPDATE_DELAY)
+  const throttledUpdate = throttle(
+    () => updateContextPiecewiseFunction(context, tfEditor.getPoints()),
+    PIECEWISE_UPDATE_DELAY
+  )
   tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
+
+  const throttledColorRangeUpdate = throttle(
+    () => updateContextColorRange(context, tfEditor.getColorRange()),
+    PIECEWISE_UPDATE_DELAY
+  )
+  tfEditor.eventTarget.addEventListener('colorRange', throttledColorRangeUpdate)
 
   return {
     setColorTransferFunction: (tf) => {
@@ -46,6 +70,14 @@ const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
 
     getPoints() {
       return tfEditor.getPoints()
+    },
+
+    setColorRange: (newRange) => {
+      const displayedRange = tfEditor.getColorRange()
+      // if same, avoid infinite event loop
+      if (displayedRange.some((v, i) => v !== newRange[i])) {
+        tfEditor.setColorRange(newRange)
+      }
     },
 
     setRangeZoom: (newRange) => {
