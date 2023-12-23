@@ -29,6 +29,15 @@ const selectColorRangeNormalized = (state) => {
   return colorRangeNormalized
 }
 
+const selectDataRange = (state) => {
+  const { selectedComponent, fusedImage } = getSelectedImageContext(state)
+  return (
+    fusedImage?.getPointData().getScalars()?.getRange(selectedComponent) ?? [
+      0, 1
+    ]
+  )
+}
+
 const areArraysEqual = (a, b) =>
   a.length === b.length && a.every((aValue, index) => aValue === b[index])
 
@@ -71,6 +80,12 @@ function TransferFunctionWidget({ service }) {
   useEffect(() => {
     transferFunctionWidget.current.setColorRange(colorRangeNormalized)
   }, [colorRangeNormalized, transferFunctionWidget])
+
+  const dataRange = useSelector(service, selectDataRange, areArraysEqual)
+  useEffect(() => {
+    if (transferFunctionWidget.current)
+      transferFunctionWidget.current.setRange(dataRange)
+  }, [dataRange, transferFunctionWidget])
 
   const histogram = useSelector(service, selectHistogram)
   useEffect(() => {
